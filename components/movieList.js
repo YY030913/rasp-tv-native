@@ -14,7 +14,7 @@ export default class MovieList extends Component {
 
         this.state = {
             moviesDataSource: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1 !== r2
+                rowHasChanged: (r1, r2) => r1.id !== r2.id
             }),
             loaded: false
         };
@@ -39,29 +39,33 @@ export default class MovieList extends Component {
     }
     renderMovie(movie) {
         return (
-            <TouchableOpacity>
-                <View style={styles.movieRow}>
-                    <Text style={styles.movieRowText}>{movie.title}</Text>
-                </View>
+            <TouchableOpacity style={styles.movieRow}>
+                <Text style={styles.movieRowText}>{movie.title}</Text>
             </TouchableOpacity>
         );
     }
     render() {
         if (this.state.loaded === false) {
-            return <Text>Loading...</Text>;
+            return (
+                <View style={styles.loadingView}>
+                    <Text>Loading...</Text>
+                </View>
+            );
         }
+
+        const refresher = (
+            <RefreshControl
+                onRefresh={this.fetchMovies}
+                refreshing={!this.state.loaded}
+            />
+        );
 
         return (
             <ListView
                 style={styles.container}
                 dataSource={this.state.moviesDataSource}
                 renderRow={this.renderMovie}
-                refreshControl={
-                    <RefreshControl
-                        onRefresh={this.fetchMovies}
-                        refreshing={!this.state.loaded}
-                    />
-                }
+                refreshControl={refresher}
             />
         )
     }
@@ -78,5 +82,10 @@ const styles = StyleSheet.create({
     movieRowText: {
         fontSize: 15,
         textAlign: 'left'
+    },
+    loadingView: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
     }
 });
