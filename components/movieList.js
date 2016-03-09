@@ -8,15 +8,18 @@ import React, {
   RefreshControl
 } from 'react-native';
 
-export default class MovieList extends Component {
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
+import { loadingMovies, gotMovies } from '../actions';
+
+class MovieList extends Component {
     constructor(props) {
         super(props);
 
         this.state = {
             moviesDataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1.id !== r2.id
-            }),
-            loaded: false
+            })
         };
 
         this.fetchMovies = this.fetchMovies.bind(this);
@@ -24,18 +27,12 @@ export default class MovieList extends Component {
     componentWillMount() {
         this.fetchMovies();
     }
+    componentWillReceiveProps(newProps) {
+        this.setState({moviesDataSource: this.state.moviesDataSource.cloneWithRows(newProps.movies)});
+    }
     fetchMovies() {
-        this.setState({loaded: false});
-        fetch('http://192.168.11.2:8080/movies')
-            .then(res => res.json())
-            .then(data => {
-                const sortedMovies = data.sort((a, b) => a.title.localeCompare(b.title));
-                this.setState({
-                    moviesDataSource: this.state.moviesDataSource.cloneWithRows(sortedMovies),
-                    loaded: true
-                });
-            })
-            .done();
+        this.props.loadingMovies();
+        this.props.gotMovies();
     }
     renderMovie(movie) {
         return (
@@ -45,7 +42,8 @@ export default class MovieList extends Component {
         );
     }
     render() {
-        if (this.state.loaded === false) {
+        const { isLoading } = this.props;
+        if (isLoading) {
             return (
                 <View style={styles.loadingView}>
                     <Text>Loading...</Text>
@@ -56,7 +54,7 @@ export default class MovieList extends Component {
         const refresher = (
             <RefreshControl
                 onRefresh={this.fetchMovies}
-                refreshing={!this.state.loaded}
+                refreshing={isLoading}
             />
         );
 
@@ -67,14 +65,14 @@ export default class MovieList extends Component {
                 renderRow={this.renderMovie}
                 refreshControl={refresher}
             />
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        paddingTop: 20,
+        paddingTop: 20
     },
     movieRow: {
         margin: 20
@@ -89,3 +87,16 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     }
 });
+
+function mapStateToProps(state) {
+    return {
+        movies: state.movies.data,
+        isLoading: state.movies.isLoading
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({ loadingMovies, gotMovies }, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

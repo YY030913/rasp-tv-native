@@ -1,0 +1,4 @@
+export default {
+    LOADING_MOVIES: 'LOADING_MOVIES',
+    GOT_MOVIES: 'GOT_MOVIES'
+}
