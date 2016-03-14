@@ -11,6 +11,7 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { loadingMovies, gotMovies } from '../actions';
+import Player from './player';
 
 class MovieList extends Component {
     constructor(props) {
@@ -23,20 +24,25 @@ class MovieList extends Component {
         };
 
         this.fetchMovies = this.fetchMovies.bind(this);
+        this.renderMovie = this.renderMovie.bind(this);
     }
     componentWillMount() {
         this.fetchMovies();
     }
     componentWillReceiveProps(newProps) {
-        this.setState({moviesDataSource: this.state.moviesDataSource.cloneWithRows(newProps.movies)});
+        if (this.props.movies !== newProps.movies) {
+            this.setState({moviesDataSource: this.state.moviesDataSource.cloneWithRows(newProps.movies)});
+        }
     }
     fetchMovies() {
         this.props.loadingMovies();
         this.props.gotMovies();
     }
     renderMovie(movie) {
+        const { navigator } = this.props;
+        const route = {component: Player, title: movie.title, passProps: {title: movie.title}};
         return (
-            <TouchableOpacity style={styles.movieRow}>
+            <TouchableOpacity style={styles.movieRow} onPress={() => navigator.push(route)}>
                 <Text style={styles.movieRowText}>{movie.title}</Text>
             </TouchableOpacity>
         );
@@ -71,8 +77,7 @@ class MovieList extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
-        paddingTop: 20
+        flex: 1
     },
     movieRow: {
         margin: 20

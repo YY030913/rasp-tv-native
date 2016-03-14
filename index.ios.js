@@ -10,7 +10,9 @@ import React, {
 import { Provider } from 'react-redux';
 import { create } from './store';
 import { TabIds } from './constants';
-import MovieList from './components/movieList';
+import MoviesNavigator from './components/moviesNavigator';
+
+const store = create();
 
 class RaspTvNative extends Component {
     constructor(props) {
@@ -22,7 +24,7 @@ class RaspTvNative extends Component {
     }
     render() {
         return (
-            <Provider store={create()}>
+            <Provider store={store}>
                 <TabBarIOS
                     tintColor="red"
                     barTintColor="white"
@@ -33,7 +35,7 @@ class RaspTvNative extends Component {
                         selected={this.state.selectedTab === TabIds.MOVIES_TAB}
                         onPress={() => this.setState({selectedTab: TabIds.MOVIES_TAB})}
                     >
-                        <MovieList />
+                        <MoviesNavigator />
                     </TabBarIOS.Item>
                     <TabBarIOS.Item
                         icon={require('./icons/Shows.png')}
