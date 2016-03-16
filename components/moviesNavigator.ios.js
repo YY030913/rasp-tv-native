@@ -21,7 +21,7 @@ const styles = StyleSheet.create({
         flex: 1
     },
     navContent: {
-        marginTop: 60,
-        marginBottom: 40
+        marginTop: 65,
+        marginBottom: 35
     }
 });

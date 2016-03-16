@@ -5,11 +5,13 @@ import React, {
   View,
   ListView,
   TouchableOpacity,
-  RefreshControl
+  RefreshControl,
+  Platform
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import SearchBar from './searchBar';
 import { loadingMovies, gotMovies } from '../actions';
 import Player from './player';
 
@@ -18,6 +20,7 @@ class MovieList extends Component {
         super(props);
 
         this.state = {
+            searchText: '',
             moviesDataSource: new ListView.DataSource({
                 rowHasChanged: (r1, r2) => r1.id !== r2.id
             })
@@ -25,6 +28,8 @@ class MovieList extends Component {
 
         this.fetchMovies = this.fetchMovies.bind(this);
         this.renderMovie = this.renderMovie.bind(this);
+        this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
+        this.renderSearchBar = this.renderSearchBar.bind(this);
     }
     componentWillMount() {
         this.fetchMovies();
@@ -47,6 +52,25 @@ class MovieList extends Component {
             </TouchableOpacity>
         );
     }
+    handleSearchTextChange(newText) {
+        if (!newText.length) {
+            this.setState({
+                searchText: newText,
+                moviesDataSource: this.state.moviesDataSource.cloneWithRows(this.props.movies)
+            });
+            return;
+        }
+
+        const regex = new RegExp(newText, 'i');
+        const filteredMovies = this.props.movies.filter(m => regex.test(m.title));
+        this.setState({
+            searchText: newText,
+            moviesDataSource: this.state.moviesDataSource.cloneWithRows(filteredMovies)
+        });
+    }
+    renderSearchBar() {
+        return <SearchBar value={this.state.searchText} onChangeText={this.handleSearchTextChange} />;
+    }
     render() {
         const { isLoading } = this.props;
         if (isLoading) {
@@ -57,10 +81,16 @@ class MovieList extends Component {
             );
         }
 
+        const platformSpecificProps = {};
+        if (Platform.OS === 'ios') {
+            platformSpecificProps.title = 'Loading';
+        }
+
         const refresher = (
             <RefreshControl
                 onRefresh={this.fetchMovies}
                 refreshing={isLoading}
+                {...platformSpecificProps}
             />
         );
 
@@ -69,6 +99,7 @@ class MovieList extends Component {
                 style={styles.container}
                 dataSource={this.state.moviesDataSource}
                 renderRow={this.renderMovie}
+                renderHeader={this.renderSearchBar}
                 refreshControl={refresher}
             />
         );
