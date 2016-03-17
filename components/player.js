@@ -1,7 +1,9 @@
 import React, { Component, View, Text, StyleSheet } from 'react-native';
+import { bindActionCreators } from 'redux';
+import { connect } from 'react-redux';
 import PlayerControl from './playerControl';
 
-export default class Player extends Component {
+class Player extends Component {
     constructor(props) {
         super(props);
     }
@@ -45,3 +47,9 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     }
 });
+
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({}, dispatch);
+}
+
+export default connect(null, mapDispatchToProps)(Player);

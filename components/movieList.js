@@ -12,8 +12,8 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SearchBar from './searchBar';
-import { loadingMovies, gotMovies } from '../actions';
-import Player from './player';
+import { loadingMovies, gotMovies, setNowPlaying, selectTab } from '../actions';
+import { TabIds } from '../constants';
 
 class MovieList extends Component {
     constructor(props) {
@@ -44,10 +44,13 @@ class MovieList extends Component {
         this.props.gotMovies();
     }
     renderMovie(movie) {
-        const { navigator } = this.props;
-        const route = {component: Player, title: movie.title, passProps: {title: movie.title}};
+        const playAndSwitchTab = () => {
+            this.props.setNowPlaying(movie);
+            this.props.selectTab(TabIds.NOW_PLAYING_TAB);
+        };
+
         return (
-            <TouchableOpacity style={styles.movieRow} onPress={() => navigator.push(route)}>
+            <TouchableOpacity style={styles.movieRow} onPress={playAndSwitchTab}>
                 <Text style={styles.movieRowText}>{movie.title}</Text>
             </TouchableOpacity>
         );
@@ -132,7 +135,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ loadingMovies, gotMovies }, dispatch);
+    return bindActionCreators({ loadingMovies, gotMovies, setNowPlaying, selectTab }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

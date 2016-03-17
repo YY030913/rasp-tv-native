@@ -1,4 +1,4 @@
-import ActionTypes from './actionTypes';
+import { ActionTypes } from '../constants';
 import api from '../api';
 
 export function loadingMovies() {
@@ -17,5 +17,19 @@ export function gotMovies() {
             action.error = error;
             return dispatch(action);
         });
+    };
+}
+
+export function selectTab(tab) {
+    return {
+        type: ActionTypes.SELECT_TAB,
+        selectedTab: tab
+    };
+}
+
+export function setNowPlaying(video) {
+    return {
+        type: ActionTypes.NOW_PLAYING,
+        video
     };
 }

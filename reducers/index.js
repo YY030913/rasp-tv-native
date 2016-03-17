@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import ActionTypes from '../actions/actionTypes';
+import { ActionTypes, TabIds } from '../constants';
 
 function moviesReducer(state = {data: [], isLoading: false}, action) {
     switch(action.type) {
@@ -12,6 +12,26 @@ function moviesReducer(state = {data: [], isLoading: false}, action) {
     return state;
 }
 
+function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
+    switch (action.type) {
+        case ActionTypes.SELECT_TAB:
+            return action.selectedTab;
+    }
+
+    return state;
+}
+
+function nowPlayingReducer(state = null, action) {
+    switch (action.type) {
+        case ActionTypes.NOW_PLAYING:
+            return action.video;
+    }
+
+    return state;
+}
+
 export default combineReducers({
-    movies: moviesReducer
+    movies: moviesReducer,
+    selectedTab: selectedTabReducer,
+    nowPlaying: nowPlayingReducer
 });

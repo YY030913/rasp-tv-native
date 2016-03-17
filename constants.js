@@ -1,5 +1,13 @@
 export const TabIds = {
     MOVIES_TAB: 'MOVIES_TAB',
     SHOWS_TAB: 'SHOWS_TAB',
-    EDIT_TAB: 'EDIT_TAB'
+    EDIT_TAB: 'EDIT_TAB',
+    NOW_PLAYING_TAB: 'NOW_PLAYING_TAB'
+};
+
+export const ActionTypes = {
+    LOADING_MOVIES: 'LOADING_MOVIES',
+    GOT_MOVIES: 'GOT_MOVIES',
+    SELECT_TAB: 'SELECT_TAB',
+    NOW_PLAYING: 'NOW_PLAYING'
 };
