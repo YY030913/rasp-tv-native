@@ -21,10 +21,19 @@ function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
     return state;
 }
 
-function nowPlayingReducer(state = null, action) {
+const defaultNowPlaying = {
+    movie: null,
+    episode: null,
+    isPlaying: false,
+    isPaused: true
+};
+
+function nowPlayingReducer(state = defaultNowPlaying, action) {
     switch (action.type) {
-        case ActionTypes.NOW_PLAYING:
-            return action.video;
+        case ActionTypes.SELECT_MOVIE:
+            return {...state, movie: action.movie};
+        case ActionTypes.TOGGLE_PAUSE:
+            return {...state, isPaused: !state.isPaused};
     }
 
     return state;

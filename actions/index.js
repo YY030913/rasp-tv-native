@@ -27,9 +27,15 @@ export function selectTab(tab) {
     };
 }
 
-export function setNowPlaying(video) {
+export function selectMovie(movie) {
     return {
-        type: ActionTypes.NOW_PLAYING,
-        video
+        type: ActionTypes.SELECT_MOVIE,
+        movie
+    };
+}
+
+export function togglePause() {
+    return {
+        type: ActionTypes.TOGGLE_PAUSE
     };
 }

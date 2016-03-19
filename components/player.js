@@ -1,23 +1,33 @@
 import React, { Component, View, Text, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { togglePause } from '../actions';
 import PlayerControl from './playerControl';
+import PlayPauseControl from './playPauseControl';
 
 class Player extends Component {
     constructor(props) {
         super(props);
+
+        this.getVideoTitle = this.getVideoTitle.bind(this);
+    }
+    getVideoTitle() {
+        const { nowPlaying } = this.props;
+        if (nowPlaying.movie) return nowPlaying.movie.title;
+        if (nowPlaying.episode) return nowPlaying.epsiode.title;
+        throw new Error('No movie or episode to create title but this component was re rendered');
     }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.titleContainer}>
-                    <Text style={styles.titleText}>{this.props.title}</Text>
+                    <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
                 <View style={styles.controlContainer}>
                     <PlayerControl source={require('../icons/FastBackward.png')} />
                     <PlayerControl source={require('../icons/Rewind.png')} />
                     <PlayerControl source={require('../icons/Stop.png')} />
-                    <PlayerControl source={require('../icons/Play.png')} />
+                    <PlayPauseControl isPaused={this.props.nowPlaying.isPaused} onPress={this.props.togglePause} />
                     <PlayerControl source={require('../icons/Forward.png')} />
                     <PlayerControl source={require('../icons/FastForeward.png')} />
                 </View>
@@ -48,8 +58,14 @@ const styles = StyleSheet.create({
     }
 });
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({}, dispatch);
+function mapStateToProps(state) {
+    return {
+        nowPlaying: state.nowPlaying
+    };
 }
 
-export default connect(null, mapDispatchToProps)(Player);
+function mapDispatchToProps(dispatch) {
+    return bindActionCreators({togglePause}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

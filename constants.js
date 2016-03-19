@@ -9,5 +9,15 @@ export const ActionTypes = {
     LOADING_MOVIES: 'LOADING_MOVIES',
     GOT_MOVIES: 'GOT_MOVIES',
     SELECT_TAB: 'SELECT_TAB',
-    NOW_PLAYING: 'NOW_PLAYING'
+    SELECT_MOVIE: 'SELECT_MOVIE',
+    TOGGLE_PAUSE: 'TOGGLE_PAUSE'
+};
+
+export const PlayerCommands = {
+    TOGGLE: 0,
+    BACKWARD: 1,
+    FORWARD: 2,
+    STOP: 3,
+    FASTBACKWARD: 4,
+    FASTFORWARD: 5
 };

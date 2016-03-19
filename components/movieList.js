@@ -12,7 +12,7 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import SearchBar from './searchBar';
-import { loadingMovies, gotMovies, setNowPlaying, selectTab } from '../actions';
+import { loadingMovies, gotMovies, selectMovie, selectTab } from '../actions';
 import { TabIds } from '../constants';
 
 class MovieList extends Component {
@@ -45,7 +45,7 @@ class MovieList extends Component {
     }
     renderMovie(movie) {
         const playAndSwitchTab = () => {
-            this.props.setNowPlaying(movie);
+            this.props.selectMovie(movie);
             this.props.selectTab(TabIds.NOW_PLAYING_TAB);
         };
 
@@ -135,7 +135,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ loadingMovies, gotMovies, setNowPlaying, selectTab }, dispatch);
+    return bindActionCreators({ loadingMovies, gotMovies, selectMovie, selectTab }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieList);

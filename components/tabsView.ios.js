@@ -44,13 +44,13 @@ class TabsView extends Component {
                     onPress={() => selectTab(TabIds.EDIT_TAB)}>
                     <Text>Edit tab</Text>
                 </TabBarIOS.Item>
-                {nowPlaying
+                {nowPlaying.movie || nowPlaying.episode
                     ? <TabBarIOS.Item
                         icon={require('../icons/NowPlaying.png')}
                         title="Now Playing"
                         selected={selectedTab === TabIds.NOW_PLAYING_TAB}
                         onPress={() => selectTab(TabIds.NOW_PLAYING_TAB)}>
-                        <Player title={nowPlaying.title} />
+                        <Player />
                     </TabBarIOS.Item>
                     : null
                 }

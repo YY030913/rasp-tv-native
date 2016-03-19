@@ -1,9 +1,9 @@
 import React, { TouchableOpacity, StyleSheet, Image } from 'react-native';
 
-const PlayerControl = (props) => {
+const PlayerControl = ({onPress, ...otherProps}) => {
     return (
-        <TouchableOpacity style={styles.control} activeOpacity={0.4}>
-            <Image {...props} />
+        <TouchableOpacity style={styles.control} activeOpacity={0.4} onPress={onPress}>
+            <Image {...otherProps} />
         </TouchableOpacity>
     );
 };
