@@ -1,9 +1,10 @@
-import React, { TouchableOpacity, StyleSheet, Image } from 'react-native';
+import React, { TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 const PlayerControl = ({onPress, ...otherProps}) => {
     return (
         <TouchableOpacity style={styles.control} activeOpacity={0.4} onPress={onPress}>
-            <Image {...otherProps} />
+            <Icon {...otherProps} size={26} />
         </TouchableOpacity>
     );
 };

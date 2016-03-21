@@ -9,7 +9,7 @@ export default class PlayPauseControl extends Component {
         const { isPaused, ...otherProps } = this.props;
         return (
             <PlayerControl
-                source={isPaused ? require('../icons/Play.png') : require('../icons/Pause.png')}
+                name={isPaused ? 'play' : 'pause'}
                 {...otherProps} />
         );
     }

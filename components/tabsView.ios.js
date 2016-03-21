@@ -6,6 +6,7 @@ import React, {
     TabBarIOS
 } from 'react-native';
 
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabIds } from '../constants';
@@ -23,35 +24,35 @@ class TabsView extends Component {
             <TabBarIOS
                 tintColor="red"
                 barTintColor="white">
-                <TabBarIOS.Item
-                    icon={require('../icons/Movies.png')}
+                <Icon.TabBarItemIOS
+                    iconName="film"
                     title="Movies"
                     selected={selectedTab === TabIds.MOVIES_TAB}
                     onPress={() => selectTab(TabIds.MOVIES_TAB)}>
                     <MoviesNavigator />
-                </TabBarIOS.Item>
-                <TabBarIOS.Item
-                    icon={require('../icons/Shows.png')}
+                </Icon.TabBarItemIOS>
+                <Icon.TabBarItemIOS
+                    iconName="tv"
                     title="Shows"
                     selected={selectedTab === TabIds.SHOWS_TAB}
                     onPress={() => selectTab(TabIds.SHOWS_TAB)}>
                     <Text>Shows tab</Text>
-                </TabBarIOS.Item>
-                <TabBarIOS.Item
-                    icon={require('../icons/Edit.png')}
+                </Icon.TabBarItemIOS>
+                <Icon.TabBarItemIOS
+                    iconName="pencil"
                     title="Edit"
                     selected={selectedTab === TabIds.EDIT_TAB}
                     onPress={() => selectTab(TabIds.EDIT_TAB)}>
                     <Text>Edit tab</Text>
-                </TabBarIOS.Item>
+                </Icon.TabBarItemIOS>
                 {nowPlaying.movie || nowPlaying.episode
-                    ? <TabBarIOS.Item
-                        icon={require('../icons/NowPlaying.png')}
+                    ? <Icon.TabBarItemIOS
+                        iconName="youtube-play"
                         title="Now Playing"
                         selected={selectedTab === TabIds.NOW_PLAYING_TAB}
                         onPress={() => selectTab(TabIds.NOW_PLAYING_TAB)}>
                         <Player />
-                    </TabBarIOS.Item>
+                    </Icon.TabBarItemIOS>
                     : null
                 }
             </TabBarIOS>

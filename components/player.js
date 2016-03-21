@@ -24,12 +24,12 @@ class Player extends Component {
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
                 <View style={styles.controlContainer}>
-                    <PlayerControl source={require('../icons/FastBackward.png')} />
-                    <PlayerControl source={require('../icons/Rewind.png')} />
-                    <PlayerControl source={require('../icons/Stop.png')} />
+                    <PlayerControl name="fast-backward" />
+                    <PlayerControl name="backward" />
+                    <PlayerControl name="stop" />
                     <PlayPauseControl isPaused={this.props.nowPlaying.isPaused} onPress={this.props.togglePause} />
-                    <PlayerControl source={require('../icons/Forward.png')} />
-                    <PlayerControl source={require('../icons/FastForeward.png')} />
+                    <PlayerControl name="forward" />
+                    <PlayerControl name="fast-forward" />
                 </View>
             </View>
         );
