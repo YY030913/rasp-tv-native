@@ -36,6 +36,7 @@ function nowPlayingReducer(state = defaultNowPlaying, action) {
             return {...state, isPaused: !state.isPaused};
         case ActionTypes.PLAY:
             return {...state, isPlaying: true, isPaused: false};
+        case ActionTypes.CLEAR_NOW_PLAYING:
         case ActionTypes.STOP:
             return {...defaultNowPlaying};
     }

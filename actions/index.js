@@ -8,6 +8,7 @@ function basicAction(type) {
 }
 
 export const loadingMovies = basicAction.bind(null, ActionTypes.GET_MOVIES_PENDING);
+export const clearNowPlaying = basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING);
 
 export function gotMovies() {
     const action = {type: ActionTypes.GET_MOVIES_FINISHED};

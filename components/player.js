@@ -2,7 +2,7 @@ import React, { Component, View, Text, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import api from '../api';
-import { togglePause, playMovie, stopVideo } from '../actions';
+import { togglePause, playMovie, stopVideo, clearNowPlaying } from '../actions';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
@@ -12,6 +12,7 @@ class Player extends Component {
 
         this.getVideoTitle = this.getVideoTitle.bind(this);
         this.playOrPause = this.playOrPause.bind(this);
+        this.stopPlaying = this.stopPlaying.bind(this);
     }
     getVideoTitle() {
         const { nowPlaying } = this.props;
@@ -31,6 +32,15 @@ class Player extends Component {
 
         this.props.togglePause();
     }
+    stopPlaying() {
+        const { nowPlaying } = this.props;
+
+        if (nowPlaying.isPlaying) {
+            this.props.stopVideo();
+        } else {
+            this.props.clearNowPlaying();
+        }
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -40,7 +50,7 @@ class Player extends Component {
                 <View style={styles.controlContainer}>
                     <PlayerControl name="fast-backward" onPress={api.fastBackward} />
                     <PlayerControl name="backward" onPress={api.backward} />
-                    <PlayerControl name="stop" onPress={this.props.stopVideo} />
+                    <PlayerControl name="stop" onPress={this.stopPlaying} />
                     <PlayPauseControl isPaused={this.props.nowPlaying.isPaused} onPress={this.playOrPause} />
                     <PlayerControl name="forward" onPress={api.forward} />
                     <PlayerControl name="fast-forward" onPress={api.fastForward} />
@@ -79,7 +89,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({togglePause, playMovie, stopVideo}, dispatch);
+    return bindActionCreators({togglePause, playMovie, stopVideo, clearNowPlaying}, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

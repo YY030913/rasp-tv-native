@@ -12,7 +12,8 @@ export const ActionTypes = {
     SELECT_MOVIE: 'SELECT_MOVIE',
     TOGGLE_PAUSE: 'TOGGLE_PAUSE',
     PLAY: 'PLAY',
-    STOP: 'STOP'
+    STOP: 'STOP',
+    CLEAR_NOW_PLAYING: 'CLEAR_NOW_PLAYING'
 };
 
 export const PlayerCommands = {
