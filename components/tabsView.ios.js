@@ -11,7 +11,8 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabIds } from '../constants';
 import { selectTab } from '../actions';
-import MoviesNavigator from './moviesNavigator';
+import TabNavigator from './tabNavigator';
+import MovieList from './movieList';
 import Player from './player';
 
 class TabsView extends Component {
@@ -29,7 +30,7 @@ class TabsView extends Component {
                     title="Movies"
                     selected={selectedTab === TabIds.MOVIES_TAB}
                     onPress={() => selectTab(TabIds.MOVIES_TAB)}>
-                    <MoviesNavigator />
+                    <TabNavigator initialRoute={{component: MovieList, title: 'Movies'}} />
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     iconName="tv"
