@@ -23,7 +23,6 @@
         "react/wrap-multilines": 1,
         "react/jsx-uses-vars": 1,
         "react/jsx-space-before-closing": 1,
-        "react/jsx-handler-names": 1,
         "react/jsx-boolean-value": 1,
         "react/no-direct-mutation-state": 1,
         "semi": 1,

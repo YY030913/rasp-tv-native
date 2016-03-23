@@ -2,16 +2,12 @@ import React, {
   Component,
   StyleSheet,
   Text,
-  View,
-  ListView,
-  TouchableOpacity,
-  RefreshControl,
-  Platform
+  TouchableOpacity
 } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import SearchBar from './searchBar';
+import FilterableList from './filterableList';
 import { loadingMovies, gotMovies, selectMovie, selectTab } from '../actions';
 import { TabIds } from '../constants';
 
@@ -19,25 +15,11 @@ class MovieList extends Component {
     constructor(props) {
         super(props);
 
-        this.state = {
-            searchText: '',
-            moviesDataSource: new ListView.DataSource({
-                rowHasChanged: (r1, r2) => r1.id !== r2.id
-            })
-        };
-
         this.fetchMovies = this.fetchMovies.bind(this);
         this.renderMovie = this.renderMovie.bind(this);
-        this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
-        this.renderSearchBar = this.renderSearchBar.bind(this);
     }
     componentWillMount() {
         this.fetchMovies();
-    }
-    componentWillReceiveProps(newProps) {
-        if (this.props.movies !== newProps.movies) {
-            this.setState({moviesDataSource: this.state.moviesDataSource.cloneWithRows(newProps.movies)});
-        }
     }
     fetchMovies() {
         this.props.loadingMovies();
@@ -55,75 +37,29 @@ class MovieList extends Component {
             </TouchableOpacity>
         );
     }
-    handleSearchTextChange(newText) {
-        if (!newText.length) {
-            this.setState({
-                searchText: newText,
-                moviesDataSource: this.state.moviesDataSource.cloneWithRows(this.props.movies)
-            });
-            return;
-        }
-
-        const regex = new RegExp(newText, 'i');
-        const filteredMovies = this.props.movies.filter(m => regex.test(m.title));
-        this.setState({
-            searchText: newText,
-            moviesDataSource: this.state.moviesDataSource.cloneWithRows(filteredMovies)
-        });
-    }
-    renderSearchBar() {
-        return <SearchBar value={this.state.searchText} onChangeText={this.handleSearchTextChange} />;
-    }
     render() {
-        const { isLoading } = this.props;
-        if (isLoading) {
-            return (
-                <View style={styles.loadingView}>
-                    <Text>Loading...</Text>
-                </View>
-            );
-        }
-
-        const platformSpecificProps = {};
-        if (Platform.OS === 'ios') {
-            platformSpecificProps.title = 'Loading';
-        }
-
-        const refresher = (
-            <RefreshControl
-                onRefresh={this.fetchMovies}
-                refreshing={isLoading}
-                {...platformSpecificProps}
-            />
-        );
+        const { isLoading, movies } = this.props;
 
         return (
-            <ListView
-                style={styles.container}
-                dataSource={this.state.moviesDataSource}
+            <FilterableList
+                hasChangedKey="id"
+                items={movies}
+                filterByKey="title"
+                isLoading={isLoading}
                 renderRow={this.renderMovie}
-                renderHeader={this.renderSearchBar}
-                refreshControl={refresher}
+                onRefresh={this.fetchMovies}
             />
         );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1
-    },
     movieRow: {
         margin: 20
     },
     movieRowText: {
         fontSize: 15,
         textAlign: 'left'
-    },
-    loadingView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 });
 
