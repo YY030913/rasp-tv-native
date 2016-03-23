@@ -6,11 +6,13 @@ export const TabIds = {
 };
 
 export const ActionTypes = {
-    LOADING_MOVIES: 'LOADING_MOVIES',
-    GOT_MOVIES: 'GOT_MOVIES',
+    GET_MOVIES_PENDING: 'GET_MOVIES_PENDING',
+    GET_MOVIES_FINISHED: 'GET_MOVIES_FINISHED',
     SELECT_TAB: 'SELECT_TAB',
     SELECT_MOVIE: 'SELECT_MOVIE',
-    TOGGLE_PAUSE: 'TOGGLE_PAUSE'
+    TOGGLE_PAUSE: 'TOGGLE_PAUSE',
+    PLAY: 'PLAY',
+    STOP: 'STOP'
 };
 
 export const PlayerCommands = {
