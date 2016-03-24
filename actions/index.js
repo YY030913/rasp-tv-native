@@ -33,7 +33,7 @@ export const ShowsActions = {
     loading: basicAction.bind(null, ActionTypes.GET_SHOWS_PEDNDING),
     get: () => {
         const action = {type: ActionTypes.GET_SHOWS_FINISHED};
-        api.getShows().then(shows => {
+        return api.getShows().then(shows => {
             action.shows = shows;
             return action;
         });

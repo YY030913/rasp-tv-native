@@ -25,7 +25,7 @@ export default {
         return request(`${baseUrl}/movies?isIndexed=true`, true);
     },
     getShows: () => {
-        return request(`${baseUrl}/shows`);
+        return request(`${baseUrl}/shows`, true);
     },
     playMovie: (id) => {
         return request(`${baseUrl}/movies/${id}/play`, false);

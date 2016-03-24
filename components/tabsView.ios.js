@@ -13,6 +13,7 @@ import { TabIds } from '../constants';
 import { selectTab } from '../actions';
 import TabNavigator from './tabNavigator';
 import MovieList from './movieList';
+import ShowsList from './showsList';
 import Player from './player';
 
 class TabsView extends Component {
@@ -37,7 +38,7 @@ class TabsView extends Component {
                     title="Shows"
                     selected={selectedTab === TabIds.SHOWS_TAB}
                     onPress={() => selectTab(TabIds.SHOWS_TAB)}>
-                    <Text>Shows tab</Text>
+                    <TabNavigator initialRoute={{component: ShowsList, title: 'Shows'}} />
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     iconName="pencil"
