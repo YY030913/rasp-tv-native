@@ -22,7 +22,7 @@ function runCommand(command) {
 
 export default {
     getMovies: () => {
-        return request(`${baseUrl}/movies`, true);
+        return request(`${baseUrl}/movies?isIndexed=true`, true);
     },
     getShows: () => {
         return request(`${baseUrl}/shows`);

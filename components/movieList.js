@@ -1,13 +1,9 @@
-import React, {
-  Component,
-  StyleSheet,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import React, { Component } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FilterableList from './filterableList';
+import NavButton from './navButton';
 import { MovieActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
 
@@ -31,11 +27,7 @@ class MovieList extends Component {
             this.props.selectTab(TabIds.NOW_PLAYING_TAB);
         };
 
-        return (
-            <TouchableOpacity style={styles.movieRow} onPress={playAndSwitchTab}>
-                <Text style={styles.movieRowText}>{movie.title}</Text>
-            </TouchableOpacity>
-        );
+        return <NavButton text={movie.title} onPress={playAndSwitchTab} />;
     }
     render() {
         const { isLoading, movies } = this.props;
@@ -52,16 +44,6 @@ class MovieList extends Component {
         );
     }
 }
-
-const styles = StyleSheet.create({
-    movieRow: {
-        margin: 20
-    },
-    movieRowText: {
-        fontSize: 15,
-        textAlign: 'left'
-    }
-});
 
 function mapStateToProps(state) {
     return {
