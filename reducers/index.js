@@ -12,6 +12,17 @@ function moviesReducer(state = {data: [], isLoading: false}, action) {
     return state;
 }
 
+function showsReducer(state = {data: [], isLoading: false}, action) {
+    switch (action.type) {
+        case ActionTypes.GET_SHOWS_PEDNDING:
+            return {...state, isLoading: true};
+        case ActionTypes.GET_SHOWS_FINISHED:
+            return {data: action.shows, isLoading: false};
+    }
+
+    return state;
+}
+
 function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
     switch (action.type) {
         case ActionTypes.SELECT_TAB:
@@ -46,6 +57,7 @@ function nowPlayingReducer(state = defaultNowPlaying, action) {
 
 export default combineReducers({
     movies: moviesReducer,
+    shows: showsReducer,
     selectedTab: selectedTabReducer,
     nowPlaying: nowPlayingReducer
 });

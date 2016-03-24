@@ -2,7 +2,7 @@ import React, { Component, View, Text, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import api from '../api';
-import { togglePause, playMovie, stopVideo, clearNowPlaying } from '../actions';
+import { MovieActions, PlayerActions} from '../actions';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
@@ -89,7 +89,14 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({togglePause, playMovie, stopVideo, clearNowPlaying}, dispatch);
+    const bindings = {
+        togglePause: PlayerActions.toggle,
+        playMovie: MovieActions.play,
+        stopVideo: PlayerActions.stop,
+        clearNowPlaying: PlayerActions.clear
+    };
+
+    return bindActionCreators(bindings, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Player);

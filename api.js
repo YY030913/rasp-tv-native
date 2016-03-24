@@ -22,10 +22,10 @@ function runCommand(command) {
 
 export default {
     getMovies: () => {
-        return request(`${baseUrl}/movies`, true)
-            .then(data => {
-                return data.sort((a, b) => a.title.localeCompare(b.title));
-            });
+        return request(`${baseUrl}/movies`, true);
+    },
+    getShows: () => {
+        return request(`${baseUrl}/shows`);
     },
     playMovie: (id) => {
         return request(`${baseUrl}/movies/${id}/play`, false);

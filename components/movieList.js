@@ -8,7 +8,7 @@ import React, {
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FilterableList from './filterableList';
-import { loadingMovies, gotMovies, selectMovie, selectTab } from '../actions';
+import { MovieActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
 
 class MovieList extends Component {
@@ -71,7 +71,14 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ loadingMovies, gotMovies, selectMovie, selectTab }, dispatch);
+    const bindings = {
+        loadingMovies: MovieActions.loading,
+        gotMovies: MovieActions.get,
+        selectMovie: MovieActions.select,
+        selectTab
+    };
+
+    return bindActionCreators(bindings, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(MovieList);
