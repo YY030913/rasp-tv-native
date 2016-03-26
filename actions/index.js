@@ -43,6 +43,11 @@ export const ShowsActions = {
             type: ActionTypes.SELECT_EPISODE,
             episode
         };
+    },
+    play: (id) => {
+        const action = {type: ActionTypes.PLAY};
+        return api.playEpisode(id)
+            .then(() => action);
     }
 };
 

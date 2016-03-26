@@ -2,7 +2,7 @@ import React, { Component, View, Text, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import api from '../api';
-import { MovieActions, PlayerActions} from '../actions';
+import { MovieActions, ShowsActions, PlayerActions} from '../actions';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
@@ -49,7 +49,8 @@ class Player extends Component {
             this.props.playMovie(nowPlaying.movie.id);
             return;
         } else if (nowPlaying.episode && !nowPlaying.isPlaying) {
-            throw new Error('Playing episodes are not supported yet.');
+            this.props.playEpisode(nowPlaying.episode.id);
+            return;
         }
 
         this.props.togglePause();
@@ -115,6 +116,7 @@ function mapDispatchToProps(dispatch) {
     const bindings = {
         togglePause: PlayerActions.toggle,
         playMovie: MovieActions.play,
+        playEpisode: ShowsActions.play,
         stopVideo: PlayerActions.stop,
         clearNowPlaying: PlayerActions.clear
     };

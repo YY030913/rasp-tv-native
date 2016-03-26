@@ -35,6 +35,9 @@ export default {
     playMovie: (id) => {
         return request(`${baseUrl}/movies/${id}/play`, false);
     },
+    playEpisode: (id) => {
+        return request(`${baseUrl}/shows/episodes/${id}/play`, false);
+    },
     toggle: runCommand.bind(null, PlayerCommands.TOGGLE),
     fastBackward: runCommand.bind(null, PlayerCommands.FASTBACKWARD),
     backward: runCommand.bind(null, PlayerCommands.BACKWARD),
