@@ -1,4 +1,4 @@
-import React, { Component } from 'react-native';
+import React, { Component, View } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -6,6 +6,7 @@ import FilterableList from './filterableList';
 import NavButton from './navButton';
 import { MovieActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
+import GlobalStyles from '../globalStyles';
 
 class MovieList extends Component {
     constructor(props) {
@@ -33,14 +34,16 @@ class MovieList extends Component {
         const { isLoading, movies } = this.props;
 
         return (
-            <FilterableList
-                hasChangedKey="id"
-                items={movies}
-                filterByKey="title"
-                isLoading={isLoading}
-                renderRow={this.renderMovie}
-                onRefresh={this.fetchMovies}
-            />
+            <View style={GlobalStyles.navContent}>
+                <FilterableList
+                    hasChangedKey="id"
+                    items={movies}
+                    filterByKey="title"
+                    isLoading={isLoading}
+                    renderRow={this.renderMovie}
+                    onRefresh={this.fetchMovies}
+                />
+            </View>
         );
     }
 }

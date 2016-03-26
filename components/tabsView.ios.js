@@ -10,10 +10,9 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabIds } from '../constants';
+import Routes from '../routes';
 import { selectTab } from '../actions';
 import TabNavigator from './tabNavigator';
-import MovieList from './movieList';
-import ShowsList from './showsList';
 import Player from './player';
 
 class TabsView extends Component {
@@ -31,14 +30,14 @@ class TabsView extends Component {
                     title="Movies"
                     selected={selectedTab === TabIds.MOVIES_TAB}
                     onPress={() => selectTab(TabIds.MOVIES_TAB)}>
-                    <TabNavigator initialRoute={{component: MovieList, title: 'Movies'}} />
+                    <TabNavigator initialRoute={Routes.movies} />
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     iconName="tv"
                     title="Shows"
                     selected={selectedTab === TabIds.SHOWS_TAB}
                     onPress={() => selectTab(TabIds.SHOWS_TAB)}>
-                    <TabNavigator initialRoute={{component: ShowsList, title: 'Shows'}} />
+                    <TabNavigator initialRoute={Routes.shows} />
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     iconName="pencil"

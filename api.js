@@ -15,7 +15,9 @@ function request(url, hasBody) {
         .catch(err => Alert.alert('Error', err.message || err));
 }
 
-const baseUrl = 'http://192.168.11.2:8080';
+// const baseUrl = 'http://192.168.11.2:8080';
+const baseUrl = 'http://localhost:3000';
+
 function runCommand(command) {
     return request(`${baseUrl}/player/command/${command}`, false);
 }
@@ -25,7 +27,7 @@ export default {
         return request(`${baseUrl}/movies?isIndexed=true`, true);
     },
     getShows: () => {
-        return request(`${baseUrl}/shows`, true);
+        return request(`${baseUrl}/shows?all=true`, true);
     },
     playMovie: (id) => {
         return request(`${baseUrl}/movies/${id}/play`, false);
