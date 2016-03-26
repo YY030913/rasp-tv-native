@@ -14,6 +14,28 @@ class Player extends Component {
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
     }
+    componentWillReceiveProps(newProps) {
+        const oldNowPlaying = this.props.nowPlaying;
+        const newNowPlaying = newProps.nowPlaying;
+
+        const newMovieSelected = oldNowPlaying.movie === null
+            && newNowPlaying.movie !== null
+            && newNowPlaying.episode === null;
+        const newEpisodeSelected = oldNowPlaying.episode === null
+            && newNowPlaying.episode !== null
+            && newNowPlaying.movie === null;
+        const movieHasChanged = oldNowPlaying.movie !== null
+            && newNowPlaying.movie !== null
+            && oldNowPlaying.movie.id !== newNowPlaying.movie.id;
+        const episodeHasChanged = oldNowPlaying.episode !== null
+            && newNowPlaying.episode !== null
+            && oldNowPlaying.episode.id !== newNowPlaying.episode.id;
+
+        if (newMovieSelected || newEpisodeSelected || movieHasChanged || episodeHasChanged) {
+            console.log(`newMovieSelected: ${newMovieSelected}, newEpisodeSelected: ${newEpisodeSelected}, movieHasChanged: ${movieHasChanged}, episodeHasChanged: ${episodeHasChanged}`);
+            newProps.stopVideo();
+        }
+    }
     getVideoTitle() {
         const { nowPlaying } = this.props;
         if (nowPlaying.movie) return nowPlaying.movie.title;
@@ -37,6 +59,7 @@ class Player extends Component {
 
         if (nowPlaying.isPlaying) {
             this.props.stopVideo();
+            this.props.clearNowPlaying();
         } else {
             this.props.clearNowPlaying();
         }

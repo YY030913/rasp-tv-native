@@ -42,16 +42,17 @@ const defaultNowPlaying = {
 function nowPlayingReducer(state = defaultNowPlaying, action) {
     switch (action.type) {
         case ActionTypes.SELECT_MOVIE:
-            return {...state, movie: action.movie, episode: null};
+            return {...defaultNowPlaying, movie: action.movie};
         case ActionTypes.SELECT_EPISODE:
-            return {...state, episode: action.episode, movie: null};
+            return {...defaultNowPlaying, episode: action.episode};
         case ActionTypes.TOGGLE_PAUSE:
             return {...state, isPaused: !state.isPaused};
         case ActionTypes.PLAY:
             return {...state, isPlaying: true, isPaused: false};
         case ActionTypes.CLEAR_NOW_PLAYING:
-        case ActionTypes.STOP:
             return {...defaultNowPlaying};
+        case ActionTypes.STOP:
+            return {...state, isPlaying: false};
     }
 
     return state;
