@@ -12,7 +12,10 @@ function request(url, hasBody) {
 
             if (hasBody) return res.json();
         })
-        .catch(err => Alert.alert('Error', err.message || err));
+        .catch(err => {
+            Alert.alert('Error', err.message || err);
+            throw err;
+        });
 }
 
 // const baseUrl = 'http://192.168.11.2:8080';

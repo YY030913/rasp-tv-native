@@ -104,10 +104,10 @@ export default class List extends Component {
             optionalProps.renderHeader = this.renderSearchBar;
         }
 
-        const { renderRow } = this.props;
+        const { renderRow, style } = this.props;
         return (
             <ListView
-                style={styles.container}
+                style={[styles.container, style]}
                 dataSource={this.state.dataSource}
                 renderRow={renderRow}
                 {...optionalProps}

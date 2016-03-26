@@ -37,6 +37,12 @@ export const ShowsActions = {
             action.shows = shows;
             return action;
         });
+    },
+    select: (episode) => {
+        return {
+            type: ActionTypes.SELECT_EPISODE,
+            episode
+        };
     }
 };
 

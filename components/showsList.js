@@ -30,16 +30,15 @@ class ShowsList extends Component {
         const { isLoading, shows } = this.props;
 
         return (
-            <View style={GlobalStyles.navContent}>
-                <FilterableList
-                    hasChangedKey="id"
-                    items={shows}
-                    filterByKey="title"
-                    isLoading={isLoading}
-                    renderRow={this.renderShow}
-                    onRefresh={this.fetchShows}
-                />
-            </View>
+            <FilterableList
+                style={GlobalStyles.navContent}
+                hasChangedKey="id"
+                items={shows}
+                filterByKey="title"
+                isLoading={isLoading}
+                renderRow={this.renderShow}
+                onRefresh={this.fetchShows}
+            />
         );
     }
 }

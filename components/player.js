@@ -17,7 +17,7 @@ class Player extends Component {
     getVideoTitle() {
         const { nowPlaying } = this.props;
         if (nowPlaying.movie) return nowPlaying.movie.title;
-        if (nowPlaying.episode) return nowPlaying.epsiode.title;
+        if (nowPlaying.episode) return nowPlaying.episode.title;
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
     playOrPause() {
@@ -26,7 +26,7 @@ class Player extends Component {
         if (nowPlaying.movie && !nowPlaying.isPlaying) {
             this.props.playMovie(nowPlaying.movie.id);
             return;
-        } else if (nowPlaying.epsiode && !nowPlaying.isPlaying) {
+        } else if (nowPlaying.episode && !nowPlaying.isPlaying) {
             throw new Error('Playing episodes are not supported yet.');
         }
 
