@@ -1,4 +1,4 @@
-import React, { Component, View } from 'react-native';
+import React, { Component } from 'react-native';
 
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -18,9 +18,9 @@ class ShowsList extends Component {
     componentWillMount() {
         this.fetchShows();
     }
-    fetchShows() {
+    fetchShows(bustCache) {
         this.props.loadingShows();
-        this.props.getShows();
+        this.props.getShows(bustCache);
     }
     renderShow(show) {
         const route = {...Routes.seasons, passProps: {episodes: show.episodes}};
@@ -37,7 +37,7 @@ class ShowsList extends Component {
                 filterByKey="title"
                 isLoading={isLoading}
                 renderRow={this.renderShow}
-                onRefresh={this.fetchShows}
+                onRefresh={this.fetchShows.bind(null, true)}
             />
         );
     }

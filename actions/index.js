@@ -9,12 +9,15 @@ function basicAction(type) {
 
 export const MovieActions = {
     loading: basicAction.bind(null, ActionTypes.GET_MOVIES_PENDING),
-    get: () => {
+    get: async (bustCache) => {
         const action = {type: ActionTypes.GET_MOVIES_FINISHED};
-        return api.getMovies().then(movies => {
+        try {
+            const movies = await api.getMovies(bustCache);
             action.movies = movies;
-            return action;
-        });
+        } catch (err) {
+            action.error = err;
+        }
+        return action;
     },
     select: (movie) => {
         return {
@@ -22,21 +25,28 @@ export const MovieActions = {
             movie
         };
     },
-    play: (id) => {
+    play: async (id) => {
         const action = {type: ActionTypes.PLAY};
-        return api.playMovie(id)
-            .then(() => action);
+        try {
+            await api.playMovie(id);
+        } catch (e) {
+            action.error = e;
+        }
+        return action;
     }
 };
 
 export const ShowsActions = {
     loading: basicAction.bind(null, ActionTypes.GET_SHOWS_PEDNDING),
-    get: () => {
+    get: async (bustCache) => {
         const action = {type: ActionTypes.GET_SHOWS_FINISHED};
-        return api.getShows().then(shows => {
+        try {
+            const shows = await api.getShows(bustCache);
             action.shows = shows;
-            return action;
-        });
+        } catch (e) {
+            action.error = e;
+        }
+        return action;
     },
     select: (episode) => {
         return {
@@ -44,10 +54,14 @@ export const ShowsActions = {
             episode
         };
     },
-    play: (id) => {
+    play: async (id) => {
         const action = {type: ActionTypes.PLAY};
-        return api.playEpisode(id)
-            .then(() => action);
+        try {
+            await api.playEpisode(id);
+        } catch (e) {
+            action.error = e;
+        }
+        return action;
     }
 };
 

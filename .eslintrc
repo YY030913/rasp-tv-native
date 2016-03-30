@@ -17,6 +17,7 @@
         "node": true,
         "es6": true
     },
+    "parser": "babel-eslint",
     "rules": {
         "react/jsx-uses-react": 1,
         "react/jsx-key": 1,

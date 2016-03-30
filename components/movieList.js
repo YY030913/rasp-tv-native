@@ -18,9 +18,9 @@ class MovieList extends Component {
     componentWillMount() {
         this.fetchMovies();
     }
-    fetchMovies() {
+    fetchMovies(bustCache) {
         this.props.loadingMovies();
-        this.props.gotMovies();
+        this.props.getMovies(bustCache);
     }
     renderMovie(movie) {
         const playAndSwitchTab = () => {
@@ -40,7 +40,7 @@ class MovieList extends Component {
                 filterByKey="title"
                 isLoading={isLoading}
                 renderRow={this.renderMovie}
-                onRefresh={this.fetchMovies}
+                onRefresh={this.fetchMovies.bind(null, true)}
             />
         );
     }
@@ -56,7 +56,7 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     const bindings = {
         loadingMovies: MovieActions.loading,
-        gotMovies: MovieActions.get,
+        getMovies: MovieActions.get,
         selectMovie: MovieActions.select,
         selectTab
     };

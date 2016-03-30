@@ -1,21 +1,29 @@
-import { Alert } from 'react-native';
+import { Alert, AsyncStorage } from 'react-native';
 import { PlayerCommands } from './constants';
 
-function request(url, hasBody) {
-    return fetch(url)
-        .then(res => {
-            if (!res.ok) {
-                return res.json().then(data => {
-                    throw new Error(data.error);
-                });
-            }
+async function storage(key, value) {
+    if (value) {
+        await AsyncStorage.setItem(key, JSON.stringify(value));
+        return;
+    }
 
-            if (hasBody) return res.json();
-        })
-        .catch(err => {
-            Alert.alert('Error', err.message || err);
-            throw err;
-        });
+    const data = await AsyncStorage.getItem(key);
+    return data === null ? null : JSON.parse(data);
+}
+
+async function request(url, hasBody) {
+    try {
+        const res = await fetch(url);
+        if (!res.ok) {
+            const errData = await res.json();
+            throw new Error(errData.error);
+        }
+
+        if (hasBody) return await res.json();
+    } catch (err) {
+        Alert.alert('Error', err.message || err);
+        throw err;
+    }
 }
 
 // const baseUrl = 'http://192.168.11.2:8080';
@@ -26,11 +34,43 @@ function runCommand(command) {
 }
 
 export default {
-    getMovies: () => {
-        return request(`${baseUrl}/movies?isIndexed=true`, true);
+    getMovies: async (bustCache) => {
+        const storageKey = 'movies';
+        const getAndStore = async () => {
+            const movies = await request(`${baseUrl}/movies?isIndexed=true`, true);
+            await storage(storageKey, movies);
+            return movies;
+        };
+
+        if (bustCache) {
+            return await getAndStore();
+        } else {
+            const data = await storage(storageKey);
+            if (data === null) {
+                return await getAndStore();
+            }
+
+            return data;
+        }
     },
-    getShows: () => {
-        return request(`${baseUrl}/shows?all=true`, true);
+    getShows: async (bustCache) => {
+        const storageKey = 'shows';
+        const getAndStore = async () => {
+            const shows = await request(`${baseUrl}/shows?all=true`, true);
+            await storage(storageKey, shows);
+            return shows;
+        };
+
+        if (bustCache) {
+            return await getAndStore();
+        } else {
+            const data = await storage(storageKey);
+            if (data === null) {
+                return await getAndStore();
+            }
+
+            return data;
+        }
     },
     playMovie: (id) => {
         return request(`${baseUrl}/movies/${id}/play`, false);
