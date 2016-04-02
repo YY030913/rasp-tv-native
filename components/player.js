@@ -32,7 +32,6 @@ class Player extends Component {
             && oldNowPlaying.episode.id !== newNowPlaying.episode.id;
 
         if (newMovieSelected || newEpisodeSelected || movieHasChanged || episodeHasChanged) {
-            // console.log(`newMovieSelected: ${newMovieSelected}, newEpisodeSelected: ${newEpisodeSelected}, movieHasChanged: ${movieHasChanged}, episodeHasChanged: ${episodeHasChanged}`);
             newProps.stopVideo();
         }
     }

@@ -66,15 +66,23 @@ export const ShowsActions = {
 };
 
 export const PlayerActions = {
-    toggle: () => {
+    toggle: async () => {
         const action = {type: ActionTypes.TOGGLE_PAUSE};
-        return api.toggle()
-            .then(() => action);
+        try {
+            await api.toggle();
+        } catch(e) {
+            action.error = e;
+        }
+        return action;
     },
-    stop: () => {
+    stop: async () => {
         const action = {type: ActionTypes.STOP};
-        return api.stop()
-            .then(() => action);
+        try {
+            await api.stop();
+        } catch(e) {
+            action.error = e;
+        }
+        return action;
     },
     clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING)
 };

@@ -19,7 +19,8 @@ async function request(url, hasBody) {
             throw new Error(errData.error);
         }
 
-        if (hasBody) return await res.json();
+        if (hasBody)
+            return await res.json();
     } catch (err) {
         Alert.alert('Error', err.message || err);
         throw err;
