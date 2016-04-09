@@ -1,10 +1,6 @@
 'use strict';
 
-import React, {
-    Component,
-    Text,
-    TabBarIOS
-} from 'react-native';
+import React, { Component, TabBarIOS } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
@@ -20,7 +16,7 @@ class TabsView extends Component {
         super(props);
     }
     render() {
-        const { selectedTab, selectTab, nowPlaying } = this.props;
+        const { selectedTab, selectTab, session } = this.props;
         return (
             <TabBarIOS
                 tintColor="red"
@@ -39,14 +35,14 @@ class TabsView extends Component {
                     onPress={() => selectTab(TabIds.SHOWS_TAB)}>
                     <TabNavigator initialRoute={Routes.shows} />
                 </Icon.TabBarItemIOS>
-                <Icon.TabBarItemIOS
+                {/*<Icon.TabBarItemIOS
                     iconName="pencil"
                     title="Edit"
                     selected={selectedTab === TabIds.EDIT_TAB}
                     onPress={() => selectTab(TabIds.EDIT_TAB)}>
                     <Text>Edit tab</Text>
-                </Icon.TabBarItemIOS>
-                {nowPlaying.movie || nowPlaying.episode
+                </Icon.TabBarItemIOS>*/}
+                {session.movie || session.episode
                     ? <Icon.TabBarItemIOS
                         iconName="youtube-play"
                         title="Now Playing"
@@ -64,7 +60,7 @@ class TabsView extends Component {
 function mapStateToProps(state) {
     return {
         selectedTab: state.selectedTab,
-        nowPlaying: state.nowPlaying
+        session: state.session
     };
 }
 

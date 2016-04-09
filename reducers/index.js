@@ -32,25 +32,25 @@ function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
     return state;
 }
 
-const defaultNowPlaying = {
+const defaultSession = {
     movie: null,
     episode: null,
     isPlaying: false,
     isPaused: true
 };
 
-function nowPlayingReducer(state = defaultNowPlaying, action) {
+function sessionReducer(state = defaultSession, action) {
     switch (action.type) {
         case ActionTypes.SELECT_MOVIE:
-            return {...defaultNowPlaying, movie: action.movie};
+            return {...defaultSession, movie: action.movie};
         case ActionTypes.SELECT_EPISODE:
-            return {...defaultNowPlaying, episode: action.episode};
+            return {...defaultSession, episode: action.episode};
         case ActionTypes.TOGGLE_PAUSE:
             return {...state, isPaused: !state.isPaused};
         case ActionTypes.PLAY:
             return {...state, isPlaying: true, isPaused: false};
         case ActionTypes.CLEAR_NOW_PLAYING:
-            return {...defaultNowPlaying};
+            return {...defaultSession};
         case ActionTypes.STOP:
             return {...state, isPlaying: false};
     }
@@ -62,5 +62,5 @@ export default combineReducers({
     movies: moviesReducer,
     shows: showsReducer,
     selectedTab: selectedTabReducer,
-    nowPlaying: nowPlayingReducer
+    session: sessionReducer
 });

@@ -1,6 +1,7 @@
 import React, { Component, View, Text, StyleSheet } from 'react-native';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import api from '../api';
 import { MovieActions, ShowsActions, PlayerActions} from '../actions';
 import PlayerControl from './playerControl';
@@ -15,8 +16,8 @@ class Player extends Component {
         this.stopPlaying = this.stopPlaying.bind(this);
     }
     componentWillReceiveProps(newProps) {
-        const oldNowPlaying = this.props.nowPlaying;
-        const newNowPlaying = newProps.nowPlaying;
+        const oldNowPlaying = this.props.session;
+        const newNowPlaying = newProps.session;
 
         const newMovieSelected = oldNowPlaying.movie === null
             && newNowPlaying.movie !== null
@@ -36,28 +37,31 @@ class Player extends Component {
         }
     }
     getVideoTitle() {
-        const { nowPlaying } = this.props;
-        if (nowPlaying.movie) return nowPlaying.movie.title;
-        if (nowPlaying.episode) return nowPlaying.episode.title;
+        const { session } = this.props;
+        if (session.movie) return session.movie.title;
+        if (session.episode) {
+            const show = _.find(this.props.shows, s => s.id === session.episode.showId);
+            return `${show.title} - Season ${session.episode.season} - ${session.episode.title}`;
+        }
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
     playOrPause() {
-        const { nowPlaying } = this.props;
+        const { session } = this.props;
 
-        if (nowPlaying.movie && !nowPlaying.isPlaying) {
-            this.props.playMovie(nowPlaying.movie.id);
+        if (session.movie && !session.isPlaying) {
+            this.props.playMovie(session.movie.id);
             return;
-        } else if (nowPlaying.episode && !nowPlaying.isPlaying) {
-            this.props.playEpisode(nowPlaying.episode.id);
+        } else if (session.episode && !session.isPlaying) {
+            this.props.playEpisode(session.episode.id);
             return;
         }
 
         this.props.togglePause();
     }
     stopPlaying() {
-        const { nowPlaying } = this.props;
+        const { session } = this.props;
 
-        if (nowPlaying.isPlaying) {
+        if (session.isPlaying) {
             this.props.stopVideo();
             this.props.clearNowPlaying();
         } else {
@@ -74,7 +78,7 @@ class Player extends Component {
                     <PlayerControl name="fast-backward" onPress={api.fastBackward} />
                     <PlayerControl name="backward" onPress={api.backward} />
                     <PlayerControl name="stop" onPress={this.stopPlaying} />
-                    <PlayPauseControl isPaused={this.props.nowPlaying.isPaused} onPress={this.playOrPause} />
+                    <PlayPauseControl isPaused={this.props.session.isPaused} onPress={this.playOrPause} />
                     <PlayerControl name="forward" onPress={api.forward} />
                     <PlayerControl name="fast-forward" onPress={api.fastForward} />
                 </View>
@@ -107,7 +111,8 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        nowPlaying: state.nowPlaying
+        session: state.session,
+        shows: state.shows.data
     };
 }
 
