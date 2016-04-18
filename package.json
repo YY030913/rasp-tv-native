@@ -13,6 +13,8 @@
     "react-native-vector-icons": "latest",
     "react-redux": "latest",
     "redux": "latest",
-    "redux-promise": "latest"
+    "redux-logger": "^2.6.1",
+    "redux-promise": "latest",
+    "redux-thunk": "^2.0.1"
   }
 }

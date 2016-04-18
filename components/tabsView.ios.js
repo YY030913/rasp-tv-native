@@ -7,13 +7,18 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabIds } from '../constants';
 import Routes from '../routes';
-import { selectTab } from '../actions';
+import { selectTab, MovieActions, ShowsActions } from '../actions';
 import TabNavigator from './tabNavigator';
 import Player from './player';
 
 class TabsView extends Component {
     constructor(props) {
         super(props);
+    }
+    componentWillMount() {
+        // load all video data from storage
+        this.props.getMovies();
+        this.props.getShows();
     }
     render() {
         const { selectedTab, selectTab, session } = this.props;
@@ -42,7 +47,7 @@ class TabsView extends Component {
                     onPress={() => selectTab(TabIds.EDIT_TAB)}>
                     <Text>Edit tab</Text>
                 </Icon.TabBarItemIOS>*/}
-                {session.movie || session.episode
+                {session.movieId || session.episodeId
                     ? <Icon.TabBarItemIOS
                         iconName="youtube-play"
                         title="Now Playing"
@@ -60,12 +65,16 @@ class TabsView extends Component {
 function mapStateToProps(state) {
     return {
         selectedTab: state.selectedTab,
-        session: state.session
+        session: state.session.data
     };
 }
 
 function mapDispatchToProps(dispatch) {
-    return bindActionCreators({ selectTab }, dispatch);
+    return bindActionCreators({
+        selectTab,
+        getMovies: MovieActions.get,
+        getShows: ShowsActions.get
+     }, dispatch);
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(TabsView);

@@ -19,7 +19,6 @@ class ShowsList extends Component {
         this.fetchShows();
     }
     fetchShows(bustCache) {
-        this.props.loadingShows();
         this.props.getShows(bustCache);
     }
     renderShow(show) {
@@ -52,7 +51,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     const bindings = {
-        loadingShows: ShowsActions.loading,
         getShows: ShowsActions.get
     };
 

@@ -19,12 +19,11 @@ class MovieList extends Component {
         this.fetchMovies();
     }
     fetchMovies(bustCache) {
-        this.props.loadingMovies();
         this.props.getMovies(bustCache);
     }
     renderMovie(movie) {
         const playAndSwitchTab = () => {
-            this.props.selectMovie(movie);
+            this.props.selectMovie(movie.id);
             this.props.selectTab(TabIds.NOW_PLAYING_TAB);
         };
 
@@ -55,7 +54,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     const bindings = {
-        loadingMovies: MovieActions.loading,
         getMovies: MovieActions.get,
         selectMovie: MovieActions.select,
         selectTab

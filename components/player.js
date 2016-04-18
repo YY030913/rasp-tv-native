@@ -1,9 +1,8 @@
-import React, { Component, View, Text, StyleSheet } from 'react-native';
-import { bindActionCreators } from 'redux';
+import React, { Component, View, Text, StyleSheet, ScrollView, RefreshControl, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import api from '../api';
-import { MovieActions, ShowsActions, PlayerActions} from '../actions';
+import { MovieActions, ShowsActions, PlayerActions, SessionActions } from '../actions';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
@@ -11,66 +10,75 @@ class Player extends Component {
     constructor(props) {
         super(props);
 
+        this.poll = this.poll.bind(this);
         this.getVideoTitle = this.getVideoTitle.bind(this);
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
     }
-    componentWillReceiveProps(newProps) {
-        const oldNowPlaying = this.props.session;
-        const newNowPlaying = newProps.session;
-
-        const newMovieSelected = oldNowPlaying.movie === null
-            && newNowPlaying.movie !== null
-            && newNowPlaying.episode === null;
-        const newEpisodeSelected = oldNowPlaying.episode === null
-            && newNowPlaying.episode !== null
-            && newNowPlaying.movie === null;
-        const movieHasChanged = oldNowPlaying.movie !== null
-            && newNowPlaying.movie !== null
-            && oldNowPlaying.movie.id !== newNowPlaying.movie.id;
-        const episodeHasChanged = oldNowPlaying.episode !== null
-            && newNowPlaying.episode !== null
-            && oldNowPlaying.episode.id !== newNowPlaying.episode.id;
-
-        if (newMovieSelected || newEpisodeSelected || movieHasChanged || episodeHasChanged) {
-            newProps.stopVideo();
-        }
+    poll() {
+        this.props.dispatch(SessionActions.update());
     }
     getVideoTitle() {
         const { session } = this.props;
-        if (session.movie) return session.movie.title;
-        if (session.episode) {
-            const show = _.find(this.props.shows, s => s.id === session.episode.showId);
-            return `${show.title} - Season ${session.episode.season} - ${session.episode.title}`;
+        if (session.movieId) {
+            const movie = _.find(this.props.movies, m => m.id === session.movieId);
+            return movie.title;
         }
+
+        if (session.episodeId) {
+            // we'll see how this goes... Would get slow when the library grows
+            for (let s of this.props.shows) {
+                const episode = _.find(s.episodes, e => e.id === session.episodeId);
+                if (episode)
+                    return `${s.title} - Season ${episode.season} - ${episode.title}`;
+            }
+        }
+
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
-    playOrPause() {
-        const { session } = this.props;
+    async playOrPause() {
+        const { session, dispatch } = this.props;
+        const oldSession = await api.getSession();
+        if (oldSession && oldSession.isPlaying && !session.isPlaying) {
+            await dispatch(PlayerActions.stop());
+        }
 
-        if (session.movie && !session.isPlaying) {
-            this.props.playMovie(session.movie.id);
+        if (session.movieId && !session.isPlaying) {
+            await dispatch(MovieActions.play(session.movieId));
             return;
-        } else if (session.episode && !session.isPlaying) {
-            this.props.playEpisode(session.episode.id);
+        } else if (session.episodeId && !session.isPlaying) {
+            await dispatch(ShowsActions.play(session.episodeId));
             return;
         }
 
-        this.props.togglePause();
+        await dispatch(PlayerActions.toggle());
     }
-    stopPlaying() {
-        const { session } = this.props;
+    async stopPlaying() {
+        const { session, dispatch } = this.props;
 
         if (session.isPlaying) {
-            this.props.stopVideo();
-            this.props.clearNowPlaying();
+            await dispatch(PlayerActions.stop());
+            dispatch(PlayerActions.clear());
         } else {
-            this.props.clearNowPlaying();
+            dispatch(PlayerActions.clear());
         }
     }
     render() {
+        const platformSpecificProps = {};
+        if (Platform.OS === 'ios') {
+            platformSpecificProps.title = 'Loading';
+        }
+
+        const refreshControl = (
+            <RefreshControl
+                onRefresh={this.poll}
+                refreshing={this.props.isLoading}
+                {...platformSpecificProps}
+            />
+        );
+
         return (
-            <View style={styles.container}>
+            <ScrollView contentContainerStyle={styles.container} refreshControl={refreshControl}>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
@@ -82,14 +90,14 @@ class Player extends Component {
                     <PlayerControl name="forward" onPress={api.forward} />
                     <PlayerControl name="fast-forward" onPress={api.fastForward} />
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
+        flex: 2,
         padding: 2
     },
     titleContainer: {
@@ -111,21 +119,11 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        session: state.session,
-        shows: state.shows.data
+        session: state.session.data,
+        isLoading: state.session.isLoading,
+        shows: state.shows.data,
+        movies: state.movies.data
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    const bindings = {
-        togglePause: PlayerActions.toggle,
-        playMovie: MovieActions.play,
-        playEpisode: ShowsActions.play,
-        stopVideo: PlayerActions.stop,
-        clearNowPlaying: PlayerActions.clear
-    };
-
-    return bindActionCreators(bindings, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Player);
+export default connect(mapStateToProps)(Player);

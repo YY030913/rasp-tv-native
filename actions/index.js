@@ -8,21 +8,25 @@ function basicAction(type) {
 }
 
 export const MovieActions = {
-    loading: basicAction.bind(null, ActionTypes.GET_MOVIES_PENDING),
-    get: async (bustCache) => {
-        const action = {type: ActionTypes.GET_MOVIES_FINISHED};
-        try {
-            const movies = await api.getMovies(bustCache);
-            action.movies = movies;
-        } catch (err) {
-            action.error = err;
-        }
-        return action;
+    get: (bustCache) => {
+        return dispatch => {
+            dispatch({type: ActionTypes.GET_MOVIES_PENDING});
+
+            const action = {type: ActionTypes.GET_MOVIES_FINISHED};
+            api.getMovies(bustCache).then(movies => {
+                action.movies = movies;
+                dispatch(action);
+            })
+            .catch(err => {
+                action.error = err;
+                dispatch(action);
+            });
+        };
     },
-    select: (movie) => {
+    select: (movieId) => {
         return {
             type: ActionTypes.SELECT_MOVIE,
-            movie
+            movieId
         };
     },
     play: async (id) => {
@@ -37,21 +41,25 @@ export const MovieActions = {
 };
 
 export const ShowsActions = {
-    loading: basicAction.bind(null, ActionTypes.GET_SHOWS_PEDNDING),
-    get: async (bustCache) => {
-        const action = {type: ActionTypes.GET_SHOWS_FINISHED};
-        try {
-            const shows = await api.getShows(bustCache);
-            action.shows = shows;
-        } catch (e) {
-            action.error = e;
-        }
-        return action;
+    get: (bustCache) => {
+        return dispatch => {
+            dispatch({type: ActionTypes.GET_SHOWS_PENDING});
+
+            const action = {type: ActionTypes.GET_SHOWS_FINISHED};
+            api.getShows(bustCache).then(shows => {
+                action.shows = shows;
+                dispatch(action);
+            })
+            .catch(err => {
+                action.error = err;
+                dispatch(action);
+            });
+        };
     },
-    select: (episode) => {
+    select: (episodeId) => {
         return {
             type: ActionTypes.SELECT_EPISODE,
-            episode
+            episodeId
         };
     },
     play: async (id) => {
@@ -85,6 +93,24 @@ export const PlayerActions = {
         return action;
     },
     clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING)
+};
+
+export const SessionActions = {
+    update: () => {
+        return dispatch => {
+            dispatch({type: ActionTypes.UPDATE_SESSION_PENDING});
+
+            const action = {type: ActionTypes.UPDATE_SESSION_FINISHED};
+            api.getSession().then(session => {
+                action.session = session;
+                dispatch(action);
+            })
+            .catch(err => {
+                action.error = err;
+                dispatch(action);
+            });
+        };
+    }
 };
 
 export function selectTab(tab) {

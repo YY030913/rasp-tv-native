@@ -14,7 +14,7 @@ class EpisodesList extends Component {
     }
     renderEpisodeRow(episode) {
         const playAndSwitchTab = () => {
-            this.props.selectEpisode(episode);
+            this.props.selectEpisode(episode.id);
             this.props.selectTab(TabIds.NOW_PLAYING_TAB);
         };
 

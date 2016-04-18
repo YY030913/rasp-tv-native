@@ -19,7 +19,7 @@ async function request(url, hasBody) {
             throw new Error(errData.error);
         }
 
-        if (hasBody)
+        if (hasBody && res.headers.get('Content-Length') !== '0')
             return await res.json();
     } catch (err) {
         Alert.alert('Error', err.message || err);
@@ -27,8 +27,8 @@ async function request(url, hasBody) {
     }
 }
 
-// const baseUrl = 'http://192.168.11.2:8080';
-const baseUrl = 'http://localhost:3000';
+const baseUrl = 'http://192.168.11.2:8080';
+// const baseUrl = 'http://localhost:3000';
 
 function runCommand(command) {
     return request(`${baseUrl}/player/command/${command}`, false);
@@ -78,6 +78,9 @@ export default {
     },
     playEpisode: (id) => {
         return request(`${baseUrl}/shows/episodes/${id}/play`, false);
+    },
+    getSession: () => {
+        return request(`${baseUrl}/player/session`, true);
     },
     toggle: runCommand.bind(null, PlayerCommands.TOGGLE),
     fastBackward: runCommand.bind(null, PlayerCommands.FASTBACKWARD),

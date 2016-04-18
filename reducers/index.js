@@ -33,26 +33,44 @@ function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
 }
 
 const defaultSession = {
-    movie: null,
-    episode: null,
+    movieId: null,
+    episodeId: null,
     isPlaying: false,
     isPaused: true
 };
 
-function sessionReducer(state = defaultSession, action) {
+function sessionReducer(state = {data: defaultSession, isLoading: false}, action) {
     switch (action.type) {
         case ActionTypes.SELECT_MOVIE:
-            return {...defaultSession, movie: action.movie};
+            return {...state, data: {...defaultSession, movieId: action.movieId}};
         case ActionTypes.SELECT_EPISODE:
-            return {...defaultSession, episode: action.episode};
+            return {...state, data: {...defaultSession, episodeId: action.episodeId}};
         case ActionTypes.TOGGLE_PAUSE:
-            return {...state, isPaused: !state.isPaused};
+            return {...state, data: {...state.data, isPaused: !state.data.isPaused}};
         case ActionTypes.PLAY:
-            return {...state, isPlaying: true, isPaused: false};
+            return {...state, data: {...state.data, isPlaying: true, isPaused: false}};
         case ActionTypes.CLEAR_NOW_PLAYING:
-            return {...defaultSession};
+            return {data: defaultSession, isLoading: false};
         case ActionTypes.STOP:
-            return {...state, isPlaying: false};
+            return {...state, data: {...state.data, isPlaying: false}};
+        case ActionTypes.UPDATE_SESSION_PENDING:
+            return {...state, isLoading: true};
+        case ActionTypes.UPDATE_SESSION_FINISHED: {
+            if (!action.session) {
+                return {...state, isLoading: false};
+            }
+
+            const { movieId, episodeId, isPlaying, isPaused} = action.session;
+            return {
+                data: {
+                    movieId,
+                    episodeId,
+                    isPlaying,
+                    isPaused
+                },
+                isLoading: false
+            };
+        }
     }
 
     return state;
