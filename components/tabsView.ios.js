@@ -7,7 +7,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { TabIds } from '../constants';
 import Routes from '../routes';
-import { selectTab, MovieActions, ShowsActions } from '../actions';
+import { selectTab, MovieActions, ShowsActions, SessionActions } from '../actions';
 import TabNavigator from './tabNavigator';
 import Player from './player';
 
@@ -19,6 +19,7 @@ class TabsView extends Component {
         // load all video data from storage
         this.props.getMovies();
         this.props.getShows();
+        this.props.updateSession();
     }
     render() {
         const { selectedTab, selectTab, session } = this.props;
@@ -73,7 +74,8 @@ function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         selectTab,
         getMovies: MovieActions.get,
-        getShows: ShowsActions.get
+        getShows: ShowsActions.get,
+        updateSession: SessionActions.update
      }, dispatch);
 }
 

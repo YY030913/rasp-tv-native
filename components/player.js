@@ -2,7 +2,8 @@ import React, { Component, View, Text, StyleSheet, ScrollView, RefreshControl, P
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import api from '../api';
-import { MovieActions, ShowsActions, PlayerActions, SessionActions } from '../actions';
+import { MovieActions, ShowsActions, PlayerActions, SessionActions, selectTab } from '../actions';
+import { TabIds } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
@@ -62,6 +63,8 @@ class Player extends Component {
         } else {
             dispatch(PlayerActions.clear());
         }
+
+        dispatch(selectTab(TabIds.MOVIES_TAB));
     }
     render() {
         const platformSpecificProps = {};

@@ -14,7 +14,7 @@ function moviesReducer(state = {data: [], isLoading: false}, action) {
 
 function showsReducer(state = {data: [], isLoading: false}, action) {
     switch (action.type) {
-        case ActionTypes.GET_SHOWS_PEDNDING:
+        case ActionTypes.GET_SHOWS_PENDING:
             return {...state, isLoading: true};
         case ActionTypes.GET_SHOWS_FINISHED:
             return {data: action.shows, isLoading: false};
