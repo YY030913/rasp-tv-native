@@ -1,4 +1,5 @@
-import React, { Component, View, Text, StyleSheet, ScrollView, RefreshControl, Platform } from 'react-native';
+import React, { Component } from 'react';
+import { View, Text, StyleSheet, ScrollView, RefreshControl, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import api from '../api';

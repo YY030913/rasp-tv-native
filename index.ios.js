@@ -1,10 +1,7 @@
 'use strict';
 
-import React, {
-    AppRegistry,
-    Component
-} from 'react-native';
-
+import React, { Component } from 'react';
+import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import { create } from './store';
 import TabsView from './components/tabsView';

@@ -1,6 +1,7 @@
 'use strict';
 
-import React, { Component, TabBarIOS } from 'react-native';
+import React, { Component } from 'react';
+import { TabBarIOS } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';

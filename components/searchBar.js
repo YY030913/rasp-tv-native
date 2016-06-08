@@ -1,4 +1,5 @@
-import React, { TextInput, Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import { TextInput, Platform, StyleSheet } from 'react-native';
 
 const SearchBar = (props) => {
     const platformSpecificProps = {};

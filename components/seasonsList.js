@@ -1,4 +1,4 @@
-import React, { Component } from 'react-native';
+import React, { Component } from 'react';
 import List from './list';
 import NavButton from './navButton';
 import Routes from '../routes';

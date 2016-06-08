@@ -1,4 +1,5 @@
-import React, { NavigatorIOS, StyleSheet } from 'react-native';
+import React from 'react';
+import { NavigatorIOS, StyleSheet } from 'react-native';
 
 const TabNavigator = ({initialRoute}) => {
     return (
