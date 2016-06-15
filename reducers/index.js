@@ -36,7 +36,9 @@ const defaultSession = {
     movieId: null,
     episodeId: null,
     isPlaying: false,
-    isPaused: true
+    isPaused: true,
+    devices: [],
+    selectedDevice: null
 };
 
 function sessionReducer(state = {data: defaultSession, isLoading: false}, action) {
@@ -53,24 +55,10 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
             return {data: defaultSession, isLoading: false};
         case ActionTypes.STOP:
             return {...state, data: {...state.data, isPlaying: false}};
-        case ActionTypes.UPDATE_SESSION_PENDING:
-            return {...state, isLoading: true};
-        case ActionTypes.UPDATE_SESSION_FINISHED: {
-            if (!action.session) {
-                return {...state, isLoading: false};
-            }
-
-            const { movieId, episodeId, isPlaying, isPaused} = action.session;
-            return {
-                data: {
-                    movieId,
-                    episodeId,
-                    isPlaying,
-                    isPaused
-                },
-                isLoading: false
-            };
-        }
+        case ActionTypes.SET_DEVICES:
+            return {...state, data: {...state.data, devices: action.devices}};
+        case ActionTypes.SELECT_DEVICE:
+            return {...state, data: {...state.data, selectedDevice: action.device}};
     }
 
     return state;

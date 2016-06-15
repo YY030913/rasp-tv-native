@@ -1,24 +1,22 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, ScrollView, RefreshControl, Platform } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import api from '../api';
+import Routes from '../routes';
 import { MovieActions, ShowsActions, PlayerActions, SessionActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
+import ChromecastButton from './chromecastButton';
 
 class Player extends Component {
     constructor(props) {
         super(props);
 
-        this.poll = this.poll.bind(this);
         this.getVideoTitle = this.getVideoTitle.bind(this);
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
-    }
-    poll() {
-        this.props.dispatch(SessionActions.update());
     }
     getVideoTitle() {
         const { session } = this.props;
@@ -38,51 +36,16 @@ class Player extends Component {
 
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
-    async playOrPause() {
-        const { session, dispatch } = this.props;
-        const oldSession = await api.getSession();
-        if (oldSession && oldSession.isPlaying && !session.isPlaying) {
-            await dispatch(PlayerActions.stop());
-        }
-
-        if (session.movieId && !session.isPlaying) {
-            await dispatch(MovieActions.play(session.movieId));
-            return;
-        } else if (session.episodeId && !session.isPlaying) {
-            await dispatch(ShowsActions.play(session.episodeId));
-            return;
-        }
-
-        await dispatch(PlayerActions.toggle());
+    playOrPause() {
     }
-    async stopPlaying() {
-        const { session, dispatch } = this.props;
-
-        if (session.isPlaying) {
-            await dispatch(PlayerActions.stop());
-            dispatch(PlayerActions.clear());
-        } else {
-            dispatch(PlayerActions.clear());
-        }
-
-        dispatch(selectTab(TabIds.MOVIES_TAB));
+    stopPlaying() {
     }
     render() {
-        const platformSpecificProps = {};
-        if (Platform.OS === 'ios') {
-            platformSpecificProps.title = 'Loading';
-        }
-
-        const refreshControl = (
-            <RefreshControl
-                onRefresh={this.poll}
-                refreshing={this.props.isLoading}
-                {...platformSpecificProps}
-            />
-        );
-
         return (
-            <ScrollView contentContainerStyle={styles.container} refreshControl={refreshControl}>
+            <View style={styles.container}>
+                <View style={styles.chromecastContainer}>
+                    <ChromecastButton onPress={() => this.props.navigator.push(Routes.deviceSelect)} />
+                </View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
@@ -94,15 +57,21 @@ class Player extends Component {
                     <PlayerControl name="forward" onPress={api.forward} />
                     <PlayerControl name="fast-forward" onPress={api.fastForward} />
                 </View>
-            </ScrollView>
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
-        flex: 2,
+        flex: 3,
         padding: 2
+    },
+    chromecastContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingTop: 2
     },
     titleContainer: {
         flex: 1,

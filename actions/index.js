@@ -110,6 +110,18 @@ export const SessionActions = {
                 dispatch(action);
             });
         };
+    },
+    setDevices: (devices) => {
+        return {
+            type: ActionTypes.SET_DEVICES,
+            devices
+        };
+    },
+    selectDevice: (device) => {
+        return {
+            type: ActionTypes.SELECT_DEVICE,
+            device
+        };
     }
 };
 

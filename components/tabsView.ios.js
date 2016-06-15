@@ -10,7 +10,6 @@ import { TabIds } from '../constants';
 import Routes from '../routes';
 import { selectTab, MovieActions, ShowsActions, SessionActions } from '../actions';
 import TabNavigator from './tabNavigator';
-import Player from './player';
 
 class TabsView extends Component {
     constructor(props) {
@@ -55,7 +54,7 @@ class TabsView extends Component {
                         title="Now Playing"
                         selected={selectedTab === TabIds.NOW_PLAYING_TAB}
                         onPress={() => selectTab(TabIds.NOW_PLAYING_TAB)}>
-                        <Player />
+                        <TabNavigator initialRoute={Routes.player} />
                     </Icon.TabBarItemIOS>
                     : null
                 }
