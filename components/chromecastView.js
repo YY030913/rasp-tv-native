@@ -18,6 +18,9 @@ class ChromecastView extends Component {
         // this._mediaStatusUpdated = NativeAppEventEmitter.addListener('MediaStatusUpdated', (data) => console.log(data));
         ChromecastManager.startScan();
     }
+    componentWillUpdate(prevProps) {
+        ChromecastManager.startScan();
+    }
     componentWillUnmount() {
         this._deviceListChanged.remove();
         // this._mediaStatusUpdated.remove();
@@ -31,11 +34,11 @@ class ChromecastView extends Component {
         );
     }
     render() {
-        const { devices, selectedDevice } = this.props;
+        const { devices, selectedDevice, clearDevice } = this.props;
         if (selectedDevice !== null) {
             return (
                 <View style={styles.container}>
-                    <TouchableOpacity onPress={function(){}}>
+                    <TouchableOpacity onPress={() => clearDevice()}>
                         <Text style={styles.disconnectBtn}>Disconnect</Text>
                     </TouchableOpacity>
                     <Text style={styles.rowText}>Connected to {selectedDevice}</Text>
@@ -74,7 +77,18 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, {
-    setDevices: SessionActions.setDevices,
-    selectDevice: SessionActions.selectDevice
-})(ChromecastView);
+function mapDispatchToProps(dispatch) {
+    return {
+        setDevices: (devices) => dispatch(SessionActions.setDevices(devices)),
+        selectDevice: (device) => {
+            dispatch(SessionActions.selectDevice(device));
+            ChromecastManager.connectToDevice(device);
+        },
+        clearDevice: () => {
+            dispatch(SessionActions.clearDevice());
+            ChromecastManager.disconnect();
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ChromecastView);

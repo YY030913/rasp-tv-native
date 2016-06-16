@@ -20,7 +20,8 @@ export const ActionTypes = {
     UPDATE_SESSION_PENDING: 'UPDATE_SESSION_PENDING',
     UPDATE_SESSION_FINISHED: 'UPDATE_SESSION_FINISHED',
     SET_DEVICES: 'SET_DEVICES',
-    SELECT_DEVICE: 'SELECT_DEVICE'
+    SELECT_DEVICE: 'SELECT_DEVICE',
+    CLEAR_SELECTED_DEVICE: 'CLEAR_SELECTED_DEVICE'
 };
 
 export const PlayerCommands = {
@@ -31,3 +32,5 @@ export const PlayerCommands = {
     FASTBACKWARD: 4,
     FASTFORWARD: 5
 };
+
+export const BASE_URL = 'http://192.168.11.2:8080';

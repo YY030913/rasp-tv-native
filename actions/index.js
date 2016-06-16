@@ -61,28 +61,11 @@ export const ShowsActions = {
             type: ActionTypes.SELECT_EPISODE,
             episodeId
         };
-    },
-    play: async (id) => {
-        const action = {type: ActionTypes.PLAY};
-        try {
-            await api.playEpisode(id);
-        } catch (e) {
-            action.error = e;
-        }
-        return action;
     }
 };
 
 export const PlayerActions = {
-    toggle: async () => {
-        const action = {type: ActionTypes.TOGGLE_PAUSE};
-        try {
-            await api.toggle();
-        } catch(e) {
-            action.error = e;
-        }
-        return action;
-    },
+    toggle: basicAction.bind(null, ActionTypes.TOGGLE_PAUSE),
     stop: async () => {
         const action = {type: ActionTypes.STOP};
         try {
@@ -92,6 +75,7 @@ export const PlayerActions = {
         }
         return action;
     },
+    playVideo: basicAction.bind(null, ActionTypes.PLAY),
     clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING)
 };
 
@@ -121,6 +105,11 @@ export const SessionActions = {
         return {
             type: ActionTypes.SELECT_DEVICE,
             device
+        };
+    },
+    clearDevice: () => {
+        return {
+            type: ActionTypes.CLEAR_SELECTED_DEVICE
         };
     }
 };

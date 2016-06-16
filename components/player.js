@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, NativeModules } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import api from '../api';
 import Routes from '../routes';
-import { MovieActions, ShowsActions, PlayerActions, SessionActions, selectTab } from '../actions';
-import { TabIds } from '../constants';
+import { PlayerActions, SessionActions, selectTab } from '../actions';
+import { TabIds, BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 import ChromecastButton from './chromecastButton';
+
+const { ChromecastManager } = NativeModules;
 
 class Player extends Component {
     constructor(props) {
@@ -37,6 +38,22 @@ class Player extends Component {
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
     playOrPause() {
+        const { session, toggle, playVideo } = this.props;
+
+        if (session.movieId && !session.isPlaying) {
+            playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
+            return;
+        } else if (session.episodeId && !session.isPlaying) {
+            playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
+            return;
+        }
+
+        if (session.isPaused) {
+            ChromecastManager.play();
+        } else {
+            ChromecastManager.pause();
+        }
+        toggle();
     }
     stopPlaying() {
     }
@@ -50,12 +67,8 @@ class Player extends Component {
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
                 <View style={styles.controlContainer}>
-                    <PlayerControl name="fast-backward" onPress={api.fastBackward} />
-                    <PlayerControl name="backward" onPress={api.backward} />
                     <PlayerControl name="stop" onPress={this.stopPlaying} />
                     <PlayPauseControl isPaused={this.props.session.isPaused} onPress={this.playOrPause} />
-                    <PlayerControl name="forward" onPress={api.forward} />
-                    <PlayerControl name="fast-forward" onPress={api.fastForward} />
                 </View>
             </View>
         );
@@ -99,4 +112,14 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps)(Player);
+function mapDispatchToProps(dispatch) {
+    return {
+        toggle: () => dispatch(PlayerActions.toggle()),
+        playVideo: (url, title) => {
+            dispatch(PlayerActions.playVideo());
+            ChromecastManager.castVideo(url, title, "Video", "http://simongeeks.com/static/cast.jpg");
+        }
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Player);

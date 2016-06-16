@@ -59,6 +59,8 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
             return {...state, data: {...state.data, devices: action.devices}};
         case ActionTypes.SELECT_DEVICE:
             return {...state, data: {...state.data, selectedDevice: action.device}};
+        case ActionTypes.CLEAR_SELECTED_DEVICE:
+            return {...state, data: {...state.data, selectedDevice: null}};
     }
 
     return state;

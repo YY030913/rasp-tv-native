@@ -1,5 +1,5 @@
 import { Alert, AsyncStorage } from 'react-native';
-import { PlayerCommands } from './constants';
+import { PlayerCommands, BASE_URL } from './constants';
 
 async function storage(key, value) {
     if (value) {
@@ -27,18 +27,15 @@ async function request(url, hasBody) {
     }
 }
 
-const baseUrl = 'http://192.168.11.2:8080';
-// const baseUrl = 'http://localhost:3000';
-
 function runCommand(command) {
-    return request(`${baseUrl}/player/command/${command}`, false);
+    return request(`${BASE_URL}/player/command/${command}`, false);
 }
 
 export default {
     getMovies: async (bustCache) => {
         const storageKey = 'movies';
         const getAndStore = async () => {
-            const movies = await request(`${baseUrl}/movies?isIndexed=true`, true);
+            const movies = await request(`${BASE_URL}/movies?isIndexed=true`, true);
             await storage(storageKey, movies);
             return movies;
         };
@@ -57,7 +54,7 @@ export default {
     getShows: async (bustCache) => {
         const storageKey = 'shows';
         const getAndStore = async () => {
-            const shows = await request(`${baseUrl}/shows?all=true`, true);
+            const shows = await request(`${BASE_URL}/shows?all=true`, true);
             await storage(storageKey, shows);
             return shows;
         };
@@ -74,13 +71,13 @@ export default {
         }
     },
     playMovie: (id) => {
-        return request(`${baseUrl}/movies/${id}/play`, false);
+        return request(`${BASE_URL}/movies/${id}/play`, false);
     },
     playEpisode: (id) => {
-        return request(`${baseUrl}/shows/episodes/${id}/play`, false);
+        return request(`${BASE_URL}/shows/episodes/${id}/play`, false);
     },
     getSession: () => {
-        return request(`${baseUrl}/player/session`, true);
+        return request(`${BASE_URL}/player/session`, true);
     },
     toggle: runCommand.bind(null, PlayerCommands.TOGGLE),
     fastBackward: runCommand.bind(null, PlayerCommands.FASTBACKWARD),
