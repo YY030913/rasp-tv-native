@@ -66,15 +66,7 @@ export const ShowsActions = {
 
 export const PlayerActions = {
     toggle: basicAction.bind(null, ActionTypes.TOGGLE_PAUSE),
-    stop: async () => {
-        const action = {type: ActionTypes.STOP};
-        try {
-            await api.stop();
-        } catch(e) {
-            action.error = e;
-        }
-        return action;
-    },
+    stop: basicAction.bind(null, ActionTypes.STOP),
     playVideo: basicAction.bind(null, ActionTypes.PLAY),
     clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING)
 };

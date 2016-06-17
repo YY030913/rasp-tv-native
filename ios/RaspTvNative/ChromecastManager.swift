@@ -13,11 +13,11 @@ import Foundation
 class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
 
   var bridge          : RCTBridge!
-  
+
   private var deviceManager: GCKDeviceManager?
   private var deviceScanner: GCKDeviceScanner
   private var mediaControlChannel: GCKMediaControlChannel?
-  
+
   private lazy var kReceiverAppID:String = {
     //You can add your own app id here that you get by registering with the
     // Google Cast SDK Developer Console https://cast.google.com/publish
@@ -46,7 +46,7 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
     if (selectedDevice == nil) {
       return
     }
-    
+
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       let identifier = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as! String
       self.deviceManager = GCKDeviceManager(device: selectedDevice, clientPackageName: identifier)
@@ -65,20 +65,24 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       self.deviceManager!.disconnect()
     })
   }
-  
+
   @objc func pause() -> Void {
     self.mediaControlChannel?.pause();
   }
-  
+
   @objc func play() -> Void {
     self.mediaControlChannel?.play();
   }
-  
+
+  @objc func stop() -> Void {
+    self.mediaControlChannel?.stop();
+  }
+
   @objc func seekToTime(time: Double) -> Void {
     let timeInterval = NSTimeInterval(time);
     self.mediaControlChannel?.seekToTimeInterval(timeInterval);
   }
-  
+
   @objc func getStreamPosition(successCallback: RCTResponseSenderBlock) -> Void {
     let position = self.mediaControlChannel?.approximateStreamPosition();
     if (position != nil) {
@@ -125,7 +129,7 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       self.mediaControlChannel!.loadMedia(mediaInformation, autoplay: true)
     })
   }
-  
+
   func mediaControlChannelDidUpdateStatus(mediaControlChannel: GCKMediaControlChannel!) {
     print("updated status");
     if (mediaControlChannel.isConnected && mediaControlChannel != nil && mediaControlChannel.mediaStatus != nil) {
@@ -159,18 +163,18 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       deviceManager.addChannel(mediaControlChannel)
       mediaControlChannel!.requestStatus()
   }
-  
+
   func deviceDidComeOnline(device: GCKDevice!) {
     print("Device found: \(device.friendlyName)")
     devices[device.friendlyName] = device;
     emitDeviceListChanged(["Devices": Array(devices.keys)])  }
-  
+
   func deviceDidGoOffline(device: GCKDevice!) {
     print("Device went away: \(device.friendlyName)")
     devices.removeValueForKey(device.friendlyName);
     emitDeviceListChanged(["Devices": Array(devices.keys)])
   }
-  
+
   private func emitDeviceListChanged(data: AnyObject) {
     self.bridge.eventDispatcher().sendDeviceEventWithName("DeviceListChanged", body: data)
   }

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, NativeModules } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import Routes from '../routes';
-import { PlayerActions, SessionActions, selectTab } from '../actions';
+import { PlayerActions, selectTab } from '../actions';
 import { TabIds, BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
@@ -56,6 +56,13 @@ class Player extends Component {
         toggle();
     }
     stopPlaying() {
+        const { session, selectTab, stop, clear } = this.props;
+        if (session.isPlaying) {
+            stop();
+        }
+
+        clear();
+        selectTab(TabIds.MOVIES_TAB);
     }
     render() {
         return (
@@ -118,7 +125,13 @@ function mapDispatchToProps(dispatch) {
         playVideo: (url, title) => {
             dispatch(PlayerActions.playVideo());
             ChromecastManager.castVideo(url, title, "Video", "http://simongeeks.com/static/cast.jpg");
-        }
+        },
+        selectTab: (tabId) => dispatch(selectTab(tabId)),
+        stop: () => {
+            dispatch(PlayerActions.stop());
+            ChromecastManager.stop();
+        },
+        clear: () => dispatch(PlayerActions.clear())
     };
 }
 

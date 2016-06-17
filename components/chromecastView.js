@@ -14,16 +14,11 @@ class ChromecastView extends Component {
     }
     componentDidMount() {
         const { setDevices } = this.props;
-        this._deviceListChanged = NativeAppEventEmitter.addListener('DeviceListChanged', (data) => setDevices(data.Devices));
-        // this._mediaStatusUpdated = NativeAppEventEmitter.addListener('MediaStatusUpdated', (data) => console.log(data));
-        ChromecastManager.startScan();
-    }
-    componentWillUpdate(prevProps) {
+        this._deviceListChanged = NativeAppEventEmitter.addListener('DeviceListChanged', data => setDevices(data.Devices));
         ChromecastManager.startScan();
     }
     componentWillUnmount() {
         this._deviceListChanged.remove();
-        // this._mediaStatusUpdated.remove();
     }
     renderRow(device) {
         const { selectDevice } = this.props;
