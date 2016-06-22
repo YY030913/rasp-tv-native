@@ -3,13 +3,11 @@ import ShowsList from './components/showsList';
 import SeasonsList from './components/seasonsList';
 import EpisodesList from './components/episodesList';
 import Player from './components/player';
-import ChromecastView from './components/chromecastView';
 
 export default {
     movies: {component: MovieList, title: 'Movies'},
     shows: {component: ShowsList, title: 'Shows'},
     seasons: {component: SeasonsList, title: 'Seasons'},
     episodes: {component: EpisodesList, title: 'Episodes'},
-    player: {component: Player, title: 'Now Playing'},
-    deviceSelect: {component: ChromecastView, title: 'Select device'}
+    player: {component: Player, title: 'Now Playing'}
 };

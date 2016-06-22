@@ -5,5 +5,5 @@ import ReduxThunk from 'redux-thunk';
 import reducers from './reducers';
 
 export function create() {
-    return createStore(reducers, applyMiddleware(ReduxThunk, ReduxPromise, createLogger()));
+    return createStore(reducers, applyMiddleware(ReduxThunk, ReduxPromise));
 }

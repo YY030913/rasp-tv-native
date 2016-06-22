@@ -6,6 +6,7 @@ import { TabBarIOS } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import chromecast from '../chromecast/ios';
 import { TabIds } from '../constants';
 import Routes from '../routes';
 import { selectTab, MovieActions, ShowsActions, SessionActions } from '../actions';
@@ -19,7 +20,13 @@ class TabsView extends Component {
         // load all video data from storage
         this.props.getMovies();
         this.props.getShows();
-        this.props.updateSession();
+
+        const { setDevices } = this.props;
+        this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
+        chromecast.startScanner();
+    }
+    componentWillUnmount() {
+        this._deviceListChanged.remove();
     }
     render() {
         const { selectedTab, selectTab, session } = this.props;
@@ -75,7 +82,7 @@ function mapDispatchToProps(dispatch) {
         selectTab,
         getMovies: MovieActions.get,
         getShows: ShowsActions.get,
-        updateSession: SessionActions.update
+        setDevices: SessionActions.setDevices
      }, dispatch);
 }
 
