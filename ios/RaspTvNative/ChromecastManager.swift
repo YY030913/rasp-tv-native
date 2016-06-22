@@ -11,50 +11,50 @@ import Foundation
 
 @objc(ChromecastManager)
 class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDelegate, GCKMediaControlChannelDelegate {
-
+  
   var bridge          : RCTBridge!
-
+  
   private var deviceManager: GCKDeviceManager?
   private var deviceScanner: GCKDeviceScanner
   private var mediaControlChannel: GCKMediaControlChannel?
-
+  
   private lazy var kReceiverAppID:String = {
     //You can add your own app id here that you get by registering with the
     // Google Cast SDK Developer Console https://cast.google.com/publish
     return kGCKMediaDefaultReceiverApplicationID
-    }()
-
+  }()
+  
   private var devices: Dictionary<String, GCKDevice> = Dictionary<String, GCKDevice>()
-
+  
   // Required init.
   required override init() {
     let filterCriteria = GCKFilterCriteria(forAvailableApplicationWithID:
       kGCKMediaDefaultReceiverApplicationID)
     deviceScanner = GCKDeviceScanner(filterCriteria:filterCriteria)
   }
-
+  
   @objc func startScan() -> Void {
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       // Initialize device scanner
       self.deviceScanner.addListener(self)
       self.deviceScanner.startScan()
-    })
+      })
   }
-
+  
   @objc func connectToDevice(deviceName: String) -> Void {
     let selectedDevice = self.devices[deviceName]
     if (selectedDevice == nil) {
       return
     }
-
+    
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       let identifier = NSBundle.mainBundle().infoDictionary?["CFBundleIdentifier"] as! String
       self.deviceManager = GCKDeviceManager(device: selectedDevice, clientPackageName: identifier)
       self.deviceManager!.delegate = self
       self.deviceManager!.connect()
-    })
+      })
   }
-
+  
   @objc func disconnect() -> Void {
     if (self.deviceManager == nil) {
       return
@@ -63,26 +63,26 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       // Disconnect button.
       self.deviceManager!.leaveApplication()
       self.deviceManager!.disconnect()
-    })
+      })
   }
-
+  
   @objc func pause() -> Void {
     self.mediaControlChannel?.pause();
   }
-
+  
   @objc func play() -> Void {
     self.mediaControlChannel?.play();
   }
-
+  
   @objc func stop() -> Void {
     self.mediaControlChannel?.stop();
   }
-
+  
   @objc func seekToTime(time: Double) -> Void {
     let timeInterval = NSTimeInterval(time);
     self.mediaControlChannel?.seekToTimeInterval(timeInterval);
   }
-
+  
   @objc func getStreamPosition(successCallback: RCTResponseSenderBlock) -> Void {
     let position = self.mediaControlChannel?.approximateStreamPosition();
     if (position != nil) {
@@ -90,27 +90,27 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       successCallback([positionDouble]);
     }
   }
-
+  
   @objc func castVideo(videoUrl: String, title: String, description: String, imageUrl: String) -> Void {
     print("Cast Video")
-
+    
     // Show alert if not connected.
     if (deviceManager?.connectionState != GCKConnectionState.Connected) {
       print("Not connected to device");
       return
     }
-
+    
     // [START media-metadata]
     // Define Media Metadata.
     let metadata = GCKMediaMetadata()
     metadata.setString(title, forKey: kGCKMetadataKeyTitle)
     metadata.setString(description,
-      forKey:kGCKMetadataKeySubtitle)
-
+                       forKey:kGCKMetadataKeySubtitle)
+    
     let url = NSURL(string:imageUrl)
     metadata.addImage(GCKImage(URL: url, width: 480, height: 360))
     // [END media-metadata]
-
+    
     // [START load-media]
     // Define Media Information.
     let mediaInformation = GCKMediaInformation(
@@ -123,58 +123,60 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       textTrackStyle: nil,
       customData: nil
     )
-
+    
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       // Cast the media
       self.mediaControlChannel!.loadMedia(mediaInformation, autoplay: true)
     })
   }
-
+  
   func mediaControlChannelDidUpdateStatus(mediaControlChannel: GCKMediaControlChannel!) {
     print("updated status");
     if (mediaControlChannel.isConnected && mediaControlChannel != nil && mediaControlChannel.mediaStatus != nil) {
-       let info = mediaControlChannel.mediaStatus.mediaInformation;
-       print(info.streamDuration);
+      let info = mediaControlChannel.mediaStatus.mediaInformation;
+      if (info == nil) {
+        return;
+      }
+      print(info.streamDuration);
       let data = ["Duration": info.streamDuration,
                   "Url": info.contentID,
                   "Title": info.metadata.stringForKey(kGCKMetadataKeyTitle),
                   "Description": info.metadata.stringForKey(kGCKMetadataKeySubtitle),
                   "ImageUrl": info.metadata.images().reduce("", combine: { (acc, x) -> String in return ((x as! GCKImage).URL!.absoluteString) + acc })]
-       self.bridge.eventDispatcher().sendDeviceEventWithName("MediaStatusUpdated",
-        body: data);
+      self.bridge.eventDispatcher().sendDeviceEventWithName("MediaStatusUpdated", body: data);
     }
   }
-
+  
   func deviceManagerDidConnect(deviceManager: GCKDeviceManager!) {
     print("Connected.")
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       self.deviceManager!.launchApplication(self.kReceiverAppID)
-    })
+      })
   }
-
+  
   func deviceManager(deviceManager: GCKDeviceManager!,
-    didConnectToCastApplication
+                     didConnectToCastApplication
     applicationMetadata: GCKApplicationMetadata!,
     sessionID: String!,
     launchedApplication: Bool) {
-      print("Application has launched.")
-      self.mediaControlChannel = GCKMediaControlChannel()
-      mediaControlChannel!.delegate = self
-      deviceManager.addChannel(mediaControlChannel)
-      mediaControlChannel!.requestStatus()
+    print("Application has launched.")
+    self.mediaControlChannel = GCKMediaControlChannel()
+    mediaControlChannel!.delegate = self
+    deviceManager.addChannel(mediaControlChannel)
+    mediaControlChannel!.requestStatus()
   }
-
+  
   func deviceDidComeOnline(device: GCKDevice!) {
     print("Device found: \(device.friendlyName)")
     devices[device.friendlyName] = device;
     emitDeviceListChanged(["Devices": Array(devices.keys)])  }
-
+  
   func deviceDidGoOffline(device: GCKDevice!) {
     print("Device went away: \(device.friendlyName)")
     devices.removeValueForKey(device.friendlyName);
     emitDeviceListChanged(["Devices": Array(devices.keys)])
   }
-
+  
   private func emitDeviceListChanged(data: AnyObject) {
     self.bridge.eventDispatcher().sendDeviceEventWithName("DeviceListChanged", body: data)
   }

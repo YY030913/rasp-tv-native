@@ -99,11 +99,7 @@ export const SessionActions = {
             device
         };
     },
-    clearDevice: () => {
-        return {
-            type: ActionTypes.CLEAR_SELECTED_DEVICE
-        };
-    }
+    clearDevice: basicAction.bind(null, ActionTypes.CLEAR_SELECTED_DEVICE)
 };
 
 export function selectTab(tab) {

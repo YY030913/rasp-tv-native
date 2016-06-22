@@ -1,15 +1,14 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, NativeModules } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import chromecast from '../chromecast/ios';
 import Routes from '../routes';
 import { PlayerActions, selectTab } from '../actions';
 import { TabIds, BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 import ChromecastButton from './chromecastButton';
-
-const { ChromecastManager } = NativeModules;
 
 class Player extends Component {
     constructor(props) {
@@ -44,14 +43,14 @@ class Player extends Component {
             playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
             return;
         } else if (session.episodeId && !session.isPlaying) {
-            playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
+            playVideo(`${BASE_URL}/shows/episodes/${session.episodeId}/stream`, this.getVideoTitle());
             return;
         }
 
         if (session.isPaused) {
-            ChromecastManager.play();
+            chromecast.play();
         } else {
-            ChromecastManager.pause();
+            chromecast.pause();
         }
         toggle();
     }
@@ -124,12 +123,12 @@ function mapDispatchToProps(dispatch) {
         toggle: () => dispatch(PlayerActions.toggle()),
         playVideo: (url, title) => {
             dispatch(PlayerActions.playVideo());
-            ChromecastManager.castVideo(url, title, "Video", "http://simongeeks.com/static/cast.jpg");
+            chromecast.startCasting(url, title);
         },
-        selectTab: (tabId) => dispatch(selectTab(tabId)),
+        selectTab: tabId => dispatch(selectTab(tabId)),
         stop: () => {
             dispatch(PlayerActions.stop());
-            ChromecastManager.stop();
+            chromecast.stop();
         },
         clear: () => dispatch(PlayerActions.clear())
     };

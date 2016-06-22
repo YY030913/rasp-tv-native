@@ -44,15 +44,33 @@ const defaultSession = {
 function sessionReducer(state = {data: defaultSession, isLoading: false}, action) {
     switch (action.type) {
         case ActionTypes.SELECT_MOVIE:
-            return {...state, data: {...defaultSession, movieId: action.movieId}};
+            return {data: {
+                ...state.data,
+                isPlaying: defaultSession.isPlaying,
+                isPaused: defaultSession.isPaused,
+                movieId: action.movieId,
+                episodeId: defaultSession.episodeId
+            }, isLoading: false};
         case ActionTypes.SELECT_EPISODE:
-            return {...state, data: {...defaultSession, episodeId: action.episodeId}};
+            return {data: {
+                ...state.data,
+                isPlaying: defaultSession.isPlaying,
+                isPaused: defaultSession.isPaused,
+                movieId: defaultSession.movieId,
+                episodeId: action.episodeId
+            }, isLoading: false};
         case ActionTypes.TOGGLE_PAUSE:
             return {...state, data: {...state.data, isPaused: !state.data.isPaused}};
         case ActionTypes.PLAY:
             return {...state, data: {...state.data, isPlaying: true, isPaused: false}};
         case ActionTypes.CLEAR_NOW_PLAYING:
-            return {data: defaultSession, isLoading: false};
+            return {data: {
+                ...state.data,
+                isPlaying: defaultSession.isPlaying,
+                isPaused: defaultSession.isPaused,
+                movieId: defaultSession.movieId,
+                episodeId: defaultSession.episodeId
+            }, isLoading: false};
         case ActionTypes.STOP:
             return {...state, data: {...state.data, isPlaying: false}};
         case ActionTypes.SET_DEVICES:

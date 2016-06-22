@@ -665,6 +665,11 @@
 					"-lc++",
 					"$(inherited)",
 				);
+				"OTHER_LDFLAGS[arch=*]" = (
+					"-ObjC",
+					"-lc++",
+					"$(inherited)",
+				);
 				PRODUCT_NAME = RaspTvNative;
 				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RaspTvNative-Bridging-Header.h";

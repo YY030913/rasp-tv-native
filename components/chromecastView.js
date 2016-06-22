@@ -1,10 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity, NativeModules, NativeAppEventEmitter } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
 import { connect } from 'react-redux';
 import { SessionActions } from '../actions';
 import List from './list';
-
-const { ChromecastManager } = NativeModules;
+import chromecast from '../chromecast/ios';
 
 class ChromecastView extends Component {
     constructor(props) {
@@ -14,8 +13,8 @@ class ChromecastView extends Component {
     }
     componentDidMount() {
         const { setDevices } = this.props;
-        this._deviceListChanged = NativeAppEventEmitter.addListener('DeviceListChanged', data => setDevices(data.Devices));
-        ChromecastManager.startScan();
+        this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
+        chromecast.startScanner();
     }
     componentWillUnmount() {
         this._deviceListChanged.remove();
@@ -77,11 +76,11 @@ function mapDispatchToProps(dispatch) {
         setDevices: (devices) => dispatch(SessionActions.setDevices(devices)),
         selectDevice: (device) => {
             dispatch(SessionActions.selectDevice(device));
-            ChromecastManager.connectToDevice(device);
+            chromecast.connect(device);
         },
         clearDevice: () => {
             dispatch(SessionActions.clearDevice());
-            ChromecastManager.disconnect();
+            chromecast.disconnect();
         }
     };
 }
