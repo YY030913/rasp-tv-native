@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import chromecast from '../chromecast/ios';
@@ -37,7 +37,12 @@ class Player extends Component {
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
     playOrPause() {
-        const { session, toggle, playVideo } = this.props;
+        const { session, toggle, playVideo, selectedDevice } = this.props;
+
+        if (selectedDevice === null) {
+            Alert.alert('Error', 'No device is selected');
+            return;
+        }
 
         if (session.movieId && !session.isPlaying) {
             playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
@@ -114,7 +119,8 @@ function mapStateToProps(state) {
         session: state.session.data,
         isLoading: state.session.isLoading,
         shows: state.shows.data,
-        movies: state.movies.data
+        movies: state.movies.data,
+        selectedDevice: state.session.data.selectedDevice
     };
 }
 
