@@ -36,11 +36,20 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
   @objc func startScan() -> Void {
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       // Initialize device scanner
+      print("Started scanning")
       self.deviceScanner.addListener(self)
       self.deviceScanner.startScan()
       })
   }
-
+  
+  @objc func stopScan() -> Void {
+    dispatch_async(dispatch_get_main_queue(), { [unowned self] in
+      print("Stopped scanning")
+      self.deviceScanner.removeListener(self)
+      self.deviceScanner.stopScan()
+    })
+  }
+  
   @objc func connectToDevice(deviceName: String) -> Void {
     let selectedDevice = self.devices[deviceName]
     if (selectedDevice == nil) {

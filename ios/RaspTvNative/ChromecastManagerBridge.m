@@ -16,6 +16,8 @@
 
 RCT_EXTERN_METHOD(startScan)
 
+RCT_EXTERN_METHOD(stopScan)
+
 RCT_EXTERN_METHOD(connectToDevice: (NSString *) deviceName)
 
 RCT_EXTERN_METHOD(disconnect)

@@ -4,6 +4,7 @@ const { ChromecastManager } = NativeModules;
 
 export default {
     startScanner: () => ChromecastManager.startScan(),
+    stopScanner: () => ChromecastManager.stopScan(),
     connect: deviceName => {
         ChromecastManager.connectToDevice(deviceName);
     },

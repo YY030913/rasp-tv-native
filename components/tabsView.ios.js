@@ -1,7 +1,7 @@
 'use strict';
 
 import React, { Component } from 'react';
-import { TabBarIOS } from 'react-native';
+import { TabBarIOS, AppState } from 'react-native';
 
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
@@ -23,10 +23,19 @@ class TabsView extends Component {
 
         const { setDevices } = this.props;
         this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
+        AppState.addEventListener('change', this._handleAppStateChange);
         chromecast.startScanner();
     }
     componentWillUnmount() {
         this._deviceListChanged.remove();
+        AppState.removeEventListener('change', this._handleAppStateChange);
+    }
+    _handleAppStateChange(appState) {
+        if (appState === 'background' || appState === 'inactive') {
+            chromecast.stopScanner();
+        } else {
+            chromecast.startScanner();
+        }
     }
     render() {
         const { selectedTab, selectTab, session } = this.props;
