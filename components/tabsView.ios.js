@@ -6,11 +6,12 @@ import { TabBarIOS, AppState } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import chromecast from '../chromecast/ios';
+import getChromecast from '../chromecast';
 import { TabIds } from '../constants';
 import Routes from '../routes';
 import { selectTab, MovieActions, ShowsActions, SessionActions } from '../actions';
 import TabNavigator from './tabNavigator';
+const chromecast = getChromecast();
 
 class TabsView extends Component {
     constructor(props) {

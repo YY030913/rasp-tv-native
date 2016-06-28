@@ -30,6 +30,6 @@
         "eqeqeq": 1
     },
     "globals": {
-        "DEBUG": false
+        "__DEV__": false
     }
 }

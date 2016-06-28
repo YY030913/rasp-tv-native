@@ -2,13 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import chromecast from '../chromecast/ios';
+import getChromecast from '../chromecast';
 import Routes from '../routes';
 import { PlayerActions, selectTab } from '../actions';
 import { TabIds, BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 import ChromecastButton from './chromecastButton';
+
+const chromecast = getChromecast();
 
 class Player extends Component {
     constructor(props) {
@@ -17,6 +19,15 @@ class Player extends Component {
         this.getVideoTitle = this.getVideoTitle.bind(this);
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
+    }
+    componentWillUpdate(newProps) {
+        const movieChanged = this.props.session.movieId !== newProps.session.movieId;
+        const episodeChanged = this.props.session.episodeId !== newProps.session.episodeId;
+        if ((movieChanged || episodeChanged) && this.props.session.isPlaying
+            && !newProps.session.isPlaying
+            && newProps.selectedDevice !== null) {
+            newProps.stop();
+        }
     }
     getVideoTitle() {
         const { session } = this.props;
