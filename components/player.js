@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Alert } from 'react-native';
+import { View, Text, StyleSheet, Alert, Slider } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import getChromecast from '../chromecast';
@@ -92,6 +92,11 @@ class Player extends Component {
                     <PlayerControl name="stop" onPress={this.stopPlaying} />
                     <PlayPauseControl isPaused={this.props.session.isPaused} onPress={this.playOrPause} />
                 </View>
+                <View style={styles.sliderContainer}>
+                    <Slider value={0}
+                        onValueChange={() => console.log('sliding')}
+                    />
+                </View>
             </View>
         );
     }
@@ -99,22 +104,27 @@ class Player extends Component {
 
 const styles = StyleSheet.create({
     container: {
-        flex: 3,
+        flex: 1,
         padding: 2
     },
     chromecastContainer: {
-        flex: 1,
+        flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
-        paddingTop: 2
+        marginTop: 40
     },
     titleContainer: {
-        flex: 1,
+        flex: 3,
         justifyContent: 'center',
         alignItems: 'center'
     },
+    sliderContainer: {
+        flex: 1,
+        marginBottom: 60,
+        marginHorizontal: 5
+    },
     controlContainer: {
-        flex: 1.5,
+        flex: 3,
         justifyContent: 'center',
         alignItems: 'center',
         flexDirection: 'row'
@@ -122,6 +132,9 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 30,
         fontWeight: 'bold'
+    },
+    slider: {
+        height: 10
     }
 });
 

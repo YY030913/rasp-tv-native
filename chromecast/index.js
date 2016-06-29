@@ -32,10 +32,40 @@ function createChromecastIOS() {
     };
 }
 
+function createFakeChromecast() {
+    const noop = function(){};
+    const fakeEvent = () => {
+        return {
+            remove: noop
+        };
+    };
+    return {
+        startScanner: noop,
+        stopScanner: noop,
+        connect: deviceName => {
+            noop();
+        },
+        disconnect: noop,
+        pause: noop,
+        play: noop,
+        stop: noop,
+        startCasting: (videoUrl, title) => {
+            noop();
+        },
+        onDeviceListChanged: cb => {
+            return fakeEvent();
+        },
+        onMediaChanged: cb => {
+            return fakeEvent();
+        }
+    };
+}
+
 function createNativeChromecastModule() {
-    // if (__DEV__) {
-    //
-    // }
+    if (__DEV__) {
+        return createFakeChromecast();
+    }
+    
     if (Platform.OS === 'ios') {
         return createChromecastIOS();
     }
