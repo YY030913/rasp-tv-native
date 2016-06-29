@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
-import { ShowsActions, SessionActions } from '../actions';
+import { ShowsActions } from '../actions';
 import Routes from '../routes';
 import GlobalStyles from '../globalStyles';
 
@@ -19,7 +19,6 @@ class ShowsList extends Component {
         this.fetchShows();
     }
     fetchShows(bustCache) {
-        this.props.updateSession();
         this.props.getShows(bustCache);
     }
     renderShow(show) {
@@ -52,8 +51,7 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     const bindings = {
-        getShows: ShowsActions.get,
-        updateSession: SessionActions.update
+        getShows: ShowsActions.get
     };
 
     return bindActionCreators(bindings, dispatch);

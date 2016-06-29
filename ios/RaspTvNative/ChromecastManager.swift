@@ -100,7 +100,7 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
     }
   }
 
-  @objc func castVideo(videoUrl: String, title: String, description: String, imageUrl: String) -> Void {
+  @objc func castVideo(videoUrl: String, title: String, movieId: Int, episodeId: Int, imageUrl: String) -> Void {
     print("Cast Video")
 
     // Show alert if not connected.
@@ -113,8 +113,8 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
     // Define Media Metadata.
     let metadata = GCKMediaMetadata()
     metadata.setString(title, forKey: kGCKMetadataKeyTitle)
-    metadata.setString(description,
-                       forKey:kGCKMetadataKeySubtitle)
+    metadata.setInteger(movieId, forKey: "movieId")
+    metadata.setInteger(episodeId, forKey: "episodeId")
 
     let url = NSURL(string:imageUrl)
     metadata.addImage(GCKImage(URL: url, width: 480, height: 360))
@@ -146,12 +146,14 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       if (info == nil) {
         return;
       }
+
       print(info.streamDuration);
       let data = ["Duration": info.streamDuration,
-                  "Url": info.contentID,
                   "Title": info.metadata.stringForKey(kGCKMetadataKeyTitle),
-                  "Description": info.metadata.stringForKey(kGCKMetadataKeySubtitle),
-                  "ImageUrl": info.metadata.images().reduce("", combine: { (acc, x) -> String in return ((x as! GCKImage).URL!.absoluteString) + acc })]
+                  "IsPaused": mediaControlChannel.mediaStatus.playerState == GCKMediaPlayerState.Paused,
+                  "MovieId": info.metadata.integerForKey("movieId"),
+                  "EpisodeId": info.metadata.integerForKey("episodeId"),
+                  "Position": mediaControlChannel.mediaStatus.streamPosition]
       self.bridge.eventDispatcher().sendDeviceEventWithName("MediaStatusUpdated", body: data);
     }
   }
@@ -161,10 +163,6 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
     dispatch_async(dispatch_get_main_queue(), { [unowned self] in
       self.deviceManager!.launchApplication(self.kReceiverAppID, withLaunchOptions: GCKLaunchOptions())
     })
-  }
-
-  func deviceManagerDidResumeConnection(deviceManager: GCKDeviceManager!, rejoinedApplication: Bool) {
-      print("Rejoined")
   }
 
   func deviceManager(deviceManager: GCKDeviceManager!, didConnectToCastApplication applicationMetadata: GCKApplicationMetadata!, sessionID: String!, launchedApplication: Bool) {

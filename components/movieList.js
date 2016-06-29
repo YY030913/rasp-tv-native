@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
-import { MovieActions, selectTab, SessionActions } from '../actions';
+import { MovieActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
 import GlobalStyles from '../globalStyles';
 
@@ -19,7 +19,6 @@ class MovieList extends Component {
         this.fetchMovies();
     }
     fetchMovies(bustCache) {
-        this.props.updateSession();
         this.props.getMovies(bustCache);
     }
     renderMovie(movie) {
@@ -57,7 +56,6 @@ function mapDispatchToProps(dispatch) {
     const bindings = {
         getMovies: MovieActions.get,
         selectMovie: MovieActions.select,
-        updateSession: SessionActions.update,
         selectTab
     };
 

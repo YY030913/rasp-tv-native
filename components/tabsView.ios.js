@@ -6,10 +6,11 @@ import { TabBarIOS, AppState } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import _ from 'lodash';
 import getChromecast from '../chromecast';
 import { TabIds } from '../constants';
 import Routes from '../routes';
-import { selectTab, MovieActions, ShowsActions, SessionActions } from '../actions';
+import { selectTab, MovieActions, ShowsActions, SessionActions, PlayerActions } from '../actions';
 import TabNavigator from './tabNavigator';
 const chromecast = getChromecast();
 
@@ -22,13 +23,39 @@ class TabsView extends Component {
         this.props.getMovies();
         this.props.getShows();
 
-        const { setDevices } = this.props;
+        const { setDevices, session, updateSession } = this.props;
         this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
+        this._mediaChanged = chromecast.onMediaChanged(data => {
+            // console.log(data);
+            const newSession = {};
+            if (data.IsPaused !== session.isPaused)
+                newSession.isPaused = data.IsPaused;
+
+            if (data.MovieId !== 0 && data.MovieId !== session.movieId) {
+                newSession.movieId = data.MovieId;
+                newSession.episodeId = null;
+                newSession.duration = data.Duration;
+                newSession.position = data.Position;
+                newSession.isPlaying = true;
+            } else if (data.EpisodeId !== 0 && data.EpisodeId !== session.episodeId) {
+                newSession.episodeId = data.EpisodeId;
+                newSession.movieId = null;
+                newSession.duration = data.Duration;
+                newSession.position = data.Position;
+                newSession.isPlaying = true;
+            }
+
+            if (!_.isEmpty(newSession)) {
+                // console.log('session updated', newSession);
+                updateSession(newSession);
+            }
+        });
         AppState.addEventListener('change', this._handleAppStateChange);
         chromecast.startScanner();
     }
     componentWillUnmount() {
         this._deviceListChanged.remove();
+        this._mediaChanged.remove();
         AppState.removeEventListener('change', this._handleAppStateChange);
     }
     _handleAppStateChange(appState) {
@@ -92,7 +119,8 @@ function mapDispatchToProps(dispatch) {
         selectTab,
         getMovies: MovieActions.get,
         getShows: ShowsActions.get,
-        setDevices: SessionActions.setDevices
+        setDevices: SessionActions.setDevices,
+        updateSession: PlayerActions.updateSession
      }, dispatch);
 }
 

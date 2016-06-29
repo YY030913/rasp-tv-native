@@ -3,7 +3,8 @@ import { Text, ActionSheetIOS } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { connect } from 'react-redux';
 import { SessionActions } from '../actions';
-import chromecast from '../chromecast/ios';
+import getChromecast from '../chromecast';
+const chromecast = getChromecast();
 
 const ChromecastButton = ({clearDevice, selectDevice, selectedDevice, devices}) => {
     function showActionSheet() {

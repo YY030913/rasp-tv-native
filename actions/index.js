@@ -68,25 +68,28 @@ export const PlayerActions = {
     toggle: basicAction.bind(null, ActionTypes.TOGGLE_PAUSE),
     stop: basicAction.bind(null, ActionTypes.STOP),
     playVideo: basicAction.bind(null, ActionTypes.PLAY),
-    clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING)
+    clear: basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING),
+    updatePosition: (position) => {
+        return {
+            type: ActionTypes.UPDATE_POSITION,
+            position
+        };
+    },
+    updateDuration: (duration) => {
+        return {
+            type: ActionTypes.UPDATE_DURATION,
+            duration
+        };
+    },
+    updateSession: session => {
+        return {
+            type: ActionTypes.UPDATE_SESSION,
+            session
+        };
+    }
 };
 
 export const SessionActions = {
-    update: () => {
-        return dispatch => {
-            dispatch({type: ActionTypes.UPDATE_SESSION_PENDING});
-
-            const action = {type: ActionTypes.UPDATE_SESSION_FINISHED};
-            api.getSession().then(session => {
-                action.session = session;
-                dispatch(action);
-            })
-            .catch(err => {
-                action.error = err;
-                dispatch(action);
-            });
-        };
-    },
     setDevices: (devices) => {
         return {
             type: ActionTypes.SET_DEVICES,

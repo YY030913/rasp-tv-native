@@ -23,7 +23,8 @@ RCT_EXTERN_METHOD(connectToDevice: (NSString *) deviceName)
 RCT_EXTERN_METHOD(disconnect)
 
 RCT_EXTERN_METHOD(castVideo: (NSString *)videoUrl title:(NSString *)title
-                                                  description:(NSString *)description
+                                                  movieId:(int)movieId
+                                                  episodeId:(int)episodeId
                                                   imageUrl:(NSString *)imageUrl)
 
 RCT_EXTERN_METHOD(play)

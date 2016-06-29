@@ -20,8 +20,8 @@ function createChromecastIOS() {
         stop: () => {
             ChromecastManager.stop();
         },
-        startCasting: (videoUrl, title) => {
-            ChromecastManager.castVideo(videoUrl, title, 'Video', 'http://simongeeks.com/static/cast.jpg');
+        startCasting: (videoUrl, title, movieId, episodeId) => {
+            ChromecastManager.castVideo(videoUrl, title, movieId, episodeId, 'http://simongeeks.com/static/cast.jpg');
         },
         onDeviceListChanged: cb => {
             return NativeAppEventEmitter.addListener('DeviceListChanged', cb);
@@ -49,7 +49,7 @@ function createFakeChromecast() {
         pause: noop,
         play: noop,
         stop: noop,
-        startCasting: (videoUrl, title) => {
+        startCasting: (videoUrl, title, movieId, episodeId) => {
             noop();
         },
         onDeviceListChanged: cb => {
@@ -62,10 +62,10 @@ function createFakeChromecast() {
 }
 
 function createNativeChromecastModule() {
-    if (__DEV__) {
-        return createFakeChromecast();
-    }
-    
+    // if (__DEV__) {
+    //     return createFakeChromecast();
+    // }
+
     if (Platform.OS === 'ios') {
         return createChromecastIOS();
     }

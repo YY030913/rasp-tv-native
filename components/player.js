@@ -19,6 +19,7 @@ class Player extends Component {
         this.getVideoTitle = this.getVideoTitle.bind(this);
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
+        this.seek = this.seek.bind(this);
     }
     componentWillUpdate(newProps) {
         const movieChanged = this.props.session.movieId !== newProps.session.movieId;
@@ -48,7 +49,7 @@ class Player extends Component {
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
     playOrPause() {
-        const { session, toggle, playVideo, selectedDevice } = this.props;
+        const { session, toggle, playMovie, playEpisode, selectedDevice } = this.props;
 
         if (selectedDevice === null) {
             Alert.alert('Error', 'No device is selected');
@@ -56,10 +57,10 @@ class Player extends Component {
         }
 
         if (session.movieId && !session.isPlaying) {
-            playVideo(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle());
+            playMovie(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle(), session.movieId);
             return;
         } else if (session.episodeId && !session.isPlaying) {
-            playVideo(`${BASE_URL}/shows/episodes/${session.episodeId}/stream`, this.getVideoTitle());
+            playEpisode(`${BASE_URL}/shows/episodes/${session.episodeId}/stream`, this.getVideoTitle(), session.episodeId);
             return;
         }
 
@@ -79,6 +80,9 @@ class Player extends Component {
         clear();
         selectTab(TabIds.MOVIES_TAB);
     }
+    seek(position) {
+        this.props.updatePosition(position);
+    }
     render() {
         return (
             <View style={styles.container}>
@@ -93,8 +97,10 @@ class Player extends Component {
                     <PlayPauseControl isPaused={this.props.session.isPaused} onPress={this.playOrPause} />
                 </View>
                 <View style={styles.sliderContainer}>
-                    <Slider value={0}
-                        onValueChange={() => console.log('sliding')}
+                    <Slider value={this.props.position}
+                        disabled={this.props.duration === 0}
+                        maximumValue={this.props.duration}
+                        onSlidingComplete={this.seek}
                     />
                 </View>
             </View>
@@ -144,23 +150,30 @@ function mapStateToProps(state) {
         isLoading: state.session.isLoading,
         shows: state.shows.data,
         movies: state.movies.data,
-        selectedDevice: state.session.data.selectedDevice
+        selectedDevice: state.session.data.selectedDevice,
+        position: state.session.data.position,
+        duration: state.session.data.duration
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return {
         toggle: () => dispatch(PlayerActions.toggle()),
-        playVideo: (url, title) => {
+        playMovie: (url, title, id) => {
             dispatch(PlayerActions.playVideo());
-            chromecast.startCasting(url, title);
+            chromecast.startCasting(url, title, id, 0);
+        },
+        playEpisode: (url, title, id) => {
+            dispatch(PlayerActions.playVideo());
+            chromecast.startCasting(url, title, 0, id);
         },
         selectTab: tabId => dispatch(selectTab(tabId)),
         stop: () => {
             dispatch(PlayerActions.stop());
             chromecast.stop();
         },
-        clear: () => dispatch(PlayerActions.clear())
+        clear: () => dispatch(PlayerActions.clear()),
+        updatePosition: position => dispatch(PlayerActions.updatePosition(position))
     };
 }
 

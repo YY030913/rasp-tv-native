@@ -38,7 +38,9 @@ const defaultSession = {
     isPlaying: false,
     isPaused: true,
     devices: [],
-    selectedDevice: null
+    selectedDevice: null,
+    position: 0,
+    duration: 0
 };
 
 function sessionReducer(state = {data: defaultSession, isLoading: false}, action) {
@@ -49,7 +51,9 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
                 isPlaying: defaultSession.isPlaying,
                 isPaused: defaultSession.isPaused,
                 movieId: action.movieId,
-                episodeId: defaultSession.episodeId
+                episodeId: defaultSession.episodeId,
+                position: defaultSession.position,
+                duration: defaultSession.duration
             }, isLoading: false};
         case ActionTypes.SELECT_EPISODE:
             return {data: {
@@ -57,7 +61,9 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
                 isPlaying: defaultSession.isPlaying,
                 isPaused: defaultSession.isPaused,
                 movieId: defaultSession.movieId,
-                episodeId: action.episodeId
+                episodeId: action.episodeId,
+                position: defaultSession.position,
+                duration: defaultSession.duration
             }, isLoading: false};
         case ActionTypes.TOGGLE_PAUSE:
             return {...state, data: {...state.data, isPaused: !state.data.isPaused}};
@@ -69,16 +75,24 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
                 isPlaying: defaultSession.isPlaying,
                 isPaused: defaultSession.isPaused,
                 movieId: defaultSession.movieId,
-                episodeId: defaultSession.episodeId
+                episodeId: defaultSession.episodeId,
+                position: defaultSession.position,
+                duration: defaultSession.duration
             }, isLoading: false};
         case ActionTypes.STOP:
-            return {...state, data: {...state.data, isPlaying: false}};
+            return {...state, data: {...state.data, isPlaying: false, position: defaultSession.position}};
         case ActionTypes.SET_DEVICES:
             return {...state, data: {...state.data, devices: action.devices}};
         case ActionTypes.SELECT_DEVICE:
             return {...state, data: {...state.data, selectedDevice: action.device}};
         case ActionTypes.CLEAR_SELECTED_DEVICE:
             return {...state, data: {...state.data, selectedDevice: null}};
+        case ActionTypes.UPDATE_POSITION:
+            return {...state, data: {...state.data, position: action.position}};
+        case ActionTypes.UPDATE_DURATION:
+            return {...state, data: {...state.data, duration: action.duration}};
+        case ActionTypes.UPDATE_SESSION:
+            return {...state, data: {...state.data, ...action.session}};
     }
 
     return state;
