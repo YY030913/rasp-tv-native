@@ -28,6 +28,12 @@ function createChromecastIOS() {
         },
         onMediaChanged: cb => {
             return NativeAppEventEmitter.addListener('MediaStatusUpdated', cb);
+        },
+        getStreamPosition: cb => {
+            ChromecastManager.getStreamPosition(cb);
+        },
+        seekToTime: position => {
+            ChromecastManager.seekToTime(position);
         }
     };
 }

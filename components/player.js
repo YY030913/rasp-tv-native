@@ -20,6 +20,8 @@ class Player extends Component {
         this.playOrPause = this.playOrPause.bind(this);
         this.stopPlaying = this.stopPlaying.bind(this);
         this.seek = this.seek.bind(this);
+        this.observeStreamPosition = this.observeStreamPosition.bind(this);
+        this.stopObservingStreamPosition = this.stopObservingStreamPosition.bind(this);
     }
     componentWillUpdate(newProps) {
         const movieChanged = this.props.session.movieId !== newProps.session.movieId;
@@ -29,6 +31,9 @@ class Player extends Component {
             && newProps.selectedDevice !== null) {
             newProps.stop();
         }
+    }
+    componentWillUnmount() {
+        this.stopObservingStreamPosition();
     }
     getVideoTitle() {
         const { session } = this.props;
@@ -48,6 +53,14 @@ class Player extends Component {
 
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
+    observeStreamPosition() {
+        this._positionInterval = setInterval(() => {
+            chromecast.getStreamPosition(this.props.updatePosition);
+        }, 1000);
+    }
+    stopObservingStreamPosition() {
+        clearInterval(this._positionInterval);
+    }
     playOrPause() {
         const { session, toggle, playMovie, playEpisode, selectedDevice } = this.props;
 
@@ -58,16 +71,20 @@ class Player extends Component {
 
         if (session.movieId && !session.isPlaying) {
             playMovie(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle(), session.movieId);
+            this.observeStreamPosition();
             return;
         } else if (session.episodeId && !session.isPlaying) {
             playEpisode(`${BASE_URL}/shows/episodes/${session.episodeId}/stream`, this.getVideoTitle(), session.episodeId);
+            this.observeStreamPosition();
             return;
         }
 
         if (session.isPaused) {
             chromecast.play();
+            this.observeStreamPosition();
         } else {
             chromecast.pause();
+            this.stopObservingStreamPosition();
         }
         toggle();
     }
@@ -79,9 +96,12 @@ class Player extends Component {
 
         clear();
         selectTab(TabIds.MOVIES_TAB);
+        this.stopObservingStreamPosition();
     }
     seek(position) {
+        // console.log('seek called');
         this.props.updatePosition(position);
+        chromecast.seekToTime(position);
     }
     render() {
         return (
