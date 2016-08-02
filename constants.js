@@ -36,4 +36,4 @@ export const PlayerCommands = {
     FASTFORWARD: 5
 };
 
-export const BASE_URL = 'http://192.168.11.2:8080';
+export const BASE_URL = 'http://192.168.11.16:8080';
