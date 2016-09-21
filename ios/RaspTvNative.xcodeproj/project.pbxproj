@@ -12,7 +12,7 @@
 		00C302E81ABCBA2D00DB3ED1 /* libRCTImage.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302C01ABCB91800DB3ED1 /* libRCTImage.a */; };
 		00C302E91ABCBA2D00DB3ED1 /* libRCTNetwork.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302DC1ABCB9D200DB3ED1 /* libRCTNetwork.a */; };
 		00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00C302E41ABCB9EE00DB3ED1 /* libRCTVibration.a */; };
-		0750140FCC5B6056525086E8 /* Pods_RaspTvNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 577B66D05785E79F5D20DF8B /* Pods_RaspTvNative.framework */; };
+		0E5A9E25CCC4F3E77E670D81 /* Pods_RaspTvNative.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F9E80126E2FD6B94EF78770D /* Pods_RaspTvNative.framework */; };
 		133E29F31AD74F7200F7D852 /* libRCTLinking.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 78C398B91ACF4ADC00677621 /* libRCTLinking.a */; };
 		139105C61AF99C1200B5F7CC /* libRCTSettings.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139105C11AF99BAD00B5F7CC /* libRCTSettings.a */; };
 		139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 139FDEF41B06529B00C62182 /* libRCTWebSocket.a */; };
@@ -21,18 +21,18 @@
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
-		2CEF5A61CF6847A49A3A258A /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = DE46F8C0C0D24A53B43F75B5 /* Ionicons.ttf */; };
-		5122BD0891CA4FD1B8832167 /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7CB1354D73C14CA394DDEF20 /* EvilIcons.ttf */; };
-		7C39CAD4849A42719590B9A7 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = A5A8170D54D24B48A343933C /* Entypo.ttf */; };
+		29AFE7E810F94E0FBCB029F9 /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 3495560225D74C09900FCDB7 /* Zocial.ttf */; };
+		5A7089347E5640E387839BB2 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 023F842EE2FB41B6924E02C8 /* Foundation.ttf */; };
+		5F1EFA7625CC4319A87CB69E /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 4385B9445AEA41838DFA0F2F /* FontAwesome.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
-		88026CB04D1E423B8D108037 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2A77BAE3DA33405D907715BA /* Foundation.ttf */; };
-		96FA5C3B586A43F69D55C6F7 /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7EA5046871A844AE95E5AC79 /* FontAwesome.ttf */; };
-		B19BF85DB8974D60BD95FF2B /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 7794840A396A456DAC7D7D84 /* MaterialIcons.ttf */; };
-		C93A2103C7624198AD98EA1A /* Zocial.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 45C005FBB7C64BBCA6EBE102 /* Zocial.ttf */; };
-		D26C53C0905B4E1597852DBF /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C02D211F1948495DA6761C92 /* Octicons.ttf */; };
-		D88139BC1D0FA78700B2CDD3 /* ChromecastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D88139BA1D0FA78700B2CDD3 /* ChromecastManager.swift */; };
-		D88139BD1D0FA78700B2CDD3 /* ChromecastManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D88139BB1D0FA78700B2CDD3 /* ChromecastManagerBridge.m */; };
-		D8E903CE1D07C0E2002BBE8F /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = D8CA0C241D07AFFF0022732F /* libRNVectorIcons.a */; };
+		9C70166169A34C08AD67F661 /* Entypo.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FE41707B47AB485EA7F099D4 /* Entypo.ttf */; };
+		9FE04A441B284FD48916FC6D /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9B056EA65F6545B6937911A6 /* Ionicons.ttf */; };
+		B68FCE271B16475E92D973BC /* EvilIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 2F950B8AB57942E497FBC202 /* EvilIcons.ttf */; };
+		D89EC0E31D92041200FB3B1F /* ChromecastManagerBridge.m in Sources */ = {isa = PBXBuildFile; fileRef = D89EC0E21D92041200FB3B1F /* ChromecastManagerBridge.m */; };
+		D89EC0E61D9204FF00FB3B1F /* ChromecastManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = D89EC0E51D9204FF00FB3B1F /* ChromecastManager.swift */; };
+		D8FECF185095401D9A596A4E /* Octicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 317061D37E9E4689B9C43F30 /* Octicons.ttf */; };
+		DA58C28A7A8B4F27B91C303D /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AA38C1807A5400986F5FA25 /* MaterialIcons.ttf */; };
+		FD80A337718349B8A322A7E9 /* libRNVectorIcons.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 216ABBD4B5E44C6292085070 /* libRNVectorIcons.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -106,9 +106,9 @@
 			remoteGlobalIDString = 58B5119B1A9E6C1200147676;
 			remoteInfo = RCTText;
 		};
-		D8CA0C231D07AFFF0022732F /* PBXContainerItemProxy */ = {
+		D89EC0BC1D91FD0E00FB3B1F /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 9BE3DE83B625485A822BEA37 /* RNVectorIcons.xcodeproj */;
+			containerPortal = 975882B9025E43B0B4DEDC98 /* RNVectorIcons.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 5DBEB1501B18CEA900B34395;
 			remoteInfo = RNVectorIcons;
@@ -122,6 +122,7 @@
 		00C302BB1ABCB91800DB3ED1 /* RCTImage.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTImage.xcodeproj; path = "../node_modules/react-native/Libraries/Image/RCTImage.xcodeproj"; sourceTree = "<group>"; };
 		00C302D31ABCB9D200DB3ED1 /* RCTNetwork.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTNetwork.xcodeproj; path = "../node_modules/react-native/Libraries/Network/RCTNetwork.xcodeproj"; sourceTree = "<group>"; };
 		00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTVibration.xcodeproj; path = "../node_modules/react-native/Libraries/Vibration/RCTVibration.xcodeproj"; sourceTree = "<group>"; };
+		023F842EE2FB41B6924E02C8 /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
 		139105B61AF99BAD00B5F7CC /* RCTSettings.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTSettings.xcodeproj; path = "../node_modules/react-native/Libraries/Settings/RCTSettings.xcodeproj"; sourceTree = "<group>"; };
 		139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTWebSocket.xcodeproj; path = "../node_modules/react-native/Libraries/WebSocket/RCTWebSocket.xcodeproj"; sourceTree = "<group>"; };
 		13B07F961A680F5B00A75B9A /* RaspTvNative.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RaspTvNative.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -132,23 +133,23 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = RaspTvNative/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = RaspTvNative/main.m; sourceTree = "<group>"; };
 		146833FF1AC3E56700842450 /* React.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = React.xcodeproj; path = "../node_modules/react-native/React/React.xcodeproj"; sourceTree = "<group>"; };
-		2A77BAE3DA33405D907715BA /* Foundation.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Foundation.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Foundation.ttf"; sourceTree = "<group>"; };
-		45C005FBB7C64BBCA6EBE102 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
-		577B66D05785E79F5D20DF8B /* Pods_RaspTvNative.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaspTvNative.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		7794840A396A456DAC7D7D84 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		14D45A25727067089A2C3593 /* Pods-RaspTvNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaspTvNative.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative.debug.xcconfig"; sourceTree = "<group>"; };
+		1AA38C1807A5400986F5FA25 /* MaterialIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = MaterialIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/MaterialIcons.ttf"; sourceTree = "<group>"; };
+		216ABBD4B5E44C6292085070 /* libRNVectorIcons.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNVectorIcons.a; sourceTree = "<group>"; };
+		267518E6959181CD8E210362 /* Pods-RaspTvNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaspTvNative.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative.release.xcconfig"; sourceTree = "<group>"; };
+		2F950B8AB57942E497FBC202 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
+		317061D37E9E4689B9C43F30 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
+		3495560225D74C09900FCDB7 /* Zocial.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Zocial.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Zocial.ttf"; sourceTree = "<group>"; };
+		4385B9445AEA41838DFA0F2F /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
-		7CB1354D73C14CA394DDEF20 /* EvilIcons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = EvilIcons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/EvilIcons.ttf"; sourceTree = "<group>"; };
-		7D254980D4000A9136017C6A /* Pods-RaspTvNative.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaspTvNative.debug.xcconfig"; path = "Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative.debug.xcconfig"; sourceTree = "<group>"; };
-		7EA5046871A844AE95E5AC79 /* FontAwesome.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = FontAwesome.ttf; path = "../node_modules/react-native-vector-icons/Fonts/FontAwesome.ttf"; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
-		9BE3DE83B625485A822BEA37 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
-		A5A8170D54D24B48A343933C /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
-		C02D211F1948495DA6761C92 /* Octicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Octicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Octicons.ttf"; sourceTree = "<group>"; };
-		C2EA6446B8A0C737609A6A7D /* Pods-RaspTvNative.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-RaspTvNative.release.xcconfig"; path = "Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative.release.xcconfig"; sourceTree = "<group>"; };
-		D88139AE1D0FA78700B2CDD3 /* RaspTvNative-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RaspTvNative-Bridging-Header.h"; sourceTree = "<group>"; };
-		D88139BA1D0FA78700B2CDD3 /* ChromecastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromecastManager.swift; path = RaspTvNative/ChromecastManager.swift; sourceTree = "<group>"; };
-		D88139BB1D0FA78700B2CDD3 /* ChromecastManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromecastManagerBridge.m; path = RaspTvNative/ChromecastManagerBridge.m; sourceTree = "<group>"; };
-		DE46F8C0C0D24A53B43F75B5 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		975882B9025E43B0B4DEDC98 /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
+		9B056EA65F6545B6937911A6 /* Ionicons.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Ionicons.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Ionicons.ttf"; sourceTree = "<group>"; };
+		D89EC0E21D92041200FB3B1F /* ChromecastManagerBridge.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ChromecastManagerBridge.m; path = RaspTvNative/ChromecastManagerBridge.m; sourceTree = "<group>"; };
+		D89EC0E41D9204FF00FB3B1F /* RaspTvNative-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RaspTvNative-Bridging-Header.h"; sourceTree = "<group>"; };
+		D89EC0E51D9204FF00FB3B1F /* ChromecastManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = ChromecastManager.swift; path = RaspTvNative/ChromecastManager.swift; sourceTree = "<group>"; };
+		F9E80126E2FD6B94EF78770D /* Pods_RaspTvNative.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_RaspTvNative.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FE41707B47AB485EA7F099D4 /* Entypo.ttf */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = unknown; name = Entypo.ttf; path = "../node_modules/react-native-vector-icons/Fonts/Entypo.ttf"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -156,7 +157,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D8E903CE1D07C0E2002BBE8F /* libRNVectorIcons.a in Frameworks */,
 				146834051AC3E58100842450 /* libReact.a in Frameworks */,
 				00C302E51ABCBA2D00DB3ED1 /* libRCTActionSheet.a in Frameworks */,
 				00C302E71ABCBA2D00DB3ED1 /* libRCTGeolocation.a in Frameworks */,
@@ -167,7 +167,8 @@
 				832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */,
 				00C302EA1ABCBA2D00DB3ED1 /* libRCTVibration.a in Frameworks */,
 				139FDEF61B0652A700C62182 /* libRCTWebSocket.a in Frameworks */,
-				0750140FCC5B6056525086E8 /* Pods_RaspTvNative.framework in Frameworks */,
+				FD80A337718349B8A322A7E9 /* libRNVectorIcons.a in Frameworks */,
+				0E5A9E25CCC4F3E77E670D81 /* Pods_RaspTvNative.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -233,8 +234,8 @@
 		13B07FAE1A68108700A75B9A /* RaspTvNative */ = {
 			isa = PBXGroup;
 			children = (
-				D88139BA1D0FA78700B2CDD3 /* ChromecastManager.swift */,
-				D88139BB1D0FA78700B2CDD3 /* ChromecastManagerBridge.m */,
+				D89EC0E51D9204FF00FB3B1F /* ChromecastManager.swift */,
+				D89EC0E21D92041200FB3B1F /* ChromecastManagerBridge.m */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
@@ -242,7 +243,7 @@
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				13B07FB11A68108700A75B9A /* LaunchScreen.xib */,
 				13B07FB71A68108700A75B9A /* main.m */,
-				D88139AE1D0FA78700B2CDD3 /* RaspTvNative-Bridging-Header.h */,
+				D89EC0E41D9204FF00FB3B1F /* RaspTvNative-Bridging-Header.h */,
 			);
 			name = RaspTvNative;
 			sourceTree = "<group>";
@@ -255,27 +256,19 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		24CA5BF0A47F4F9B92061CB4 /* Resources */ = {
+		191EC9B16BB248F28B53A2DB /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				A5A8170D54D24B48A343933C /* Entypo.ttf */,
-				7CB1354D73C14CA394DDEF20 /* EvilIcons.ttf */,
-				7EA5046871A844AE95E5AC79 /* FontAwesome.ttf */,
-				2A77BAE3DA33405D907715BA /* Foundation.ttf */,
-				DE46F8C0C0D24A53B43F75B5 /* Ionicons.ttf */,
-				7794840A396A456DAC7D7D84 /* MaterialIcons.ttf */,
-				C02D211F1948495DA6761C92 /* Octicons.ttf */,
-				45C005FBB7C64BBCA6EBE102 /* Zocial.ttf */,
+				FE41707B47AB485EA7F099D4 /* Entypo.ttf */,
+				2F950B8AB57942E497FBC202 /* EvilIcons.ttf */,
+				4385B9445AEA41838DFA0F2F /* FontAwesome.ttf */,
+				023F842EE2FB41B6924E02C8 /* Foundation.ttf */,
+				9B056EA65F6545B6937911A6 /* Ionicons.ttf */,
+				1AA38C1807A5400986F5FA25 /* MaterialIcons.ttf */,
+				317061D37E9E4689B9C43F30 /* Octicons.ttf */,
+				3495560225D74C09900FCDB7 /* Zocial.ttf */,
 			);
 			name = Resources;
-			sourceTree = "<group>";
-		};
-		6D70664EF649240429D5C194 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				577B66D05785E79F5D20DF8B /* Pods_RaspTvNative.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 		78C398B11ACF4ADC00677621 /* Products */ = {
@@ -299,7 +292,7 @@
 				832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */,
 				00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */,
 				139FDEE61B06529A00C62182 /* RCTWebSocket.xcodeproj */,
-				9BE3DE83B625485A822BEA37 /* RNVectorIcons.xcodeproj */,
+				975882B9025E43B0B4DEDC98 /* RNVectorIcons.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -318,9 +311,9 @@
 				13B07FAE1A68108700A75B9A /* RaspTvNative */,
 				832341AE1AAA6A7D00B99B32 /* Libraries */,
 				83CBBA001A601CBA00E9B192 /* Products */,
-				24CA5BF0A47F4F9B92061CB4 /* Resources */,
-				CA9E9F1EBBBB96F941C5497C /* Pods */,
-				6D70664EF649240429D5C194 /* Frameworks */,
+				191EC9B16BB248F28B53A2DB /* Resources */,
+				848113FA8AAA722E630A39A5 /* Pods */,
+				CF95D74CACD00337C45CB134 /* Frameworks */,
 			);
 			indentWidth = 2;
 			sourceTree = "<group>";
@@ -334,19 +327,27 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		CA9E9F1EBBBB96F941C5497C /* Pods */ = {
+		848113FA8AAA722E630A39A5 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				7D254980D4000A9136017C6A /* Pods-RaspTvNative.debug.xcconfig */,
-				C2EA6446B8A0C737609A6A7D /* Pods-RaspTvNative.release.xcconfig */,
+				14D45A25727067089A2C3593 /* Pods-RaspTvNative.debug.xcconfig */,
+				267518E6959181CD8E210362 /* Pods-RaspTvNative.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
 		};
-		D8CA0C161D07AFFF0022732F /* Products */ = {
+		CF95D74CACD00337C45CB134 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D8CA0C241D07AFFF0022732F /* libRNVectorIcons.a */,
+				F9E80126E2FD6B94EF78770D /* Pods_RaspTvNative.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		D89EC0AF1D91FD0E00FB3B1F /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				D89EC0BD1D91FD0E00FB3B1F /* libRNVectorIcons.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -358,13 +359,13 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 13B07F931A680F5B00A75B9A /* Build configuration list for PBXNativeTarget "RaspTvNative" */;
 			buildPhases = (
-				508EB1783826B122D6A87515 /* [CP] Check Pods Manifest.lock */,
+				1CC1E86872555998C857F6E4 /* [CP] Check Pods Manifest.lock */,
 				13B07F871A680F5B00A75B9A /* Sources */,
 				13B07F8C1A680F5B00A75B9A /* Frameworks */,
 				13B07F8E1A680F5B00A75B9A /* Resources */,
 				00DD1BFF1BD5951E006B06BC /* Bundle React Native code and images */,
-				B0AF29969C4CC8E29CF6B349 /* [CP] Embed Pods Frameworks */,
-				5CD629B03C16E13A004D8D0E /* [CP] Copy Pods Resources */,
+				1C932B5B33F33441DD1DE60A /* [CP] Embed Pods Frameworks */,
+				F04232347524879CDEA7E3AA /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -381,12 +382,12 @@
 		83CBB9F71A601CBA00E9B192 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0730;
 				LastUpgradeCheck = 610;
 				ORGANIZATIONNAME = Facebook;
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						DevelopmentTeam = GN93DNM7EZ;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -443,8 +444,8 @@
 					ProjectRef = 146833FF1AC3E56700842450 /* React.xcodeproj */;
 				},
 				{
-					ProductGroup = D8CA0C161D07AFFF0022732F /* Products */;
-					ProjectRef = 9BE3DE83B625485A822BEA37 /* RNVectorIcons.xcodeproj */;
+					ProductGroup = D89EC0AF1D91FD0E00FB3B1F /* Products */;
+					ProjectRef = 975882B9025E43B0B4DEDC98 /* RNVectorIcons.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -525,11 +526,11 @@
 			remoteRef = 832341B41AAA6A8300B99B32 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		D8CA0C241D07AFFF0022732F /* libRNVectorIcons.a */ = {
+		D89EC0BD1D91FD0E00FB3B1F /* libRNVectorIcons.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
 			path = libRNVectorIcons.a;
-			remoteRef = D8CA0C231D07AFFF0022732F /* PBXContainerItemProxy */;
+			remoteRef = D89EC0BC1D91FD0E00FB3B1F /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -541,14 +542,14 @@
 			files = (
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				13B07FBD1A68108700A75B9A /* LaunchScreen.xib in Resources */,
-				7C39CAD4849A42719590B9A7 /* Entypo.ttf in Resources */,
-				5122BD0891CA4FD1B8832167 /* EvilIcons.ttf in Resources */,
-				96FA5C3B586A43F69D55C6F7 /* FontAwesome.ttf in Resources */,
-				88026CB04D1E423B8D108037 /* Foundation.ttf in Resources */,
-				2CEF5A61CF6847A49A3A258A /* Ionicons.ttf in Resources */,
-				B19BF85DB8974D60BD95FF2B /* MaterialIcons.ttf in Resources */,
-				D26C53C0905B4E1597852DBF /* Octicons.ttf in Resources */,
-				C93A2103C7624198AD98EA1A /* Zocial.ttf in Resources */,
+				9C70166169A34C08AD67F661 /* Entypo.ttf in Resources */,
+				B68FCE271B16475E92D973BC /* EvilIcons.ttf in Resources */,
+				5F1EFA7625CC4319A87CB69E /* FontAwesome.ttf in Resources */,
+				5A7089347E5640E387839BB2 /* Foundation.ttf in Resources */,
+				9FE04A441B284FD48916FC6D /* Ionicons.ttf in Resources */,
+				DA58C28A7A8B4F27B91C303D /* MaterialIcons.ttf in Resources */,
+				D8FECF185095401D9A596A4E /* Octicons.ttf in Resources */,
+				29AFE7E810F94E0FBCB029F9 /* Zocial.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -569,37 +570,7 @@
 			shellPath = /bin/sh;
 			shellScript = "export NODE_BINARY=node\n../node_modules/react-native/packager/react-native-xcode.sh";
 		};
-		508EB1783826B122D6A87515 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5CD629B03C16E13A004D8D0E /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		B0AF29969C4CC8E29CF6B349 /* [CP] Embed Pods Frameworks */ = {
+		1C932B5B33F33441DD1DE60A /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -614,6 +585,36 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		1CC1E86872555998C857F6E4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
+		F04232347524879CDEA7E3AA /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-RaspTvNative/Pods-RaspTvNative-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -622,9 +623,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
-				D88139BD1D0FA78700B2CDD3 /* ChromecastManagerBridge.m in Sources */,
+				D89EC0E31D92041200FB3B1F /* ChromecastManagerBridge.m in Sources */,
+				D89EC0E61D9204FF00FB3B1F /* ChromecastManager.swift in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
-				D88139BC1D0FA78700B2CDD3 /* ChromecastManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -645,13 +646,13 @@
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 7D254980D4000A9136017C6A /* Pods-RaspTvNative.debug.xcconfig */;
+			baseConfigurationReference = 14D45A25727067089A2C3593 /* Pods-RaspTvNative.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
 				DEAD_CODE_STRIPPING = NO;
+				DEVELOPMENT_TEAM = GN93DNM7EZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -660,31 +661,31 @@
 				);
 				INFOPLIST_FILE = RaspTvNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				OTHER_LDFLAGS = (
-					"-ObjC",
-					"-lc++",
+				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/RaspTvNative\"",
 				);
-				"OTHER_LDFLAGS[arch=*]" = (
+				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
-					"$(inherited)",
 				);
 				PRODUCT_NAME = RaspTvNative;
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RaspTvNative-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Debug;
 		};
 		13B07F951A680F5B00A75B9A /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = C2EA6446B8A0C737609A6A7D /* Pods-RaspTvNative.release.xcconfig */;
+			baseConfigurationReference = 267518E6959181CD8E210362 /* Pods-RaspTvNative.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = GN93DNM7EZ;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
@@ -693,14 +694,19 @@
 				);
 				INFOPLIST_FILE = RaspTvNative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/RaspTvNative\"",
+				);
 				OTHER_LDFLAGS = (
+					"$(inherited)",
 					"-ObjC",
 					"-lc++",
-					"$(inherited)",
 				);
 				PRODUCT_NAME = RaspTvNative;
-				PROVISIONING_PROFILE = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "RaspTvNative-Bridging-Header.h";
+				SWIFT_VERSION = 3.0;
+				VERSIONING_SYSTEM = "apple-generic";
 			};
 			name = Release;
 		};
@@ -744,7 +750,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -785,7 +791,7 @@
 					"$(SRCROOT)/../node_modules/react-native/React/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
