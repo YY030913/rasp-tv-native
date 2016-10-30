@@ -1,6 +1,4 @@
 import {
-    View,
-    Text,
     Platform,
     RefreshControl,
     ListView,
@@ -74,13 +72,6 @@ export default class List extends Component {
     }
     render() {
         const { isLoading } = this.props;
-        if (isLoading) {
-            return (
-                <View style={styles.loadingView}>
-                    <Text>Loading...</Text>
-                </View>
-            );
-        }
 
         const { onRefresh, showSearchBar } = this.props;
         const optionalProps = {};

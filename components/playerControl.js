@@ -17,7 +17,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         borderColor: '#c0c2b9',
         borderWidth: StyleSheet.hairlineWidth,
-        padding: 25,
+        padding: 18,
         marginHorizontal: 1
     }
 });

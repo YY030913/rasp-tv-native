@@ -26,7 +26,6 @@ class TabsView extends Component {
         const { setDevices, session, updateSession } = this.props;
         this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
         this._mediaChanged = chromecast.onMediaChanged(data => {
-            // console.log(data);
             const newSession = {};
             if (data.IsPaused !== session.isPaused)
                 newSession.isPaused = data.IsPaused;
@@ -46,7 +45,6 @@ class TabsView extends Component {
             }
 
             if (!_.isEmpty(newSession)) {
-                // console.log('session updated', newSession);
                 updateSession(newSession);
             }
         });

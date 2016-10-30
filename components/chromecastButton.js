@@ -1,10 +1,6 @@
 import React from 'react';
 import { Text, ActionSheetIOS } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import { connect } from 'react-redux';
-import { SessionActions } from '../actions';
-import getChromecast from '../chromecast';
-const chromecast = getChromecast();
 
 const ChromecastButton = ({clearDevice, selectDevice, selectedDevice, devices}) => {
     function showActionSheet() {
@@ -38,24 +34,4 @@ const ChromecastButton = ({clearDevice, selectDevice, selectedDevice, devices}) 
     );
 };
 
-function mapStateToProps(state) {
-    return {
-        devices: state.session.data.devices,
-        selectedDevice: state.session.data.selectedDevice
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    return {
-        selectDevice: (device) => {
-            dispatch(SessionActions.selectDevice(device));
-            chromecast.connect(device);
-        },
-        clearDevice: () => {
-            dispatch(SessionActions.clearDevice());
-            chromecast.disconnect();
-        }
-    };
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ChromecastButton);
+export default ChromecastButton;

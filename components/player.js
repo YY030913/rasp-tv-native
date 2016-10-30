@@ -4,13 +4,15 @@ import { connect } from 'react-redux';
 import _ from 'lodash';
 import getChromecast from '../chromecast';
 import Routes from '../routes';
-import { PlayerActions, selectTab } from '../actions';
+import { PlayerActions, selectTab, SessionActions } from '../actions';
 import { TabIds, BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 import ChromecastButton from './chromecastButton';
 
 const chromecast = getChromecast();
+const LARGE_SEEK = 120;
+const SMALL_SEEK = 30;
 
 class Player extends Component {
     constructor(props) {
@@ -22,6 +24,8 @@ class Player extends Component {
         this.seek = this.seek.bind(this);
         this.observeStreamPosition = this.observeStreamPosition.bind(this);
         this.stopObservingStreamPosition = this.stopObservingStreamPosition.bind(this);
+        this.seekForward = this.seekForward.bind(this);
+        this.seekBackward = this.seekBackward.bind(this);
     }
     componentWillUpdate(newProps) {
         const movieChanged = this.props.session.movieId !== newProps.session.movieId;
@@ -103,18 +107,36 @@ class Player extends Component {
         this.props.updatePosition(position);
         chromecast.seekToTime(position);
     }
+    seekForward(factor) {
+        const { position, duration } = this.props;
+        this.seek(Math.min(position + factor, duration));
+    }
+    seekBackward(factor) {
+        const { position } = this.props;
+        this.seek(Math.max(position - factor, 0));
+    }
     render() {
         return (
             <View style={styles.container}>
                 <View style={styles.chromecastContainer}>
-                    <ChromecastButton onPress={() => this.props.navigator.push(Routes.deviceSelect)} />
+                    <ChromecastButton
+                        onPress={() => this.props.navigator.push(Routes.deviceSelect)}
+                        clearDevice={this.props.clearDevice}
+                        devices={this.props.devices}
+                        selectDevice={this.props.selectDevice}
+                        selectedDevice={this.props.selectedDevice}
+                    />
                 </View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
                 <View style={styles.controlContainer}>
+                    <PlayerControl name="fast-backward" onPress={() => this.seekBackward(LARGE_SEEK)} />
+                    <PlayerControl name="backward" onPress={() => this.seekBackward(SMALL_SEEK)} />
                     <PlayerControl name="stop" onPress={this.stopPlaying} />
                     <PlayPauseControl isPaused={this.props.session.isPaused} onPress={this.playOrPause} />
+                    <PlayerControl name="forward" onPress={() => this.seekForward(SMALL_SEEK)} />
+                    <PlayerControl name="fast-forward" onPress={() => this.seekForward(LARGE_SEEK)} />
                 </View>
                 <View style={styles.sliderContainer}>
                     <Slider value={this.props.position}
@@ -172,7 +194,8 @@ function mapStateToProps(state) {
         movies: state.movies.data,
         selectedDevice: state.session.data.selectedDevice,
         position: state.session.data.position,
-        duration: state.session.data.duration
+        duration: state.session.data.duration,
+        devices: state.session.data.devices,
     };
 }
 
@@ -193,7 +216,15 @@ function mapDispatchToProps(dispatch) {
             chromecast.stop();
         },
         clear: () => dispatch(PlayerActions.clear()),
-        updatePosition: position => dispatch(PlayerActions.updatePosition(position))
+        updatePosition: position => dispatch(PlayerActions.updatePosition(position)),
+        selectDevice: (device) => {
+            dispatch(SessionActions.selectDevice(device));
+            chromecast.connect(device);
+        },
+        clearDevice: () => {
+            dispatch(SessionActions.clearDevice());
+            chromecast.disconnect();
+        }
     };
 }
 
