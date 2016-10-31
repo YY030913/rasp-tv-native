@@ -32,7 +32,6 @@ class MovieList extends Component {
         const { isLoading, movies } = this.props;
         return (
             <FilterableList
-                style={GlobalStyles.navContent}
                 hasChangedKey="id"
                 items={movies}
                 filterByKey="title"

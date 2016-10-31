@@ -30,7 +30,6 @@ class ShowsList extends Component {
 
         return (
             <FilterableList
-                style={GlobalStyles.navContent}
                 hasChangedKey="id"
                 items={shows}
                 filterByKey="title"
