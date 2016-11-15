@@ -1,59 +1,29 @@
-import React, { Component } from 'react';
-
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
+import React from 'react';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
-import { ShowsActions } from '../actions';
 import Routes from '../routes';
-import GlobalStyles from '../globalStyles';
 
-class ShowsList extends Component {
-    constructor(props) {
-        super(props);
+const ShowsList = ({ isLoading, shows, getShows, navigator, selectTab, selectEpisode }) => {
+    return (
+        <FilterableList
+            hasChangedKey="id"
+            items={shows}
+            filterByKey="title"
+            isLoading={isLoading}
+            renderRow={show => {
+                const route = {
+                    ...Routes.seasons,
+                    passProps: {
+                        episodes: show.episodes,
+                        selectTab: selectTab,
+                        selectEpisode: selectEpisode
+                    }
+                };
+                return <NavButton text={show.title} onPress={() => navigator.push(route)} />;
+            }}
+            onRefresh={() => getShows(true)}
+        />
+    );
+};
 
-        this.fetchShows = this.fetchShows.bind(this);
-        this.renderShow = this.renderShow.bind(this);
-    }
-    componentWillMount() {
-        this.fetchShows();
-    }
-    fetchShows(bustCache) {
-        this.props.getShows(bustCache);
-    }
-    renderShow(show) {
-        const route = {...Routes.seasons, passProps: {episodes: show.episodes}};
-        return <NavButton text={show.title} onPress={() => this.props.navigator.push(route)} />;
-    }
-    render() {
-        const { isLoading, shows } = this.props;
-
-        return (
-            <FilterableList
-                hasChangedKey="id"
-                items={shows}
-                filterByKey="title"
-                isLoading={isLoading}
-                renderRow={this.renderShow}
-                onRefresh={this.fetchShows.bind(null, true)}
-            />
-        );
-    }
-}
-
-function mapStateToProps(state) {
-    return {
-        shows: state.shows.data,
-        isLoading: state.shows.isLoading
-    };
-}
-
-function mapDispatchToProps(dispatch) {
-    const bindings = {
-        getShows: ShowsActions.get
-    };
-
-    return bindActionCreators(bindings, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowsList);
+export default ShowsList;

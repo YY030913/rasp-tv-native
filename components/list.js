@@ -4,9 +4,9 @@ import {
     ListView,
     StyleSheet
 } from 'react-native';
-
 import React, { Component } from 'react';
 import SearchBar from './searchBar';
+import RandomButton from './randomButton';
 
 /*
     Props List
@@ -17,6 +17,7 @@ import SearchBar from './searchBar';
     - renderRow
     - onRefresh
     - showSearchBar
+    - onRandomBtnPress
 */
 export default class List extends Component {
     constructor(props) {
@@ -35,11 +36,12 @@ export default class List extends Component {
         };
 
         this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
-        this.renderSearchBar = this.renderSearchBar.bind(this);
+        this.renderHeader = this.renderHeader.bind(this);
     }
-    componentWillMount() {
-        if (this.props.items && this.props.items.length)
+    componentDidMount() {
+        if (this.props.items && this.props.items.length) {
             this.setState({dataSource: this.state.dataSource.cloneWithRows(this.props.items)});
+        }
     }
     componentWillReceiveProps(newProps) {
         if (this.props.items !== newProps.items) {
@@ -67,13 +69,20 @@ export default class List extends Component {
             dataSource: this.state.dataSource.cloneWithRows(filteredItems)
         });
     }
-    renderSearchBar() {
-        return <SearchBar value={this.state.searchText} onChangeText={this.handleSearchTextChange} />;
+    renderHeader() {
+        const { showSearchBar, onRandomBtnPress } = this.props;
+        if (showSearchBar) {
+            return <SearchBar value={this.state.searchText} onChangeText={this.handleSearchTextChange} />;
+        }
+
+        if (onRandomBtnPress) {
+            return <RandomButton onPress={onRandomBtnPress} />;
+        }
+
+        return null;
     }
     render() {
-        const { isLoading } = this.props;
-
-        const { onRefresh, showSearchBar } = this.props;
+        const { isLoading, onRefresh } = this.props;
         const optionalProps = {};
         if (onRefresh) {
 
@@ -91,16 +100,13 @@ export default class List extends Component {
             );
         }
 
-        if (showSearchBar) {
-            optionalProps.renderHeader = this.renderSearchBar;
-        }
-
         const { renderRow, style } = this.props;
         return (
             <ListView
                 style={[styles.container, style]}
                 dataSource={this.state.dataSource}
                 renderRow={renderRow}
+                renderHeader={this.renderHeader}
                 {...optionalProps}
             />
         );
@@ -110,10 +116,5 @@ export default class List extends Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1
-    },
-    loadingView: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     }
 });

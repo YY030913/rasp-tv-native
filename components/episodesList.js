@@ -1,16 +1,14 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
 import List from './list';
 import NavButton from './navButton';
-import { ShowsActions, selectTab } from '../actions';
 import { TabIds } from '../constants';
 
-class EpisodesList extends Component {
+export default class EpisodesList extends Component {
     constructor(props) {
         super(props);
 
         this.renderEpisodeRow = this.renderEpisodeRow.bind(this);
+        this.playRandomEpisode = this.playRandomEpisode.bind(this);
     }
     renderEpisodeRow(episode) {
         const playAndSwitchTab = () => {
@@ -20,6 +18,12 @@ class EpisodesList extends Component {
 
         return <NavButton text={`${episode.number} - ${episode.title}`} onPress={playAndSwitchTab} />;
     }
+    playRandomEpisode() {
+        const { episodes, selectTab, selectEpisode } = this.props;
+        const randomIndex = Math.floor(Math.random() * episodes.length);
+        selectEpisode(episodes[randomIndex].id);
+        selectTab(TabIds.NOW_PLAYING_TAB);
+    }
     render() {
         const { episodes } = this.props;
         return (
@@ -28,18 +32,8 @@ class EpisodesList extends Component {
                 items={episodes}
                 filterByKey="title"
                 renderRow={this.renderEpisodeRow}
+                onRandomBtnPress={this.playRandomEpisode}
             />
         );
     }
 }
-
-function mapDispatchToProps(dispatch) {
-    const bindings = {
-        selectEpisode: ShowsActions.select,
-        selectTab
-    };
-
-    return bindActionCreators(bindings, dispatch);
-}
-
-export default connect(null, mapDispatchToProps)(EpisodesList);

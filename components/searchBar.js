@@ -9,7 +9,7 @@ const SearchBar = (props) => {
 
     return (
         <TextInput placeholder="Search"
-            style={styles.searchBar}
+            style={[styles.searchBar, props.style]}
             autoCorrect={false}
             {...platformSpecificProps}
             {...props}

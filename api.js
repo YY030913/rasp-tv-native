@@ -13,7 +13,10 @@ async function storage(key, value) {
 
 async function request(url, hasBody) {
     try {
-        const res = await fetch(url);
+        const headers = {
+            'Cache-Control': 'no-cache'
+        };
+        const res = await fetch(url, { headers });
         if (!res.ok) {
             const errData = await res.json();
             throw new Error(errData.error);

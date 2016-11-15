@@ -1,8 +1,5 @@
-'use strict';
-
 import React, { Component } from 'react';
-import { TabBarIOS, AppState } from 'react-native';
-
+import { TabBarIOS, AppState, NavigatorIOS, StyleSheet } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
@@ -10,19 +7,14 @@ import _ from 'lodash';
 import getChromecast from '../chromecast';
 import { TabIds } from '../constants';
 import Routes from '../routes';
-import { selectTab, MovieActions, ShowsActions, SessionActions, PlayerActions } from '../actions';
-import TabNavigator from './tabNavigator';
+import { selectTab, SessionActions, PlayerActions } from '../actions';
 const chromecast = getChromecast();
 
 class TabsView extends Component {
     constructor(props) {
         super(props);
     }
-    componentWillMount() {
-        // load all video data from storage
-        this.props.getMovies();
-        this.props.getShows();
-
+    componentDidMount() {
         const { setDevices, session, updateSession } = this.props;
         this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
         this._mediaChanged = chromecast.onMediaChanged(data => {
@@ -74,14 +66,20 @@ class TabsView extends Component {
                     title="Movies"
                     selected={selectedTab === TabIds.MOVIES_TAB}
                     onPress={() => selectTab(TabIds.MOVIES_TAB)}>
-                    <TabNavigator initialRoute={Routes.movies} />
+                    <NavigatorIOS
+                        style={styles.container}
+                        initialRoute={Routes.movies}
+                    />
                 </Icon.TabBarItemIOS>
                 <Icon.TabBarItemIOS
                     iconName="tv"
                     title="Shows"
                     selected={selectedTab === TabIds.SHOWS_TAB}
                     onPress={() => selectTab(TabIds.SHOWS_TAB)}>
-                    <TabNavigator initialRoute={Routes.shows} />
+                    <NavigatorIOS
+                        style={styles.container}
+                        initialRoute={Routes.shows}
+                    />
                 </Icon.TabBarItemIOS>
                 {/*<Icon.TabBarItemIOS
                     iconName="pencil"
@@ -96,7 +94,10 @@ class TabsView extends Component {
                         title="Now Playing"
                         selected={selectedTab === TabIds.NOW_PLAYING_TAB}
                         onPress={() => selectTab(TabIds.NOW_PLAYING_TAB)}>
-                        <TabNavigator initialRoute={Routes.player} />
+                        <NavigatorIOS
+                            style={styles.container}
+                            initialRoute={Routes.player}
+                        />
                     </Icon.TabBarItemIOS>
                     : null
                 }
@@ -104,6 +105,12 @@ class TabsView extends Component {
         );
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1
+    }
+});
 
 function mapStateToProps(state) {
     return {
@@ -115,10 +122,8 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
         selectTab,
-        getMovies: MovieActions.get,
-        getShows: ShowsActions.get,
         setDevices: SessionActions.setDevices,
-        updateSession: PlayerActions.updateSession
+        updateSession: PlayerActions.updateSession,
      }, dispatch);
 }
 
