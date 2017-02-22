@@ -2,6 +2,7 @@ import React from 'react';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
 import Routes from '../routes';
+// import { withLifecycleLogging } from '../helpers';
 
 const ShowsList = ({ isLoading, shows, getShows, navigator, selectTab, selectEpisode }) => {
     return (
@@ -26,4 +27,5 @@ const ShowsList = ({ isLoading, shows, getShows, navigator, selectTab, selectEpi
     );
 };
 
+// export default withLifecycleLogging(ShowsList, 'ShowsList');
 export default ShowsList;
