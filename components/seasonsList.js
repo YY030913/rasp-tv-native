@@ -1,40 +1,25 @@
 import React, { Component } from 'react';
 import List from './list';
 import NavButton from './navButton';
-import Routes from '../routes';
-import { TabIds } from '../constants';
 
 export default class SeasonsList extends Component {
-    constructor(props) {
-        super(props);
-
-        this.getSeasons = this.getSeasons.bind(this);
-        this.renderSeasonRow = this.renderSeasonRow.bind(this);
-        this.playRandomEpisode = this.playRandomEpisode.bind(this);
-    }
-    renderSeasonRow(season) {
-        const { episodes, navigator } = this.props;
+    renderSeasonRow = (season) => {
+        const { location, match } = this.props;
         const title = `Season ${season}`;
-        return (
-            <NavButton text={title} onPress={() => {
-                const filteredEpisodes = episodes.filter(e => e.season === season)
-                    .sort((a, b) => parseInt(a.number, 10) - parseInt(b.number, 10));
-                const route = {
-                    ...Routes.episodes,
-                    title,
-                    passProps: {
-                        episodes: filteredEpisodes,
-                        selectTab: this.props.selectTab,
-                        selectEpisode: this.props.selectEpisode
-                    }
-                };
-                navigator.push(route);
-            }} />
-        );
+        const route = {
+            pathname: `/shows/${match.params.showId}/seasons/${season}/episodes`,
+            state: {
+                episodes: location.state.episodes,
+                selectEpisode: location.state.selectEpisode
+            }
+        };
+
+        return <NavButton text={title} to={route} />;
     }
-    getSeasons() {
+    getSeasons = () => {
+        const episodes = this.props.location.state.episodes;
         const seasons = [];
-        for (let e of this.props.episodes) {
+        for (let e of episodes) {
             if (seasons.indexOf(e.season) === -1) {
                 seasons.push(e.season);
             }
@@ -42,11 +27,13 @@ export default class SeasonsList extends Component {
 
         return seasons.sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
     }
-    playRandomEpisode() {
-        const { episodes, selectTab, selectEpisode } = this.props;
+    playRandomEpisode = () => {
+        const { location, history } = this.props;
+        const episodes = location.state.episodes;
         const randomIndex = Math.floor(Math.random() * episodes.length);
-        selectEpisode(episodes[randomIndex].id);
-        selectTab(TabIds.NOW_PLAYING_TAB);
+        const episodeId = episodes[randomIndex].id;
+        location.state.selectEpisode(episodeId);
+        history.push(`/episodes/${episodeId}/play`);
     }
     render() {
         return (

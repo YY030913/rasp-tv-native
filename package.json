@@ -7,14 +7,16 @@
     "ios": "react-native run-ios"
   },
   "dependencies": {
-    "lodash": "4.16.1",
-    "react": "15.3.2",
-    "react-native": "0.36.0",
-    "react-native-vector-icons": "2.1.0",
-    "react-redux": "4.4.5",
+    "lodash": "4.17.4",
+    "react": "15.4.2",
+    "react-native": "0.42.0",
+    "react-native-navbar": "1.6.3",
+    "react-native-vector-icons": "4.0.0",
+    "react-redux": "5.0.3",
+    "react-router-native": "4.0.0",
     "redux": "3.6.0",
-    "redux-logger": "2.6.1",
+    "redux-logger": "2.8.2",
     "redux-promise": "0.5.3",
-    "redux-thunk": "2.1.0"
+    "redux-thunk": "2.2.0"
   }
 }

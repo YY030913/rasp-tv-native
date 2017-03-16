@@ -1,13 +1,19 @@
 import React, { Component } from 'react';
-import { TabBarIOS, AppState, NavigatorIOS, StyleSheet } from 'react-native';
+import { TabBarIOS, AppState, StyleSheet, View } from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import _ from 'lodash';
+import { Route, Switch } from 'react-router-native';
+import { } from 'history/createMemoryHistory';
+import NavBar from './navbar';
 import getChromecast from '../chromecast';
-import { TabIds } from '../constants';
-import Routes from '../routes';
-import { selectTab, SessionActions, PlayerActions } from '../actions';
+import { SessionActions, PlayerActions } from '../actions';
+import MoviesContainer from './moviesContainer';
+import ShowsContainer from './showsContainer';
+import SeasonsList from './seasonsList';
+import EpisodesList from './episodesList';
+import Player from './player';
 const chromecast = getChromecast();
 
 class TabsView extends Component {
@@ -56,52 +62,58 @@ class TabsView extends Component {
         }
     }
     render() {
-        const { selectedTab, selectTab, session } = this.props;
+        const { session, history, location } = this.props;
+        const playerProps = {
+            iconName: 'youtube-play',
+            title: 'Now Playing',
+            selected: location.pathname.endsWith('play')
+        };
+        let playerTab;
+        if (session.movieId) {
+            playerTab = (
+                <Icon.TabBarItemIOS
+                    {...playerProps}
+                    onPress={() => history.push(`/movies/${session.movieId}/play`)}>
+                    <Route exact path="/:type/:movieId/play" component={Player} />
+                </Icon.TabBarItemIOS>
+            );
+        } else if (session.episodeId) {
+            playerTab = (
+                <Icon.TabBarItemIOS
+                    {...playerProps}
+                    onPress={() => history.push(`/episodes/${session.episodeId}/play`)}>
+                    <Route exact path="/:type/:episodeId/play" component={Player} />
+                </Icon.TabBarItemIOS>
+            );
+        }
+
         return (
-            <TabBarIOS
-                tintColor="red"
-                barTintColor="white">
-                <Icon.TabBarItemIOS
-                    iconName="film"
-                    title="Movies"
-                    selected={selectedTab === TabIds.MOVIES_TAB}
-                    onPress={() => selectTab(TabIds.MOVIES_TAB)}>
-                    <NavigatorIOS
-                        style={styles.container}
-                        initialRoute={Routes.movies}
-                    />
-                </Icon.TabBarItemIOS>
-                <Icon.TabBarItemIOS
-                    iconName="tv"
-                    title="Shows"
-                    selected={selectedTab === TabIds.SHOWS_TAB}
-                    onPress={() => selectTab(TabIds.SHOWS_TAB)}>
-                    <NavigatorIOS
-                        style={styles.container}
-                        initialRoute={Routes.shows}
-                    />
-                </Icon.TabBarItemIOS>
-                {/*<Icon.TabBarItemIOS
-                    iconName="pencil"
-                    title="Edit"
-                    selected={selectedTab === TabIds.EDIT_TAB}
-                    onPress={() => selectTab(TabIds.EDIT_TAB)}>
-                    <Text>Edit tab</Text>
-                </Icon.TabBarItemIOS>*/}
-                {session.movieId || session.episodeId
-                    ? <Icon.TabBarItemIOS
-                        iconName="youtube-play"
-                        title="Now Playing"
-                        selected={selectedTab === TabIds.NOW_PLAYING_TAB}
-                        onPress={() => selectTab(TabIds.NOW_PLAYING_TAB)}>
-                        <NavigatorIOS
-                            style={styles.container}
-                            initialRoute={Routes.player}
-                        />
+            <View style={styles.container}>
+                <NavBar />
+                <TabBarIOS
+                    tintColor="red"
+                    barTintColor="white">
+                    <Icon.TabBarItemIOS
+                        iconName="film"
+                        title="Movies"
+                        selected={location.pathname === '/'}
+                        onPress={() => history.push('/')}>
+                        <Route exact path="/" component={MoviesContainer} />
                     </Icon.TabBarItemIOS>
-                    : null
-                }
-            </TabBarIOS>
+                    <Icon.TabBarItemIOS
+                        iconName="tv"
+                        title="Shows"
+                        selected={location.pathname.startsWith('/shows')}
+                        onPress={() => history.push('/shows')}>
+                        <Switch>
+                            <Route exact path="/shows" component={ShowsContainer} />
+                            <Route exact path="/shows/:showId/seasons" component={SeasonsList} />
+                            <Route exact path="/shows/:showId/seasons/:season/episodes" component={EpisodesList} />
+                        </Switch>
+                    </Icon.TabBarItemIOS>
+                    {playerTab}
+                </TabBarIOS>
+            </View>
         );
     }
 }
@@ -114,14 +126,12 @@ const styles = StyleSheet.create({
 
 function mapStateToProps(state) {
     return {
-        selectedTab: state.selectedTab,
         session: state.session.data
     };
 }
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        selectTab,
         setDevices: SessionActions.setDevices,
         updateSession: PlayerActions.updateSession,
      }, dispatch);

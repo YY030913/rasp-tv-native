@@ -1,5 +1,5 @@
 import { ActionTypes } from '../constants';
-import api from '../api';
+import * as api from '../api';
 
 function basicAction(type) {
     return {
@@ -104,10 +104,3 @@ export const SessionActions = {
     },
     clearDevice: basicAction.bind(null, ActionTypes.CLEAR_SELECTED_DEVICE)
 };
-
-export function selectTab(tab) {
-    return {
-        type: ActionTypes.SELECT_TAB,
-        selectedTab: tab
-    };
-}

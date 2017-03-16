@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 import { AppRegistry } from 'react-native';
 import { Provider } from 'react-redux';
 import { create } from './store';
+import { NativeRouter, Route } from 'react-router-native';
 import TabsView from './components/tabsView';
 
 const store = create();
@@ -15,7 +16,9 @@ class RaspTvNative extends Component {
     render() {
         return (
             <Provider store={store}>
-                <TabsView />
+                <NativeRouter>
+                    <Route path="/" component={TabsView} />
+                </NativeRouter>
             </Provider>
         );
     }

@@ -1,10 +1,3 @@
-export const TabIds = {
-    MOVIES_TAB: 'MOVIES_TAB',
-    SHOWS_TAB: 'SHOWS_TAB',
-    EDIT_TAB: 'EDIT_TAB',
-    NOW_PLAYING_TAB: 'NOW_PLAYING_TAB'
-};
-
 export const ActionTypes = {
     GET_MOVIES_PENDING: 'GET_MOVIES_PENDING',
     GET_MOVIES_FINISHED: 'GET_MOVIES_FINISHED',

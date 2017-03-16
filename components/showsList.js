@@ -1,10 +1,8 @@
 import React from 'react';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
-import Routes from '../routes';
-// import { withLifecycleLogging } from '../helpers';
 
-const ShowsList = ({ isLoading, shows, getShows, navigator, selectTab, selectEpisode }) => {
+const ShowsList = ({ isLoading, shows, getShows, selectEpisode }) => {
     return (
         <FilterableList
             hasChangedKey="id"
@@ -13,19 +11,17 @@ const ShowsList = ({ isLoading, shows, getShows, navigator, selectTab, selectEpi
             isLoading={isLoading}
             renderRow={show => {
                 const route = {
-                    ...Routes.seasons,
-                    passProps: {
+                    pathname: `/shows/${show.id}/seasons`,
+                    state: {
                         episodes: show.episodes,
-                        selectTab: selectTab,
                         selectEpisode: selectEpisode
                     }
                 };
-                return <NavButton text={show.title} onPress={() => navigator.push(route)} />;
+                return <NavButton text={show.title} to={route} />;
             }}
             onRefresh={() => getShows(true)}
         />
     );
 };
 
-// export default withLifecycleLogging(ShowsList, 'ShowsList');
 export default ShowsList;

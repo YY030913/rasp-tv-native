@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import { ActionTypes, TabIds } from '../constants';
+import { ActionTypes } from '../constants';
 
 function moviesReducer(state = {data: [], isLoading: false}, action) {
     switch(action.type) {
@@ -18,15 +18,6 @@ function showsReducer(state = {data: [], isLoading: false}, action) {
             return {...state, isLoading: true};
         case ActionTypes.GET_SHOWS_FINISHED:
             return {data: action.shows, isLoading: false};
-    }
-
-    return state;
-}
-
-function selectedTabReducer(state = TabIds.MOVIES_TAB, action) {
-    switch (action.type) {
-        case ActionTypes.SELECT_TAB:
-            return action.selectedTab;
     }
 
     return state;
@@ -101,6 +92,5 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
 export default combineReducers({
     movies: moviesReducer,
     shows: showsReducer,
-    selectedTab: selectedTabReducer,
     session: sessionReducer
 });

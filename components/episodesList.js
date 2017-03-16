@@ -1,35 +1,45 @@
 import React, { Component } from 'react';
 import List from './list';
 import NavButton from './navButton';
-import { TabIds } from '../constants';
+
+function filterEpisodes(episodes, season) {
+    return episodes
+        .filter(e => e.season === parseInt(season))
+        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+}
 
 export default class EpisodesList extends Component {
     constructor(props) {
         super(props);
 
-        this.renderEpisodeRow = this.renderEpisodeRow.bind(this);
-        this.playRandomEpisode = this.playRandomEpisode.bind(this);
+        this.state = { filteredEpisodes: filterEpisodes(props.location.state.episodes, props.match.params.season)};
     }
-    renderEpisodeRow(episode) {
-        const playAndSwitchTab = () => {
-            this.props.selectEpisode(episode.id);
-            this.props.selectTab(TabIds.NOW_PLAYING_TAB);
-        };
-
-        return <NavButton text={`${episode.number} - ${episode.title}`} onPress={playAndSwitchTab} />;
+    componentWillReceiveProps(newProps) {
+        if (this.props.match.params.season !== newProps.match.params.season) {
+            this.setState({ filteredEpisodes: filterEpisodes(newProps.location.state.episodes, newProps.match.params.season) });
+        }
     }
-    playRandomEpisode() {
-        const { episodes, selectTab, selectEpisode } = this.props;
+    renderEpisodeRow = (episode) => {
+        const { location } = this.props;
+        const path = `/episodes/${episode.id}/play`;
+        return (
+            <NavButton
+                to={path}
+                text={`${episode.number} - ${episode.title}`}
+                onPress={() => location.state.selectEpisode(episode.id)}
+            />
+        );
+    }
+    playRandomEpisode = (episodes) => {
+        const { location } = this.props;
         const randomIndex = Math.floor(Math.random() * episodes.length);
-        selectEpisode(episodes[randomIndex].id);
-        selectTab(TabIds.NOW_PLAYING_TAB);
+        location.state.selectEpisode(episodes[randomIndex].id);
     }
     render() {
-        const { episodes } = this.props;
         return (
             <List
                 hasChangedKey="id"
-                items={episodes}
+                items={this.state.filteredEpisodes}
                 filterByKey="title"
                 renderRow={this.renderEpisodeRow}
                 onRandomBtnPress={this.playRandomEpisode}

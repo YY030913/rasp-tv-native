@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { selectTab, ShowsActions } from '../actions';
+import { ShowsActions } from '../actions';
 import ShowsList from './showsList';
 
 class ShowsContainer extends Component {
@@ -25,7 +25,6 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        selectTab,
         getShows: ShowsActions.get,
         selectEpisode: ShowsActions.select
      }, dispatch);

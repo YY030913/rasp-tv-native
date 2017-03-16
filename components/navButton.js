@@ -1,15 +1,19 @@
 import React from 'react';
-import {
-  StyleSheet,
-  Text,
-  TouchableOpacity
-} from 'react-native';
+import { StyleSheet, Text, TouchableOpacity } from 'react-native';
+import { Link } from 'react-router-native';
 
-const NavButton = ({text, onPress}) => {
+const NavButton = ({ text, to, onPress: preOnPress }) => {
     return (
-        <TouchableOpacity style={styles.row} onPress={onPress}>
-            <Text style={styles.rowText}>{text}</Text>
-        </TouchableOpacity>
+        <Link to={to} component={({ onPress }) => (
+            <TouchableOpacity style={styles.row} onPress={() => {
+                if (preOnPress) {
+                    preOnPress();
+                }
+                onPress();
+            }}>
+                <Text style={styles.rowText}>{text}</Text>
+            </TouchableOpacity>
+        )} />
     );
 };
 

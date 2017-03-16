@@ -101,6 +101,12 @@ export default class List extends Component {
         }
 
         const { renderRow, style } = this.props;
+        if (Platform.OS === 'ios') {
+            // so the items aren't hidden by the tab bar on iOS
+            optionalProps.automaticallyAdjustContentInsets = false;
+            optionalProps.contentInset = { bottom: 49 };
+        }
+
         return (
             <ListView
                 style={[styles.container, style]}

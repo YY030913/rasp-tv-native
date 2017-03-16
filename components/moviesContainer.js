@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { selectTab, MovieActions } from '../actions';
+import { MovieActions } from '../actions';
 import MovieList from './movieList';
 
 class MoviesContainer extends Component {
@@ -25,9 +25,8 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return bindActionCreators({
-        selectTab,
         getMovies: MovieActions.get,
-        selectMovie: MovieActions.select,
+        selectMovie: MovieActions.select
      }, dispatch);
 }
 

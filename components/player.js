@@ -3,9 +3,8 @@ import { View, Text, StyleSheet, Alert, Slider } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import getChromecast from '../chromecast';
-import Routes from '../routes';
-import { PlayerActions, selectTab, SessionActions } from '../actions';
-import { TabIds, BASE_URL } from '../constants';
+import { PlayerActions, SessionActions } from '../actions';
+import { BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 import ChromecastButton from './chromecastButton';
@@ -15,18 +14,6 @@ const LARGE_SEEK = 120;
 const SMALL_SEEK = 30;
 
 class Player extends Component {
-    constructor(props) {
-        super(props);
-
-        this.getVideoTitle = this.getVideoTitle.bind(this);
-        this.playOrPause = this.playOrPause.bind(this);
-        this.stopPlaying = this.stopPlaying.bind(this);
-        this.seek = this.seek.bind(this);
-        this.observeStreamPosition = this.observeStreamPosition.bind(this);
-        this.stopObservingStreamPosition = this.stopObservingStreamPosition.bind(this);
-        this.seekForward = this.seekForward.bind(this);
-        this.seekBackward = this.seekBackward.bind(this);
-    }
     componentWillUpdate(newProps) {
         const movieChanged = this.props.session.movieId !== newProps.session.movieId;
         const episodeChanged = this.props.session.episodeId !== newProps.session.episodeId;
@@ -39,14 +26,14 @@ class Player extends Component {
     componentWillUnmount() {
         this.stopObservingStreamPosition();
     }
-    getVideoTitle() {
-        const { session } = this.props;
-        if (session.movieId) {
+    getVideoTitle = () => {
+        const { session, match } = this.props;
+        if (match.params.type === 'movies' && session.movieId) {
             const movie = _.find(this.props.movies, m => m.id === session.movieId);
             return movie.title;
         }
 
-        if (session.episodeId) {
+        if (match.params.type === 'episodes' && session.episodeId) {
             // we'll see how this goes... Would get slow when the library grows
             for (let s of this.props.shows) {
                 const episode = _.find(s.episodes, e => e.id === session.episodeId);
@@ -57,15 +44,15 @@ class Player extends Component {
 
         throw new Error('No movie or episode to create title but this component was re rendered');
     }
-    observeStreamPosition() {
+    observeStreamPosition = () => {
         this._positionInterval = setInterval(() => {
             chromecast.getStreamPosition(this.props.updatePosition);
         }, 1000);
     }
-    stopObservingStreamPosition() {
+    stopObservingStreamPosition = () => {
         clearInterval(this._positionInterval);
     }
-    playOrPause() {
+    playOrPause = () => {
         const { session, toggle, playMovie, playEpisode, selectedDevice } = this.props;
 
         if (selectedDevice === null) {
@@ -92,26 +79,30 @@ class Player extends Component {
         }
         toggle();
     }
-    stopPlaying() {
-        const { session, selectTab, stop, clear } = this.props;
+    stopPlaying = () => {
+        const { session, stop, clear, history, match } = this.props;
         if (session.isPlaying) {
             stop();
         }
 
         clear();
-        selectTab(TabIds.MOVIES_TAB);
         this.stopObservingStreamPosition();
+
+        if (match.params.type === 'episodes') {
+            history.replace('/shows');
+        } else {
+            history.replace('/');
+        }
     }
-    seek(position) {
-        // console.log('seek called');
+    seek = (position) => {
         this.props.updatePosition(position);
         chromecast.seekToTime(position);
     }
-    seekForward(factor) {
+    seekForward = (factor) => {
         const { position, duration } = this.props;
         this.seek(Math.min(position + factor, duration));
     }
-    seekBackward(factor) {
+    seekBackward = (factor) => {
         const { position } = this.props;
         this.seek(Math.max(position - factor, 0));
     }
@@ -120,7 +111,6 @@ class Player extends Component {
             <View style={styles.container}>
                 <View style={styles.chromecastContainer}>
                     <ChromecastButton
-                        onPress={() => this.props.navigator.push(Routes.deviceSelect)}
                         clearDevice={this.props.clearDevice}
                         devices={this.props.devices}
                         selectDevice={this.props.selectDevice}
@@ -210,7 +200,6 @@ function mapDispatchToProps(dispatch) {
             dispatch(PlayerActions.playVideo());
             chromecast.startCasting(url, title, 0, id);
         },
-        selectTab: tabId => dispatch(selectTab(tabId)),
         stop: () => {
             dispatch(PlayerActions.stop());
             chromecast.stop();

@@ -5,7 +5,8 @@ const PlayPauseControl = ({isPaused, ...otherProps}) => {
     return (
         <PlayerControl
             name={isPaused ? 'play' : 'pause'}
-            {...otherProps} />
+            {...otherProps}
+        />
     );
 };
 
