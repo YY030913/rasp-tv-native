@@ -34,9 +34,6 @@ export default class List extends Component {
                 }
             })
         };
-
-        this.handleSearchTextChange = this.handleSearchTextChange.bind(this);
-        this.renderHeader = this.renderHeader.bind(this);
     }
     componentDidMount() {
         if (this.props.items && this.props.items.length) {
@@ -48,7 +45,7 @@ export default class List extends Component {
             this.setState({dataSource: this.state.dataSource.cloneWithRows(newProps.items)});
         }
     }
-    handleSearchTextChange(newText) {
+    handleSearchTextChange = (newText) => {
         if (!newText.length) {
             this.setState({
                 searchText: newText,
@@ -69,7 +66,7 @@ export default class List extends Component {
             dataSource: this.state.dataSource.cloneWithRows(filteredItems)
         });
     }
-    renderHeader() {
+    renderHeader = () => {
         const { showSearchBar, onRandomBtnPress } = this.props;
         if (showSearchBar) {
             return <SearchBar value={this.state.searchText} onChangeText={this.handleSearchTextChange} />;

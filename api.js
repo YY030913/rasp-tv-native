@@ -23,7 +23,7 @@ async function request(url, hasBody) {
         }
 
         if (hasBody && res.headers.get('Content-Length') !== '0')
-            return await res.json();
+            return res.json();
     } catch (err) {
         Alert.alert('Error', err.message || err);
         throw err;
