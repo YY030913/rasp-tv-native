@@ -1,8 +1,12 @@
 package com.rasptvnative;
 
-import com.facebook.react.ReactActivity;
+import android.os.Bundle;
 
-public class MainActivity extends ReactActivity {
+import com.facebook.react.ReactActivity;
+import com.facebook.react.ReactFragmentActivity;
+import com.google.android.gms.cast.framework.CastContext;
+
+public class MainActivity extends ReactFragmentActivity {
 
     /**
      * Returns the name of the main component registered from JavaScript.
@@ -11,5 +15,10 @@ public class MainActivity extends ReactActivity {
     @Override
     protected String getMainComponentName() {
         return "RaspTvNative";
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
     }
 }

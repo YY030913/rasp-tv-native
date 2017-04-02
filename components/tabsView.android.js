@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
-import { StyleSheet } from 'react-native';
+import { StyleSheet, ToolbarAndroid, View } from 'react-native';
 import { Route, Switch } from 'react-router-native';
 import { TabViewAnimated, TabBar } from 'react-native-tab-view';
 import MoviesContainer from './moviesContainer';
 import ShowsContainer from './showsContainer';
 import SeasonsList from './seasonsList';
 import EpisodesList from './episodesList';
+import ChromecastButton from './chromecastButton';
 
 class TabsView extends Component {
     state = {
@@ -64,19 +65,31 @@ class TabsView extends Component {
     }
     render() {
         return (
-            <TabViewAnimated
-                style={styles.container}
-                navigationState={this.state}
-                renderHeader={this._renderHeader}
-                renderScene={this._renderScene}
-                onRequestChangeTab={this._onTabChange}
-            />
+            <View style={styles.container}>
+                <View style={styles.toolbar}>
+                    <ChromecastButton style={styles.chromecastBtn} />
+                </View>
+                <TabViewAnimated
+                    style={styles.container}
+                    navigationState={this.state}
+                    renderHeader={this._renderHeader}
+                    renderScene={this._renderScene}
+                    onRequestChangeTab={this._onTabChange}
+                />
+            </View>
         );
     }
 }
 
 const styles = StyleSheet.create({
     container: {
+        flex: 1
+    },
+    toolbar: {
+        height: 50,
+        backgroundColor: '#2196f3'
+    },
+    chromecastBtn: {
         flex: 1
     }
 });
