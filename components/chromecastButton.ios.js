@@ -1,10 +1,23 @@
-import React from 'react';
-import { Text, ActionSheetIOS } from 'react-native';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import React, { Component } from 'react';
+import { TouchableOpacity, ActionSheetIOS } from 'react-native';
+import Icon from 'react-native-vector-icons/MaterialIcons';
+import getChromecast from '../chromecast';
 
-const ChromecastButton = ({clearDevice, selectDevice, selectedDevice, devices}) => {
-    function showActionSheet() {
-        const buttons = [...devices, 'Disconnect', 'Cancel'];
+const chromecast = getChromecast();
+
+export default class ChromecastButton extends Component {
+    state = {
+        devices: [],
+        selectedDevice: null
+    }
+    componentDidMount() {
+        this._deviceListChanged = chromecast.onDeviceListChanged(data => this.setState({ devices: data.Devices }));
+    }
+    componentWillUnmount() {
+        this._deviceListChanged.remove();
+    }
+    _showActionSheet = () => {
+        const buttons = [...this.state.devices, 'Disconnect', 'Cancel'];
         const cancelIndex = buttons.length - 1;
         const disconnectIndex = buttons.length - 2;
         ActionSheetIOS.showActionSheetWithOptions({
@@ -13,25 +26,25 @@ const ChromecastButton = ({clearDevice, selectDevice, selectedDevice, devices}) 
             destructiveButtonIndex: disconnectIndex
         }, index => {
             if (index === disconnectIndex) {
-                clearDevice();
-                return;
+                this.setState({ selectedDevice: null });
+                chromecast.disconnect();
             } else if (index !== cancelIndex) {
-                selectDevice(buttons[index]);
+                const device = buttons[index];
+                this.setState({ selectedDevice: device });
+                chromecast.connect(device);
             }
         });
     }
+    render() {
+        let iconName = 'cast';
+        if (this.state.selectedDevice !== null) {
+            iconName = 'cast-connected';
+        }
 
-    const buttonState = {text: 'Connect Chromecast', color: '#dce4e4'};
-    if (selectedDevice !== null) {
-        buttonState.text = `Connected to ${selectedDevice}`;
-        buttonState.color = '#3084ba';
+        return (
+            <TouchableOpacity onPress={this._showActionSheet} style={this.props.style}>
+                <Icon name={iconName} size={this.props.size || 26} />
+            </TouchableOpacity>
+        );
     }
-
-    return (
-        <Icon.Button name="chrome" backgroundColor={buttonState.color} onPress={showActionSheet}>
-            <Text>{buttonState.text}</Text>
-        </Icon.Button>
-    );
-};
-
-export default ChromecastButton;
+}

@@ -88,19 +88,3 @@ export const PlayerActions = {
         };
     }
 };
-
-export const SessionActions = {
-    setDevices: (devices) => {
-        return {
-            type: ActionTypes.SET_DEVICES,
-            devices
-        };
-    },
-    selectDevice: (device) => {
-        return {
-            type: ActionTypes.SELECT_DEVICE,
-            device
-        };
-    },
-    clearDevice: basicAction.bind(null, ActionTypes.CLEAR_SELECTED_DEVICE)
-};

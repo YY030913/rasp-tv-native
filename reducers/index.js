@@ -72,12 +72,6 @@ function sessionReducer(state = {data: defaultSession, isLoading: false}, action
             }, isLoading: false};
         case ActionTypes.STOP:
             return {...state, data: {...state.data, isPlaying: false, position: defaultSession.position}};
-        case ActionTypes.SET_DEVICES:
-            return {...state, data: {...state.data, devices: action.devices}};
-        case ActionTypes.SELECT_DEVICE:
-            return {...state, data: {...state.data, selectedDevice: action.device}};
-        case ActionTypes.CLEAR_SELECTED_DEVICE:
-            return {...state, data: {...state.data, selectedDevice: null}};
         case ActionTypes.UPDATE_POSITION:
             return {...state, data: {...state.data, position: action.position}};
         case ActionTypes.UPDATE_DURATION:

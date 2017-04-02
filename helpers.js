@@ -28,8 +28,7 @@ const chromecast = getChromecast();
 export function withChromecastMonitoring(Inner) {
     class ChromecastMonitor extends Component {
         componentDidMount() {
-            const { setDevices, session, updateSession } = this.props;
-            this._deviceListChanged = chromecast.onDeviceListChanged(data => setDevices(data.Devices));
+            const { session, updateSession } = this.props;
             this._mediaChanged = chromecast.onMediaChanged(data => {
                 const newSession = {};
                 if (data.IsPaused !== session.isPaused)
@@ -57,7 +56,6 @@ export function withChromecastMonitoring(Inner) {
             chromecast.startScanner();
         }
         componentWillUnmount() {
-            this._deviceListChanged.remove();
             this._mediaChanged.remove();
             AppState.removeEventListener('change', this._handleAppStateChange);
         }
@@ -81,7 +79,6 @@ export function withChromecastMonitoring(Inner) {
 
     function mapDispatchToProps(dispatch) {
         return bindActionCreators({
-            setDevices: SessionActions.setDevices,
             updateSession: PlayerActions.updateSession,
          }, dispatch);
     }

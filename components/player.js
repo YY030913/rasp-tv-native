@@ -1,13 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Alert, Slider } from 'react-native';
+import { View, Text, StyleSheet, Slider } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import getChromecast from '../chromecast';
-import { PlayerActions, SessionActions } from '../actions';
+import { PlayerActions } from '../actions';
 import { BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
-import ChromecastButton from './chromecastButton';
 
 const chromecast = getChromecast();
 const LARGE_SEEK = 120;
@@ -53,12 +52,7 @@ class Player extends Component {
         clearInterval(this._positionInterval);
     }
     playOrPause = () => {
-        const { session, toggle, playMovie, playEpisode, selectedDevice } = this.props;
-
-        if (selectedDevice === null) {
-            Alert.alert('Error', 'No device is selected');
-            return;
-        }
+        const { session, toggle, playMovie, playEpisode } = this.props;
 
         if (session.movieId && !session.isPlaying) {
             playMovie(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle(), session.movieId);
@@ -109,14 +103,6 @@ class Player extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <View style={styles.chromecastContainer}>
-                    <ChromecastButton
-                        clearDevice={this.props.clearDevice}
-                        devices={this.props.devices}
-                        selectDevice={this.props.selectDevice}
-                        selectedDevice={this.props.selectedDevice}
-                    />
-                </View>
                 <View style={styles.titleContainer}>
                     <Text style={styles.titleText}>{this.getVideoTitle()}</Text>
                 </View>
@@ -144,12 +130,6 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         padding: 2
-    },
-    chromecastContainer: {
-        flex: 3,
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 40
     },
     titleContainer: {
         flex: 3,
@@ -182,10 +162,8 @@ function mapStateToProps(state) {
         isLoading: state.session.isLoading,
         shows: state.shows.data,
         movies: state.movies.data,
-        selectedDevice: state.session.data.selectedDevice,
         position: state.session.data.position,
         duration: state.session.data.duration,
-        devices: state.session.data.devices,
     };
 }
 
@@ -206,14 +184,6 @@ function mapDispatchToProps(dispatch) {
         },
         clear: () => dispatch(PlayerActions.clear()),
         updatePosition: position => dispatch(PlayerActions.updatePosition(position)),
-        selectDevice: (device) => {
-            dispatch(SessionActions.selectDevice(device));
-            chromecast.connect(device);
-        },
-        clearDevice: () => {
-            dispatch(SessionActions.clearDevice());
-            chromecast.disconnect();
-        }
     };
 }
 
