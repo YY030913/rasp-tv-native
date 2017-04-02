@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
-import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { ShowsActions } from '../actions';
+import { getShows, selectEpisode } from '../actions/shows';
 import ShowsList from './showsList';
 
 class ShowsContainer extends Component {
@@ -23,11 +22,4 @@ function mapStateToProps(state) {
     };
 }
 
-function mapDispatchToProps(dispatch) {
-    return bindActionCreators({
-        getShows: ShowsActions.get,
-        selectEpisode: ShowsActions.select
-     }, dispatch);
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ShowsContainer);
+export default connect(mapStateToProps, { getShows, selectEpisode })(ShowsContainer);

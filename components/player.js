@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Slider } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
 import getChromecast from '../chromecast';
-import { PlayerActions } from '../actions';
+import * as PlayerActions from '../actions/player';
 import { BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
