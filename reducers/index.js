@@ -28,56 +28,49 @@ const defaultSession = {
     episodeId: null,
     isPlaying: false,
     isPaused: true,
-    devices: [],
-    selectedDevice: null,
     position: 0,
-    duration: 0
+    duration: 0,
+    isConnected: false
 };
 
 function sessionReducer(state = {data: defaultSession, isLoading: false}, action) {
     switch (action.type) {
         case ActionTypes.SELECT_MOVIE:
-            return {data: {
-                ...state.data,
-                isPlaying: defaultSession.isPlaying,
-                isPaused: defaultSession.isPaused,
-                movieId: action.movieId,
-                episodeId: defaultSession.episodeId,
-                position: defaultSession.position,
-                duration: defaultSession.duration
-            }, isLoading: false};
+            return {...state, data: {...state.data, movieId: action.movieId, episodeId: null } };
         case ActionTypes.SELECT_EPISODE:
-            return {data: {
-                ...state.data,
-                isPlaying: defaultSession.isPlaying,
-                isPaused: defaultSession.isPaused,
-                movieId: defaultSession.movieId,
-                episodeId: action.episodeId,
-                position: defaultSession.position,
-                duration: defaultSession.duration
-            }, isLoading: false};
+            return {...state, data: {...state.data, episodeId: action.episodeId, movieId: null } };
         case ActionTypes.TOGGLE_PAUSE:
             return {...state, data: {...state.data, isPaused: !state.data.isPaused}};
         case ActionTypes.PLAY:
             return {...state, data: {...state.data, isPlaying: true, isPaused: false}};
-        case ActionTypes.CLEAR_NOW_PLAYING:
-            return {data: {
-                ...state.data,
-                isPlaying: defaultSession.isPlaying,
-                isPaused: defaultSession.isPaused,
-                movieId: defaultSession.movieId,
-                episodeId: defaultSession.episodeId,
-                position: defaultSession.position,
-                duration: defaultSession.duration
-            }, isLoading: false};
         case ActionTypes.STOP:
-            return {...state, data: {...state.data, isPlaying: false, position: defaultSession.position}};
+        case ActionTypes.CLEAR_NOW_PLAYING:
+            return {
+                data: {...defaultSession, isConnected: state.data.isConnected },
+                isLoading: false
+            };
+        // case ActionTypes.STOP:
+        //     return {
+        //         ...state,
+        //         data: {
+        //             ...state.data,
+        //             isPlaying: false,
+        //             position: defaultSession.position,
+        //             isPaused: defaultSession.isPaused,
+        //             episodeId: null,
+        //             movieId: null
+        //         }
+        //     };
         case ActionTypes.UPDATE_POSITION:
             return {...state, data: {...state.data, position: action.position}};
         case ActionTypes.UPDATE_DURATION:
             return {...state, data: {...state.data, duration: action.duration}};
         case ActionTypes.UPDATE_SESSION:
             return {...state, data: {...state.data, ...action.session}};
+        case ActionTypes.CONNECT_TO_DEVICE:
+            return {...state, data: {...state.data, isConnected: true }};
+        case ActionTypes.DISCONNECT_FROM_DEVICE:
+            return {...state, data: {...state.data, isConnected: false }};
     }
 
     return state;

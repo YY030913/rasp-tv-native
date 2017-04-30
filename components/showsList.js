@@ -2,7 +2,7 @@ import React from 'react';
 import FilterableList from './filterableList';
 import NavButton from './navButton';
 
-const ShowsList = ({ isLoading, shows, getShows, selectEpisode }) => {
+const ShowsList = ({ isLoading, shows, getShows }) => {
     return (
         <FilterableList
             hasChangedKey="id"
@@ -13,13 +13,12 @@ const ShowsList = ({ isLoading, shows, getShows, selectEpisode }) => {
                 const route = {
                     pathname: `/shows/${show.id}/seasons`,
                     state: {
-                        episodes: show.episodes,
-                        selectEpisode: selectEpisode
+                        episodes: show.episodes
                     }
                 };
                 return <NavButton text={show.title} to={route} />;
             }}
-            onRefresh={() => getShows(true)}
+            onRefresh={getShows}
         />
     );
 };

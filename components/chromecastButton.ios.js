@@ -1,14 +1,13 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import { connect as connectDevice, disconnect } from '../actions/player';
 import { TouchableOpacity, ActionSheetIOS } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import getChromecast from '../chromecast';
+import * as chromecast from '../chromecast';
 
-const chromecast = getChromecast();
-
-export default class ChromecastButton extends Component {
+class ChromecastButton extends Component {
     state = {
-        devices: [],
-        selectedDevice: null
+        devices: []
     }
     componentDidMount() {
         this._deviceListChanged = chromecast.onDeviceListChanged(data => this.setState({ devices: data.Devices }));
@@ -26,18 +25,18 @@ export default class ChromecastButton extends Component {
             destructiveButtonIndex: disconnectIndex
         }, index => {
             if (index === disconnectIndex) {
-                this.setState({ selectedDevice: null });
                 chromecast.disconnect();
+                this.props.disconnect();
             } else if (index !== cancelIndex) {
                 const device = buttons[index];
-                this.setState({ selectedDevice: device });
                 chromecast.connect(device);
+                this.props.connectDevice();
             }
         });
     }
     render() {
         let iconName = 'cast';
-        if (this.state.selectedDevice !== null) {
+        if (this.props.isConnected) {
             iconName = 'cast-connected';
         }
 
@@ -48,3 +47,11 @@ export default class ChromecastButton extends Component {
         );
     }
 }
+
+function mapStateToProps(state) {
+    return {
+        isConnected: state.session.data.isConnected
+    };
+}
+
+export default connect(mapStateToProps, { connectDevice, disconnect })(ChromecastButton);

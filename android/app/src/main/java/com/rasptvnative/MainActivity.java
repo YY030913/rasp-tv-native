@@ -4,7 +4,9 @@ import android.os.Bundle;
 
 import com.facebook.react.ReactActivity;
 import com.facebook.react.ReactFragmentActivity;
+import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.framework.CastContext;
+import com.google.android.gms.cast.framework.CastStateListener;
 
 public class MainActivity extends ReactFragmentActivity {
 

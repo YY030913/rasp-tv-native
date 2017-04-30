@@ -19,21 +19,19 @@ export default class EpisodesList extends Component {
             this.setState({ filteredEpisodes: filterEpisodes(newProps.location.state.episodes, newProps.match.params.season) });
         }
     }
-    renderEpisodeRow = (episode) => {
-        const { location } = this.props;
+    renderEpisodeRow(episode) {
         const path = `/episodes/${episode.id}/play`;
         return (
             <NavButton
                 to={path}
                 text={`${episode.number} - ${episode.title}`}
-                onPress={() => location.state.selectEpisode(episode.id)}
             />
         );
     }
     playRandomEpisode = (episodes) => {
-        const { location } = this.props;
+        const { history } = this.props;
         const randomIndex = Math.floor(Math.random() * episodes.length);
-        location.state.selectEpisode(episodes[randomIndex].id);
+        history.push(`/episodes/${episodes[randomIndex].id}/play`);
     }
     render() {
         return (

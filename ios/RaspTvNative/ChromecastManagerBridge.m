@@ -26,7 +26,6 @@ RCT_EXTERN_METHOD(castVideo: (NSString *)videoUrl title:(NSString *)title
                                                   movieId:(int)movieId
                                                   episodeId:(int)episodeId
                                                   imageUrl:(NSString *)imageUrl)
-
 RCT_EXTERN_METHOD(play)
 
 RCT_EXTERN_METHOD(pause)
@@ -37,4 +36,7 @@ RCT_EXTERN_METHOD(getStreamPosition: (RCTResponseSenderBlock *)successCallback)
 
 RCT_EXTERN_METHOD(seekToTime: (double) time)
 
+RCT_EXTERN_METHOD(getCurrentSession: (RCTPromiseResolveBlock *)resolve reject:(RCTPromiseRejectBlock *)reject)
+
 @end
+

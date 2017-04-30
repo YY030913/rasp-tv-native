@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getMovies, selectMovie } from '../actions/movies';
+import { getMovies } from '../actions/movies';
 import MovieList from './movieList';
 
 class MoviesContainer extends Component {
@@ -22,4 +22,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getMovies, selectMovie })(MoviesContainer);
+export default connect(mapStateToProps, { getMovies })(MoviesContainer);

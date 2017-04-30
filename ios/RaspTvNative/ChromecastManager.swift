@@ -40,7 +40,7 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       self.deviceScanner.startScan()
       })
   }
-  
+
   @objc func stopScan() -> Void {
     DispatchQueue.main.async(execute: { [unowned self] in
       print("Stopped scanning")
@@ -48,7 +48,7 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
       self.deviceScanner.stopScan()
     })
   }
-  
+
   @objc func connectToDevice(_ deviceName: String) -> Void {
     let selectedDevice = self.devices[deviceName]
     if (selectedDevice == nil) {
@@ -96,6 +96,30 @@ class ChromecastManager: NSObject, GCKDeviceScannerListener, GCKDeviceManagerDel
     if (position != nil) {
       let positionDouble = Double(position!);
       successCallback([positionDouble]);
+    }
+  }
+
+  @objc func getCurrentSession(_ resolve: RCTPromiseResolveBlock, reject: RCTPromiseRejectBlock) -> Void {
+    let mediaControlChannel = self.mediaControlChannel;
+    if (mediaControlChannel == nil) {
+      resolve(nil);
+      return;
+    }
+    
+    if (mediaControlChannel!.isConnected && mediaControlChannel!.mediaStatus != nil) {
+      let info = mediaControlChannel!.mediaStatus?.mediaInformation;
+      if (info == nil) {
+        reject("Error", "No mediaInformation", nil);
+        return;
+      }
+
+      let data = ["Duration": info!.streamDuration,
+                  "Title": info!.metadata!.string(forKey: kGCKMetadataKeyTitle),
+                  "IsPaused": mediaControlChannel!.mediaStatus?.playerState == GCKMediaPlayerState.paused,
+                  "MovieId": info!.metadata!.integer(forKey: "movieId"),
+                  "EpisodeId": info!.metadata!.integer(forKey: "episodeId"),
+                  "Position": mediaControlChannel!.mediaStatus!.streamPosition] as [String : Any]
+      resolve(data);
     }
   }
 

@@ -10,6 +10,8 @@ export const toggle = basicAction.bind(null, ActionTypes.TOGGLE_PAUSE);
 export const stop = basicAction.bind(null, ActionTypes.STOP);
 export const playVideo = basicAction.bind(null, ActionTypes.PLAY);
 export const clear = basicAction.bind(null, ActionTypes.CLEAR_NOW_PLAYING);
+export const connect = basicAction.bind(null, ActionTypes.CONNECT_TO_DEVICE);
+export const disconnect = basicAction.bind(null, ActionTypes.DISCONNECT_FROM_DEVICE);
 export function updatePosition(position) {
     return {
         type: ActionTypes.UPDATE_POSITION,

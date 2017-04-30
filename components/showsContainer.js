@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
-import { getShows, selectEpisode } from '../actions/shows';
+import { getShows } from '../actions/shows';
 import ShowsList from './showsList';
 
 class ShowsContainer extends Component {
@@ -22,4 +22,4 @@ function mapStateToProps(state) {
     };
 }
 
-export default connect(mapStateToProps, { getShows, selectEpisode })(ShowsContainer);
+export default connect(mapStateToProps, { getShows })(ShowsContainer);

@@ -9,8 +9,7 @@ export default class SeasonsList extends Component {
         const route = {
             pathname: `/shows/${match.params.showId}/seasons/${season}/episodes`,
             state: {
-                episodes: location.state.episodes,
-                selectEpisode: location.state.selectEpisode
+                episodes: location.state.episodes
             }
         };
 
@@ -32,7 +31,6 @@ export default class SeasonsList extends Component {
         const episodes = location.state.episodes;
         const randomIndex = Math.floor(Math.random() * episodes.length);
         const episodeId = episodes[randomIndex].id;
-        location.state.selectEpisode(episodeId);
         history.push(`/episodes/${episodeId}/play`);
     }
     render() {

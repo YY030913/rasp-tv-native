@@ -1,41 +1,70 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Slider } from 'react-native';
+import { View, Text, StyleSheet, Slider, Platform, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import _ from 'lodash';
-import getChromecast from '../chromecast';
+import { withMoviesAndShows } from '../helpers';
+import * as chromecast from '../chromecast';
 import * as PlayerActions from '../actions/player';
+import { selectMovie } from '../actions/movies';
+import { selectEpisode } from '../actions/shows';
 import { BASE_URL } from '../constants';
 import PlayerControl from './playerControl';
 import PlayPauseControl from './playPauseControl';
 
-const chromecast = getChromecast();
-const LARGE_SEEK = 120;
-const SMALL_SEEK = 30;
+const isAndroid = Platform.OS === 'android';
+const LARGE_SEEK = isAndroid ? 120000 : 120;
+const SMALL_SEEK = isAndroid ? 30000 : 30;
 
 class Player extends Component {
-    componentWillUpdate(newProps) {
-        const movieChanged = this.props.session.movieId !== newProps.session.movieId;
-        const episodeChanged = this.props.session.episodeId !== newProps.session.episodeId;
-        if ((movieChanged || episodeChanged) && this.props.session.isPlaying
-            && !newProps.session.isPlaying
-            && newProps.selectedDevice !== null) {
-            newProps.stop();
+    componentDidMount() {
+        const { isConnected } = this.props;
+        if (!isConnected) {
+            return;
         }
+
+        chromecast.getCurrentSession().then(newSession => {
+            if (newSession !== null && newSession.isPlaying) {
+                this.observeStreamPosition();
+            } else {
+                // nothing is currently playing
+                return;
+            }
+
+            const { match } = this.props;
+            const id = parseInt(match.params.id, 10);
+            const movieChanged = match.params.type === 'movies' && id !== newSession.movieId;
+            const episodeChanged = match.params.type === 'episodes' && id !== newSession.episodeId;
+            if ((movieChanged || episodeChanged) && newSession.isPlaying) {
+                this.stopObservingStreamPosition();
+                this.props.stop();
+            }
+        });
     }
+    // componentWillUpdate(newProps) {
+    //     const movieChanged = this.props.session.movieId !== newProps.session.movieId;
+    //     const episodeChanged = this.props.session.episodeId !== newProps.session.episodeId;
+    //     if ((movieChanged || episodeChanged) && this.props.session.isPlaying
+    //         && !newProps.session.isPlaying
+    //         && newProps.isConnected) {
+    //         newProps.stop();
+    //     }
+    // }
     componentWillUnmount() {
         this.stopObservingStreamPosition();
     }
     getVideoTitle = () => {
-        const { session, match } = this.props;
-        if (match.params.type === 'movies' && session.movieId) {
-            const movie = _.find(this.props.movies, m => m.id === session.movieId);
+        const { match } = this.props;
+        if (match.params.type === 'movies') {
+            const movieId = parseInt(match.params.id);
+            const movie = _.find(this.props.movies, m => m.id === movieId);
             return movie.title;
         }
 
-        if (match.params.type === 'episodes' && session.episodeId) {
+        if (match.params.type === 'episodes') {
+            const episodeId = parseInt(match.params.id);
             // we'll see how this goes... Would get slow when the library grows
             for (let s of this.props.shows) {
-                const episode = _.find(s.episodes, e => e.id === session.episodeId);
+                const episode = _.find(s.episodes, e => e.id === episodeId);
                 if (episode)
                     return `${s.title} - Season ${episode.season} - ${episode.title}`;
             }
@@ -52,14 +81,20 @@ class Player extends Component {
         clearInterval(this._positionInterval);
     }
     playOrPause = () => {
-        const { session, toggle, playMovie, playEpisode } = this.props;
+        const { session, toggle, playMovie, playEpisode, isConnected, match } = this.props;
+        if (!isConnected) {
+            Alert.alert('Error', 'Not connected to Chromecast');
+            return;
+        }
 
-        if (session.movieId && !session.isPlaying) {
-            playMovie(`${BASE_URL}/movies/${session.movieId}/stream`, this.getVideoTitle(), session.movieId);
+        if (match.params.type === 'movies' && !session.isPlaying) {
+            const movieId = parseInt(match.params.id, 10);
+            playMovie(`${BASE_URL}/movies/${movieId}/stream`, this.getVideoTitle(), movieId);
             this.observeStreamPosition();
             return;
-        } else if (session.episodeId && !session.isPlaying) {
-            playEpisode(`${BASE_URL}/shows/episodes/${session.episodeId}/stream`, this.getVideoTitle(), session.episodeId);
+        } else if (match.params.type === 'episodes' && !session.isPlaying) {
+            const episodeId = parseInt(match.params.id, 10);
+            playEpisode(`${BASE_URL}/shows/episodes/${episodeId}/stream`, this.getVideoTitle(), episodeId);
             this.observeStreamPosition();
             return;
         }
@@ -150,9 +185,6 @@ const styles = StyleSheet.create({
     titleText: {
         fontSize: 30,
         fontWeight: 'bold'
-    },
-    slider: {
-        height: 10
     }
 });
 
@@ -160,10 +192,9 @@ function mapStateToProps(state) {
     return {
         session: state.session.data,
         isLoading: state.session.isLoading,
-        shows: state.shows.data,
-        movies: state.movies.data,
         position: state.session.data.position,
         duration: state.session.data.duration,
+        isConnected: state.session.data.isConnected
     };
 }
 
@@ -171,10 +202,12 @@ function mapDispatchToProps(dispatch) {
     return {
         toggle: () => dispatch(PlayerActions.toggle()),
         playMovie: (url, title, id) => {
+            dispatch(selectMovie(id));
             dispatch(PlayerActions.playVideo());
             chromecast.startCasting(url, title, id, 0);
         },
         playEpisode: (url, title, id) => {
+            dispatch(selectEpisode(id));
             dispatch(PlayerActions.playVideo());
             chromecast.startCasting(url, title, 0, id);
         },
@@ -187,4 +220,4 @@ function mapDispatchToProps(dispatch) {
     };
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Player);
+export default withMoviesAndShows(connect(mapStateToProps, mapDispatchToProps)(Player));
