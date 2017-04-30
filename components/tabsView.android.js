@@ -25,7 +25,6 @@ class TabsView extends Component {
     }
     componentDidMount() {
         const updateSessionFromCast = (newSession) => {
-            console.log('updateSessionFromCast', newSession);
             if (newSession === null || newSession.duration === -1) {
                 return;
             }

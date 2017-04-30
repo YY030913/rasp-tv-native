@@ -1,8 +1,11 @@
 package com.rasptvnative;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.util.Log;
 
+import com.facebook.react.bridge.ActivityEventListener;
 import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.Callback;
 import com.facebook.react.bridge.LifecycleEventListener;
@@ -12,6 +15,7 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
+import com.google.android.gms.cast.Cast;
 import com.google.android.gms.cast.MediaInfo;
 import com.google.android.gms.cast.MediaMetadata;
 import com.google.android.gms.cast.framework.CastContext;
@@ -39,11 +43,7 @@ public class ChromecastManager extends ReactContextBaseJavaModule {
     private class ChromecastStateListener implements CastStateListener {
         @Override
         public void onCastStateChanged(int i) {
-            Log.d(LOG_TAG, "Cast state = "+i);
-            WritableMap params = Arguments.createMap();
-            params.putInt("state", i);
-            reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
-                    .emit("CastStateChanged", params);
+            sendCastState(i);
         }
     }
 
@@ -54,6 +54,8 @@ public class ChromecastManager extends ReactContextBaseJavaModule {
                 @Override
                 public void run() {
                     Log.d(LOG_TAG, "Host Resume");
+                    CastContext.getSharedInstance(reactContext).addCastStateListener(stateListener);
+                    CastContext.getSharedInstance(reactContext).removeCastStateListener(stateListener);
                     CastContext.getSharedInstance(reactContext).addCastStateListener(stateListener);
                 }
             });
@@ -131,17 +133,18 @@ public class ChromecastManager extends ReactContextBaseJavaModule {
         reactContext.addLifecycleEventListener(new LifeCycleListener());
     }
 
-//    @Override
-//    public void initialize() {
-//        super.initialize();
-//        reactContext.runOnUiQueueThread(new Runnable() {
-//            @Override
-//            public void run() {
-//                Log.d(LOG_TAG, "Initialized");
-//                CastContext.getSharedInstance(reactContext).addCastStateListener(stateListener);
-//            }
-//        });
-//    }
+    @Override
+    public void initialize() {
+        super.initialize();
+        reactContext.runOnUiQueueThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d(LOG_TAG, "Initialized");
+                int state = CastContext.getSharedInstance(reactContext).getCastState();
+                sendCastState(state);
+            }
+        });
+    }
 
     @ReactMethod
     public void castVideo(final String videoUrl, final String title, final int movieId, final int episodeId, final String imageUrl) {
@@ -313,5 +316,13 @@ public class ChromecastManager extends ReactContextBaseJavaModule {
         jsObject.putDouble("Position", rmClient.getApproximateStreamPosition());
         jsObject.putBoolean("IsPlaying", rmClient.isPlaying());
         return jsObject;
+    }
+
+    private void sendCastState(int i) {
+        Log.d(LOG_TAG, "Cast state = "+i);
+        WritableMap params = Arguments.createMap();
+        params.putInt("state", i);
+        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                .emit("CastStateChanged", params);
     }
 }
