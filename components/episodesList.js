@@ -5,7 +5,7 @@ import NavButton from './navButton';
 function filterEpisodes(episodes, season) {
     return episodes
         .filter(e => e.season === parseInt(season))
-        .sort((a, b) => parseInt(a, 10) - parseInt(b, 10));
+        .sort((a, b) => parseInt(a.number, 10) - parseInt(b.number, 10));
 }
 
 export default class EpisodesList extends Component {
@@ -38,7 +38,6 @@ export default class EpisodesList extends Component {
             <List
                 hasChangedKey="id"
                 items={this.state.filteredEpisodes}
-                filterByKey="title"
                 renderRow={this.renderEpisodeRow}
                 onRandomBtnPress={this.playRandomEpisode}
             />
